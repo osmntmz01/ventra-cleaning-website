@@ -527,64 +527,51 @@ function initScrollSlider(wrapperId, dividerId){
   const labelAfter=wrap.querySelector('.ba-label-after');
   const labelBefore=wrap.querySelector('.ba-label-before');
 
-  // Set initial state (20% after, 80% before)
-  let currentPct=20;
-  afterImg.style.clipPath=`inset(0 ${100-currentPct}% 0 0)`;
-  divider.style.left=currentPct+'%';
-  labelAfter.style.display='block';
-  labelBefore.style.display='block';
-
   function updateSlider(){
     const rect=wrap.getBoundingClientRect();
     const viewportHeight=window.innerHeight;
-    const elementHeight=rect.height;
 
-    // Calculate scroll progress through the section
-    let scrollProgress=0;
+    // Calculate progress: 0% when section first appears at bottom, 100% when section reaches top
+    let progress=0;
 
     if(rect.top<=viewportHeight && rect.bottom>=0){
-      // Element is in viewport
-      if(rect.top<=0){
-        // Element top is above viewport - calculate how far we've scrolled through it
-        const scrolledPast=Math.abs(rect.top);
-        const maxScroll=elementHeight+viewportHeight;
-        scrollProgress=Math.min(1,scrolledPast/maxScroll);
-      }else{
-        // Element is entering from bottom
-        const visibleHeight=viewportHeight-rect.top;
-        scrollProgress=Math.min(1,visibleHeight/(elementHeight+viewportHeight));
+      // Section is visible in viewport
+      if(rect.top<=viewportHeight){
+        // Calculate how far the section has moved through viewport
+        // When rect.top = viewportHeight: progress = 0 (just appearing at bottom)
+        // When rect.top = 0: progress = 1 (reached the top)
+        progress=Math.max(0,Math.min(1,(viewportHeight-rect.top)/viewportHeight));
       }
     }else if(rect.bottom<0){
-      // Element has scrolled past completely
-      scrollProgress=1;
+      // Section has completely scrolled past the top
+      progress=1;
     }
 
-    // Map scroll progress to slider range: 20% to 100%
-    currentPct=20+(scrollProgress*80);
-    currentPct=Math.max(20,Math.min(100,currentPct));
+    // Convert progress to percentage (0% = full before, 100% = full after)
+    const pct=progress*100;
 
-    // Apply the animation
-    afterImg.style.clipPath=`inset(0 ${100-currentPct}% 0 0)`;
-    divider.style.left=currentPct+'%';
+    // Apply the slider position
+    afterImg.style.clipPath=`inset(0 ${100-pct}% 0 0)`;
+    divider.style.left=pct+'%';
 
     // Update label visibility
-    labelAfter.style.display=currentPct>30?'block':'none';
-    labelBefore.style.display=currentPct<85?'block':'none';
+    labelAfter.style.display=pct>15?'block':'none';
+    labelBefore.style.display=pct<85?'block':'none';
   }
 
-  // Update on scroll with throttling for performance
+  // Update on scroll with requestAnimationFrame for smooth performance
   let ticking=false;
-  function requestTick(){
+  function onScroll(){
     if(!ticking){
-      requestAnimationFrame(updateSlider);
+      requestAnimationFrame(()=>{
+        updateSlider();
+        ticking=false;
+      });
       ticking=true;
     }
   }
 
-  window.addEventListener('scroll',()=>{
-    requestTick();
-    ticking=false;
-  },{passive:true});
+  window.addEventListener('scroll',onScroll,{passive:true});
 
   // Initial update
   updateSlider();
