@@ -545,14 +545,16 @@ function renderBookings() {
       <td>
         <div class="action-btns">
           <button class="btn-sm btn-confirm"
-                  onclick="updateBookingStatus('${booking.id}', 'confirmed')"
-                  ${booking.status === 'confirmed' ? 'disabled' : ''}>
+                  onclick="updateBookingStatus('${booking.id}', 'confirmed')">
             Confirm
           </button>
           <button class="btn-sm btn-reject"
-                  onclick="updateBookingStatus('${booking.id}', 'rejected')"
-                  ${booking.status === 'rejected' ? 'disabled' : ''}>
+                  onclick="updateBookingStatus('${booking.id}', 'rejected')">
             Reject
+          </button>
+          <button class="btn-sm" style="background: var(--ink3); color: white;"
+                  onclick="updateBookingStatus('${booking.id}', 'pending')">
+            Reset
           </button>
         </div>
       </td>
