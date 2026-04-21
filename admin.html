@@ -457,7 +457,6 @@ function loadBookings() {
   try {
     const bookingsData = localStorage.getItem('ventra_bookings');
     allBookings = bookingsData ? JSON.parse(bookingsData) : [];
-    console.log('Loaded bookings from localStorage:', allBookings.length);
     updateStats();
     renderBookings();
   } catch (error) {
@@ -513,8 +512,6 @@ function renderBookings() {
 
   noBookingsDiv.style.display = 'none';
 
-  console.log('Rendering bookings with IDs:', filteredBookings.map(b => b.id));
-
   tbody.innerHTML = filteredBookings.map(booking => `
     <tr>
       <td>
@@ -567,13 +564,8 @@ function renderBookings() {
 // Update booking status
 function updateBookingStatus(id, status) {
   try {
-    console.log('Looking for booking with ID:', id);
-    console.log('All booking IDs:', allBookings.map(b => b.id));
-    console.log('All bookings:', allBookings);
-
     // Update in memory (convert both IDs to string for comparison)
     const booking = allBookings.find(b => String(b.id) === String(id));
-    console.log('Found booking:', booking);
 
     if (booking) {
       booking.status = status;
@@ -585,11 +577,7 @@ function updateBookingStatus(id, status) {
       // Update UI
       updateStats();
       renderBookings();
-
-      console.log(`Updated booking ${id} status to ${status}`);
     } else {
-      console.error('Booking not found! Looking for ID:', id);
-      console.error('Available IDs:', allBookings.map(b => b.id));
       alert('Booking not found');
     }
   } catch (error) {

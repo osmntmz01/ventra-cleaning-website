@@ -758,8 +758,6 @@ function selectLocation(el){
   updateBookingTotal();
 }
 function submitBooking(){
-  console.log('submitBooking called');
-
   try{
     const name=document.getElementById('bkName').value.trim();
     const phone=document.getElementById('bkPhone').value.trim();
@@ -768,8 +766,6 @@ function submitBooking(){
     const time=document.getElementById('bkTime').value;
     const issue=document.getElementById('bkIssue').value.trim();
     const address=document.getElementById('bkAddress').value.trim();
-
-    console.log('Form data:',{name,phone,email,date,time,issue,address});
 
     if(!name||!phone||!date||!email||!issue){
       alert('Please fill in all required fields.');
@@ -801,15 +797,10 @@ function submitBooking(){
       location:selectedLoc
     };
 
-    console.log('Creating booking:',booking);
-
     // Store in localStorage
-    let bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-    console.log('Current bookings:',bookings.length);
-
+    const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
     bookings.push(booking);
     localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-    console.log('Saved! Total bookings now:',bookings.length);
 
     // Show success
     document.getElementById('bookingForm').style.display='none';
@@ -824,8 +815,6 @@ function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 /* ── ADMIN ── */
 function openAdmin(){
-  console.log('Opening admin panel...');
-  console.log('localStorage ventra_bookings:',localStorage.getItem('ventra_bookings'));
   renderAdmin();
   document.getElementById('adminOverlay').classList.add('open');
 }
@@ -834,7 +823,6 @@ function closeAdmin(){document.getElementById('adminOverlay').classList.remove('
 function renderAdmin(){
   try{
     const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-    console.log('Admin panel - Found bookings:',data.length,data);
 
     // Sort by timestamp (newest first)
     if(data.length>0){
