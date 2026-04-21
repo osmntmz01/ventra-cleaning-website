@@ -159,6 +159,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .service-opt .svc-time{font-size:.72rem;color:var(--mid-gray);margin-top:1px}
 .service-checkbox{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--green-mid);color:white;display:flex;align-items:center;justify-content:center;font-size:.7rem;opacity:0;transition:opacity .3s}
 .service-opt.selected .service-checkbox{opacity:1}
+.plus-indicator{position:absolute;top:8px;left:8px;width:20px;height:20px;border-radius:50%;background:var(--green-light);color:white;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;opacity:0;transition:opacity .3s}
+.service-opt.ozone-selected .plus-indicator{opacity:1}
+.service-opt.disabled{opacity:0.4;cursor:not-allowed}
+.service-opt.disabled:hover{border-color:var(--light-gray);background:var(--off-white)}
 .location-options{display:flex;gap:10px;margin-bottom:18px}
 .loc-opt{flex:1;padding:12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:10px;text-align:center;cursor:pointer;transition:all .3s;font-size:.83rem;font-weight:600;color:var(--dark-text)}
 .loc-opt:hover,.loc-opt.active{border-color:var(--green-mid);background:var(--green-pale);color:var(--green-deep)}
@@ -419,21 +423,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Services (Multiple Selection)</label>
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Services</label>
+      <div id="ozoneHelp" style="display:none;font-size:.75rem;color:var(--green-mid);margin-bottom:8px;text-align:center">✨ Ozone selected! You can now add cleaning services ✨</div>
       <div class="service-options">
-        <div class="service-opt" data-service="Ozone Treatment" data-price="100" data-time="1" onclick="toggleService(this)">
+        <div class="service-opt ozone-service" data-service="Ozone Treatment" data-price="100" data-time="1" data-category="ozone" onclick="toggleService(this)">
           <div class="service-checkbox">✓</div>
+          <div class="plus-indicator" style="display:none;">+</div>
           <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat Cleaning" data-price="100" data-time="1" onclick="toggleService(this)">
+        <div class="service-opt cleaning-service" data-service="Seat Cleaning" data-price="100" data-time="1" data-category="cleaning" onclick="toggleService(this)">
           <div class="service-checkbox">✓</div>
           <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat + Floor" data-price="180" data-time="2" onclick="toggleService(this)">
+        <div class="service-opt cleaning-service" data-service="Seat + Floor" data-price="180" data-time="2" data-category="cleaning" onclick="toggleService(this)">
           <div class="service-checkbox">✓</div>
           <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
         </div>
-        <div class="service-opt" data-service="Spot Cleaning" data-price="70" data-time="1" onclick="toggleService(this)">
+        <div class="service-opt cleaning-service" data-service="Spot Cleaning" data-price="70" data-time="1" data-category="cleaning" onclick="toggleService(this)">
           <div class="service-checkbox">✓</div>
           <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
         </div>
@@ -762,29 +768,66 @@ function loadCurrentPrices(){
 
   // Clear initial selections and update total
   selectedServices=[];
+  updateServiceVisuals();
   updateBookingTotal();
 }
 
 function toggleService(el){
+  // Don't allow interaction if disabled
+  if(el.classList.contains('disabled')) return;
+
   const service=el.dataset.service;
   const price=parseInt(el.dataset.price);
   const time=parseInt(el.dataset.time);
+  const category=el.dataset.category;
 
   if(el.classList.contains('selected')){
     // Remove service
     el.classList.remove('selected');
     selectedServices=selectedServices.filter(s=>s.name!==service);
   }else{
+    // Check if we're trying to select multiple cleaning services
+    if(category==='cleaning'){
+      const hasOtherCleaning=selectedServices.some(s=>s.category==='cleaning');
+      if(hasOtherCleaning){
+        // Remove existing cleaning service first
+        const cleaningElements=document.querySelectorAll('.cleaning-service.selected');
+        cleaningElements.forEach(cleanEl=>{
+          cleanEl.classList.remove('selected');
+          selectedServices=selectedServices.filter(s=>s.category!=='cleaning');
+        });
+      }
+    }
+
     // Add service
     el.classList.add('selected');
     selectedServices.push({
       name:service,
       price:price,
-      time:time
+      time:time,
+      category:category
     });
   }
 
+  updateServiceVisuals();
   updateBookingTotal();
+}
+
+function updateServiceVisuals(){
+  const ozoneSelected=selectedServices.some(s=>s.category==='ozone');
+  const ozoneHelp=document.getElementById('ozoneHelp');
+  const ozoneCard=document.querySelector('.ozone-service');
+
+  // Show/hide ozone help message
+  if(ozoneSelected){
+    ozoneHelp.style.display='block';
+    ozoneCard.classList.add('ozone-selected');
+  }else{
+    ozoneHelp.style.display='none';
+    ozoneCard.classList.remove('ozone-selected');
+  }
+
+  // Update visual indicators - no disabling needed since we handle conflicts automatically
 }
 
 function updateBookingTotal(){
@@ -796,7 +839,16 @@ function updateBookingTotal(){
 
   let totalPrice=selectedServices.reduce((sum,service)=>sum+service.price,0);
   let totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
-  let serviceNames=selectedServices.map(s=>s.name).join(' + ');
+
+  // Create service names - show combination properly
+  let serviceNames;
+  if(selectedServices.length>1){
+    // Sort to show ozone first if selected
+    const sortedServices=selectedServices.sort((a,b)=>a.category==='ozone'?-1:1);
+    serviceNames=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
+  }else{
+    serviceNames=selectedServices[0].name;
+  }
 
   if(selectedLoc==='mobile'){
     if(travelSurcharge===-1){
@@ -858,12 +910,22 @@ function submitBooking(){
     const totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
     const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?servicePrice+travelSurcharge:servicePrice;
 
+    // Create service description for booking
+    let serviceDescription;
+    if(selectedServices.length>1){
+      const sortedServices=selectedServices.sort((a,b)=>a.category==='ozone'?-1:1);
+      serviceDescription=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
+    }else{
+      serviceDescription=selectedServices[0].name;
+    }
+
     const booking={
       id:Date.now().toString()+Math.random().toString(36).substr(2,5),
       timestamp:new Date().toISOString(),
       status:'pending',
       name,phone,email,date,time,issue,address,
       services:selectedServices,
+      service:serviceDescription, // For compatibility with email template
       servicePrice:servicePrice,
       totalTime:totalTime,
       travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
@@ -914,9 +976,23 @@ function renderAdmin(){
     tb.innerHTML=data.map((b,i)=>{
       const totalDisplay=b.totalPrice?`$${b.totalPrice}`:(b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`);
       const statusClass=b.status||'pending';
+
+      // Handle both old single service format and new multiple services format
+      let serviceDisplay;
+      if(b.services && Array.isArray(b.services) && b.services.length>0){
+        if(b.services.length>1){
+          const sortedServices=b.services.sort((a,b)=>a.category==='ozone'?-1:1);
+          serviceDisplay=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
+        }else{
+          serviceDisplay=b.services[0].name;
+        }
+      }else{
+        serviceDisplay=b.service||'Unknown service';
+      }
+
       return `<tr>
         <td><strong>${b.name||'Unknown'}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'No email'}</span></td>
-        <td>${b.service||'Unknown service'}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
+        <td>${serviceDisplay}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
         <td>${b.date||'No date'}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time||'No time'}</span></td>
         <td>${b.phone||'No phone'}</td>
         <td><span class="status-badge status-${statusClass}">${statusClass}</span></td>
@@ -948,6 +1024,9 @@ document.getElementById('bkDate').min=t.toISOString().split('T')[0];
 
 /* ── LOAD CURRENT PRICES ── */
 loadCurrentPrices();
+
+/* ── INITIALIZE SERVICE VISUALS ── */
+updateServiceVisuals();
 </script>
 
 </body>
