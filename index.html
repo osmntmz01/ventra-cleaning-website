@@ -534,6 +534,20 @@ nav.scrolled { padding: 14px 40px; border-bottom: 1px solid rgba(15,15,15,0.08);
   background: var(--teal-light);
   position: relative; overflow: hidden;
 }
+
+/* Unavailable time slots */
+.field select option:disabled {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  color: var(--red) !important;
+  font-style: italic;
+}
+
+.time-option-unavailable {
+  color: var(--red) !important;
+  text-decoration: line-through;
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  font-style: italic;
+}
 .booking-wrap {
   max-width: 900px; margin: 0 auto;
   position: relative; z-index: 2;
@@ -1272,6 +1286,9 @@ const dateIn = document.getElementById('f-date');
 const tmrw = new Date(); tmrw.setDate(tmrw.getDate() + 1);
 dateIn.min = tmrw.toISOString().split('T')[0];
 
+// ── DATE CHANGE LISTENER ──
+dateIn.addEventListener('change', updateTimeAvailability);
+
 // ── SERVICE SELECT ──
 let sel = { name: 'Ozone Treatment', price: 100, duration: 1 };
 document.querySelectorAll('.svc-chip').forEach(chip => {
@@ -1284,6 +1301,7 @@ document.querySelectorAll('.svc-chip').forEach(chip => {
       duration: parseInt(chip.dataset.duration)
     };
     updateSummary();
+    updateTimeAvailability(); // Update availability when service changes
   });
 });
 
@@ -1303,6 +1321,7 @@ function setLocation(type) {
     document.getElementById('distInfo').style.display = 'none';
     updateSummary();
   }
+  updateTimeAvailability(); // Update availability when location type changes
 }
 
 // ── ADDRESS (Google Places Autocomplete) ──
@@ -1357,6 +1376,145 @@ function updateSummary() {
   document.getElementById('s-total').textContent = '$' + (sel.price + travel) + ' AUD';
 }
 
+// ── AVAILABILITY CHECK ──
+let existingBookings = [];
+
+async function fetchBookingsForDate(date) {
+  try {
+    const response = await fetch('/api/bookings');
+    const allBookings = await response.json();
+    return allBookings.filter(booking => booking.date === date && booking.status !== 'rejected');
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    return [];
+  }
+}
+
+function parseTime(timeStr) {
+  // Convert time string like "10:00 AM" to 24-hour format number (10.0)
+  const [time, ampm] = timeStr.split(' ');
+  const [hours, minutes] = time.split(':').map(Number);
+  let hour24 = hours;
+  if (ampm === 'PM' && hours !== 12) hour24 += 12;
+  if (ampm === 'AM' && hours === 12) hour24 = 0;
+  return hour24 + (minutes / 60);
+}
+
+function calculateUnavailableSlots(bookings, selectedService, selectedLocation) {
+  const unavailable = new Set();
+
+  bookings.forEach(booking => {
+    const startTime = parseTime(booking.time);
+
+    // Determine the duration to block
+    let durationToBlock;
+    if (booking.locationType === 'mobile') {
+      // Home services: block 3 hours
+      durationToBlock = 3;
+    } else {
+      // Use the actual service duration
+      durationToBlock = booking.duration || 1;
+    }
+
+    // Mark all affected time slots as unavailable
+    for (let i = 0; i < durationToBlock; i++) {
+      const blockedTime = startTime + i;
+
+      // Convert back to time string format
+      if (blockedTime >= 8 && blockedTime <= 16) { // 8 AM to 4 PM range
+        const hour12 = blockedTime === 12 ? 12 : blockedTime > 12 ? blockedTime - 12 : blockedTime;
+        const ampm = blockedTime >= 12 ? 'PM' : 'AM';
+        const timeStr = `${hour12}:00 ${ampm}`;
+        unavailable.add(timeStr);
+      }
+    }
+  });
+
+  // Also consider the selected service duration for overlap prevention
+  const allOptions = [
+    "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+    "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"
+  ];
+
+  const selectedDuration = selectedLocation === 'mobile' ? 3 : selectedService.duration;
+
+  // Check if selecting each time slot would cause overlap
+  allOptions.forEach(timeStr => {
+    const slotTime = parseTime(timeStr);
+
+    // Check if this slot + selected duration would overlap with any existing booking
+    for (let i = 0; i < selectedDuration; i++) {
+      const checkTime = slotTime + i;
+      const checkTimeStr = (() => {
+        if (checkTime >= 8 && checkTime <= 16) {
+          const hour12 = checkTime === 12 ? 12 : checkTime > 12 ? checkTime - 12 : checkTime;
+          const ampm = checkTime >= 12 ? 'PM' : 'AM';
+          return `${hour12}:00 ${ampm}`;
+        }
+        return null;
+      })();
+
+      if (checkTimeStr && unavailable.has(checkTimeStr)) {
+        unavailable.add(timeStr);
+        break;
+      }
+    }
+  });
+
+  return Array.from(unavailable);
+}
+
+async function updateTimeAvailability() {
+  const dateInput = document.getElementById('f-date');
+  const timeSelect = document.getElementById('f-time');
+  const selectedDate = dateInput.value;
+
+  if (!selectedDate) {
+    // Reset all options to available
+    Array.from(timeSelect.options).forEach(option => {
+      if (option.value) {
+        option.disabled = false;
+        option.classList.remove('time-option-unavailable');
+        option.textContent = option.value;
+      }
+    });
+    return;
+  }
+
+  try {
+    // Add loading indication
+    timeSelect.style.opacity = '0.6';
+
+    // Fetch bookings for the selected date
+    const bookings = await fetchBookingsForDate(selectedDate);
+    const currentLocationType = locType || 'dropoff'; // Default to dropoff if not set
+    const unavailableSlots = calculateUnavailableSlots(bookings, sel, currentLocationType);
+
+    // Update time select options
+    Array.from(timeSelect.options).forEach(option => {
+      if (option.value && unavailableSlots.includes(option.value)) {
+        option.disabled = true;
+        option.classList.add('time-option-unavailable');
+        option.textContent = option.value + ' (Unavailable)';
+      } else if (option.value) {
+        option.disabled = false;
+        option.classList.remove('time-option-unavailable');
+        option.textContent = option.value;
+      }
+    });
+
+    // If currently selected time is now unavailable, clear the selection
+    if (timeSelect.value && unavailableSlots.includes(timeSelect.value)) {
+      timeSelect.value = '';
+    }
+  } catch (error) {
+    console.error('Error updating time availability:', error);
+  } finally {
+    // Remove loading indication
+    timeSelect.style.opacity = '1';
+  }
+}
+
 // ── SUBMIT ──
 async function submitBooking() {
   const fields = ['f-name', 'f-phone', 'f-email', 'f-date', 'f-time', 'f-issue'];
@@ -1366,6 +1524,15 @@ async function submitBooking() {
       return;
     }
   }
+
+  // Check if selected time is available
+  const timeSelect = document.getElementById('f-time');
+  const selectedOption = timeSelect.options[timeSelect.selectedIndex];
+  if (selectedOption && selectedOption.disabled) {
+    alert('The selected time slot is no longer available. Please choose a different time.');
+    return;
+  }
+
   const booking = {
     service: sel.name,
     price: sel.price + travel,
