@@ -367,7 +367,10 @@ body {
   <div class="container">
     <div class="admin-header">
       <h1 class="admin-title">Booking Management</h1>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+      <div style="display: flex; gap: 10px;">
+        <button class="logout-btn" onclick="loadBookings()" style="background: var(--green); color: white; border-color: var(--green);">Refresh</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
     </div>
 
     <!-- Stats -->
@@ -449,15 +452,17 @@ function logout() {
   document.getElementById('loginError').style.display = 'none';
 }
 
-// Load bookings from API
-async function loadBookings() {
+// Load bookings from localStorage
+function loadBookings() {
   try {
-    const response = await fetch('/api/bookings');
-    allBookings = await response.json();
+    const bookingsData = localStorage.getItem('ventra_bookings');
+    allBookings = bookingsData ? JSON.parse(bookingsData) : [];
+    console.log('Loaded bookings from localStorage:', allBookings.length);
     updateStats();
     renderBookings();
   } catch (error) {
-    console.error('Error loading bookings:', error);
+    console.error('Error loading bookings from localStorage:', error);
+    allBookings = [];
   }
 }
 
@@ -556,22 +561,24 @@ function renderBookings() {
 }
 
 // Update booking status
-async function updateBookingStatus(id, status) {
+function updateBookingStatus(id, status) {
   try {
-    const response = await fetch(`/api/bookings?id=${id}&status=${status}`, {
-      method: 'PATCH'
-    });
+    // Update in memory
+    const booking = allBookings.find(b => b.id === id);
+    if (booking) {
+      booking.status = status;
+      booking.updatedAt = new Date().toISOString();
 
-    if (response.ok) {
-      // Update local data
-      const booking = allBookings.find(b => b.id === id);
-      if (booking) {
-        booking.status = status;
-        updateStats();
-        renderBookings();
-      }
+      // Save to localStorage
+      localStorage.setItem('ventra_bookings', JSON.stringify(allBookings));
+
+      // Update UI
+      updateStats();
+      renderBookings();
+
+      console.log(`Updated booking ${id} status to ${status}`);
     } else {
-      alert('Error updating booking status');
+      alert('Booking not found');
     }
   } catch (error) {
     console.error('Error updating booking:', error);
