@@ -206,6 +206,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .admin-btn{padding:6px 16px;background:var(--green-mid);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:background .3s}
 .admin-btn:hover{background:var(--green-deep)}
 
+/* ═══ ADDRESS AUTOCOMPLETE ═══ */
+.address-autocomplete{position:relative}
+.address-suggestions{position:absolute;top:100%;left:0;right:0;background:var(--white);border:2px solid var(--light-gray);border-top:none;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;z-index:1000;display:none}
+.suggestion-item{padding:12px 16px;cursor:pointer;font-size:.9rem;border-bottom:1px solid var(--light-gray);transition:background .2s}
+.suggestion-item:hover{background:var(--green-pale)}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item .address-main{color:var(--dark-text);font-weight:500}
+.suggestion-item .address-sub{color:var(--mid-gray);font-size:.8rem;margin-top:2px}
+.distance-info{background:var(--green-pale);color:var(--green-deep);font-size:.72rem;font-weight:600;padding:8px 16px;border-bottom:1px solid var(--green-light)}
+.distance-info.far{background:#fef3cd;color:#856404}
+
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;-webkit-user-select:none;user-select:none}
 .ba-slider-wrap .ba-before-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none}
@@ -429,7 +440,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         <div class="loc-opt" data-loc="mobile" onclick="selectLocation(this)">📍 Come to Me</div>
       </div>
 
-      <div class="form-group" id="addressGroup" style="display:none"><label>Your Address</label><input type="text" id="bkAddress" placeholder="Enter your Melbourne address"></div>
+      <div class="form-group" id="addressGroup" style="display:none">
+        <label>Your Address</label>
+        <div class="address-autocomplete">
+          <input type="text" id="bkAddress" placeholder="Enter your Melbourne address" autocomplete="off">
+          <div id="addressSuggestions" class="address-suggestions"></div>
+        </div>
+      </div>
 
       <div class="form-row">
         <div class="form-group"><label>Preferred Date</label><input type="date" id="bkDate"></div>
@@ -579,6 +596,130 @@ function initScrollSlider(wrapperId, dividerId){
 initScrollSlider('slider1','divider1');
 initScrollSlider('slider2','divider2');
 
+/* ── ADDRESS AUTOCOMPLETE ── */
+let travelSurcharge=0;
+let searchTimeout;
+
+function initAddressAutocomplete(){
+  const addressInput=document.getElementById('bkAddress');
+  const suggestionsDiv=document.getElementById('addressSuggestions');
+
+  addressInput.addEventListener('input',function(){
+    clearTimeout(searchTimeout);
+    const query=this.value.trim();
+
+    if(query.length<3){
+      hideSuggestions();
+      return;
+    }
+
+    searchTimeout=setTimeout(()=>searchAddresses(query),300);
+  });
+
+  addressInput.addEventListener('blur',function(){
+    setTimeout(hideSuggestions,200); // Delay to allow click on suggestion
+  });
+
+  function searchAddresses(query){
+    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=au&format=json&addressdetails=1&limit=5`;
+
+    fetch(url)
+      .then(response=>response.json())
+      .then(data=>{
+        displaySuggestions(data);
+      })
+      .catch(error=>{
+        console.log('Address search error:',error);
+        hideSuggestions();
+      });
+  }
+
+  function displaySuggestions(addresses){
+    if(!addresses.length){
+      hideSuggestions();
+      return;
+    }
+
+    let html='';
+    addresses.forEach(addr=>{
+      const mainAddress=addr.display_name.split(',').slice(0,2).join(',');
+      const subAddress=addr.display_name.split(',').slice(2).join(',');
+
+      html+=`<div class="suggestion-item" onclick="selectAddress('${addr.display_name.replace(/'/g,"\\'")}',${addr.lat},${addr.lon})">
+        <div class="address-main">${mainAddress}</div>
+        <div class="address-sub">${subAddress}</div>
+      </div>`;
+    });
+
+    suggestionsDiv.innerHTML=html;
+    suggestionsDiv.style.display='block';
+  }
+
+  function hideSuggestions(){
+    suggestionsDiv.style.display='none';
+  }
+
+  window.selectAddress=function(address,lat,lon){
+    addressInput.value=address;
+    hideSuggestions();
+    calculateDistance(lat,lon);
+  };
+
+  function calculateDistance(lat,lon){
+    // Southern Cross Station coordinates
+    const stationLat=-37.8183;
+    const stationLon=144.9524;
+
+    // Haversine formula for distance calculation
+    const R=6371; // Earth's radius in km
+    const dLat=(lat-stationLat)*Math.PI/180;
+    const dLon=(lon-stationLon)*Math.PI/180;
+    const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(stationLat*Math.PI/180)*Math.cos(lat*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+    const c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    const distance=R*c;
+
+    // Update travel surcharge based on distance
+    if(distance<=3){
+      travelSurcharge=0;
+    }else if(distance<=10){
+      travelSurcharge=25;
+    }else if(distance<=40){
+      travelSurcharge=50;
+    }else{
+      travelSurcharge=-1; // Special case for 40km+
+    }
+
+    updateBookingTotal();
+
+    // Show distance info
+    let distanceMsg='';
+    if(travelSurcharge===0){
+      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • No travel charge`;
+    }else if(travelSurcharge===-1){
+      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • Please call us for quote`;
+    }else{
+      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • +$${travelSurcharge} travel`;
+    }
+
+    // Create or update distance display
+    let distanceDiv=document.getElementById('distanceInfo');
+    if(!distanceDiv){
+      distanceDiv=document.createElement('div');
+      distanceDiv.id='distanceInfo';
+      distanceDiv.style.cssText='margin-top:8px;font-size:.8rem;color:var(--mid-gray);text-align:center';
+      document.getElementById('addressGroup').appendChild(distanceDiv);
+    }
+    distanceDiv.textContent=distanceMsg;
+  }
+}
+
+// Initialize when DOM is loaded
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initAddressAutocomplete);
+}else{
+  initAddressAutocomplete();
+}
+
 /* ── BOOKING ── */
 let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
 const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
@@ -588,21 +729,50 @@ function selectService(el){
   el.classList.add('active');
   selectedService=el.dataset.service;
   selectedPrice=parseInt(el.dataset.price);
-  document.getElementById('totalPrice').textContent='$'+selectedPrice;
-  document.getElementById('totalService').textContent=selectedService+' · '+(selectedPrice===180?'2 hours':'1 hour');
+  updateBookingTotal();
+}
+
+function updateBookingTotal(){
+  let totalPrice=selectedPrice;
+  let serviceText=selectedService+' · '+(selectedPrice===180?'2 hours':'1 hour');
+
+  if(selectedLoc==='mobile'){
+    if(travelSurcharge===-1){
+      // 40km+ case
+      document.getElementById('totalPrice').innerHTML='<span style="font-size:1.2rem">Call Us</span>';
+      document.getElementById('totalService').textContent=serviceText+' • Distance quote required';
+      return;
+    }else if(travelSurcharge>0){
+      totalPrice+=travelSurcharge;
+      serviceText+=` • +$${travelSurcharge} travel`;
+    }
+  }
+
+  document.getElementById('totalPrice').textContent='$'+totalPrice;
+  document.getElementById('totalService').textContent=serviceText;
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
   el.classList.add('active');
   selectedLoc=el.dataset.loc;
   document.getElementById('addressGroup').style.display=selectedLoc==='mobile'?'block':'none';
+  updateBookingTotal();
 }
 function submitBooking(){
   const name=document.getElementById('bkName').value.trim();
   const phone=document.getElementById('bkPhone').value.trim();
   const date=document.getElementById('bkDate').value;
+  const address=document.getElementById('bkAddress').value.trim();
+
   if(!name||!phone||!date){alert('Please fill in name, phone, and date.');return}
-  const b={id:Date.now(),name,phone,email:document.getElementById('bkEmail').value.trim(),date,time:document.getElementById('bkTime').value,issue:document.getElementById('bkIssue').value.trim(),address:document.getElementById('bkAddress').value.trim(),service:selectedService,price:selectedPrice,location:selectedLoc,status:'pending',createdAt:new Date().toISOString()};
+
+  if(selectedLoc==='mobile'){
+    if(!address){alert('Please enter your address for mobile service.');return}
+    if(travelSurcharge===-1){alert('Your location is outside our service area. Please call us at 0432 066 372 for a custom quote.');return}
+  }
+
+  const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
+  const b={id:Date.now(),name,phone,email:document.getElementById('bkEmail').value.trim(),date,time:document.getElementById('bkTime').value,issue:document.getElementById('bkIssue').value.trim(),address,service:selectedService,price:selectedPrice,travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,totalPrice,location:selectedLoc,status:'pending',createdAt:new Date().toISOString()};
   bookings.push(b);localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
   document.getElementById('bookingForm').style.display='none';
   document.getElementById('bookingSuccess').style.display='block';
