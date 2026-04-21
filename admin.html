@@ -513,6 +513,8 @@ function renderBookings() {
 
   noBookingsDiv.style.display = 'none';
 
+  console.log('Rendering bookings with IDs:', filteredBookings.map(b => b.id));
+
   tbody.innerHTML = filteredBookings.map(booking => `
     <tr>
       <td>
@@ -565,8 +567,14 @@ function renderBookings() {
 // Update booking status
 function updateBookingStatus(id, status) {
   try {
+    console.log('Looking for booking with ID:', id);
+    console.log('All booking IDs:', allBookings.map(b => b.id));
+    console.log('All bookings:', allBookings);
+
     // Update in memory
     const booking = allBookings.find(b => b.id === id);
+    console.log('Found booking:', booking);
+
     if (booking) {
       booking.status = status;
       booking.updatedAt = new Date().toISOString();
@@ -580,6 +588,8 @@ function updateBookingStatus(id, status) {
 
       console.log(`Updated booking ${id} status to ${status}`);
     } else {
+      console.error('Booking not found! Looking for ID:', id);
+      console.error('Available IDs:', allBookings.map(b => b.id));
       alert('Booking not found');
     }
   } catch (error) {
