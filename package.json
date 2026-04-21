@@ -1,14 +1,1 @@
-{
-  "name": "ventra-cleaning",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'No build needed'",
-    "start": "vercel dev"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "vercel": "^34.0.0"
-  }
-}
+{"name":"ventra-cleaning","version":"1.0.0","private":true,"type":"module"}
