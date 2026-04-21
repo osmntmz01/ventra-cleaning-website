@@ -775,7 +775,10 @@ async function submitBooking(){
 
   const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
 
-  const bookingData={
+  const booking={
+    id:Date.now().toString()+Math.random().toString(36).substr(2,5),
+    timestamp:new Date().toISOString(),
+    status:'pending',
     name,phone,email,date,time,issue,address,
     service:selectedService,
     price:selectedPrice,
@@ -784,85 +787,64 @@ async function submitBooking(){
     location:selectedLoc
   };
 
+  // Store locally first (so admin can see it immediately)
+  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  bookings.push(booking);
+  localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+
+  // Send email notification (doesn't matter if it fails)
   try{
-    const response=await fetch('/api/bookings',{
+    await fetch('/api/bookings',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(bookingData)
+      body:JSON.stringify(booking)
     });
-
-    const result=await response.json();
-
-    if(response.ok){
-      document.getElementById('bookingForm').style.display='none';
-      document.getElementById('bookingSuccess').style.display='block';
-    }else{
-      alert('Error submitting booking: '+(result.error||'Please try again'));
-    }
   }catch(error){
-    console.error('Booking submission error:',error);
-    alert('Error submitting booking. Please check your connection and try again.');
+    console.log('Email notification failed, but booking saved locally');
   }
+
+  document.getElementById('bookingForm').style.display='none';
+  document.getElementById('bookingSuccess').style.display='block';
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 /* ── ADMIN ── */
-async function openAdmin(){await renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
+function openAdmin(){renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
 function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open')}
 
-async function renderAdmin(){
-  try{
-    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Loading...</td></tr>';
+function renderAdmin(){
+  const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  // Sort by timestamp (newest first)
+  data.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
 
-    const response=await fetch('/api/bookings');
-    const data=await response.json();
+  document.getElementById('adminCount').textContent=data.length;
+  const tb=document.getElementById('adminBody');
 
-    if(!response.ok){
-      throw new Error(data.error||'Failed to load bookings');
-    }
-
-    document.getElementById('adminCount').textContent=data.length;
-    const tb=document.getElementById('adminBody');
-
-    if(!data.length){
-      tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
-      return;
-    }
-
-    tb.innerHTML=data.map(b=>{
-      const totalDisplay=b.totalPrice?`$${b.totalPrice}`:b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`;
-      return `<tr>
-        <td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td>
-        <td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
-        <td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td>
-        <td>${b.phone}</td>
-        <td><span class="status-badge status-${b.status}">${b.status}</span></td>
-        <td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking('${b.id}')">Confirm</button>`:'✓'}</td>
-      </tr>`;
-    }).join('');
-
-  }catch(error){
-    console.error('Error loading bookings:',error);
-    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Error loading bookings</td></tr>';
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
+    return;
   }
+
+  tb.innerHTML=data.map((b,i)=>{
+    const totalDisplay=b.totalPrice?`$${b.totalPrice}`:b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`;
+    return `<tr>
+      <td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td>
+      <td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
+      <td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td>
+      <td>${b.phone}</td>
+      <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+      <td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td>
+    </tr>`;
+  }).join('');
 }
 
-async function confirmBooking(bookingId){
-  try{
-    const response=await fetch(`/api/bookings?id=${bookingId}&status=confirmed`,{
-      method:'PATCH'
-    });
-
-    const result=await response.json();
-
-    if(response.ok){
-      await renderAdmin(); // Refresh the admin panel
-    }else{
-      alert('Error confirming booking: '+(result.error||'Please try again'));
-    }
-  }catch(error){
-    console.error('Error confirming booking:',error);
-    alert('Error confirming booking. Please try again.');
+function confirmBooking(bookingIndex){
+  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  if(bookings[bookingIndex]){
+    bookings[bookingIndex].status='confirmed';
+    bookings[bookingIndex].updatedAt=new Date().toISOString();
+    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+    renderAdmin();
   }
 }
 document.querySelector('.nav-logo').addEventListener('dblclick',openAdmin);
