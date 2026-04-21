@@ -722,7 +722,6 @@ if(document.readyState==='loading'){
 
 /* ── BOOKING ── */
 let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
-const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
 
 function selectService(el){
   document.querySelectorAll('.service-opt').forEach(s=>s.classList.remove('active'));
@@ -758,13 +757,16 @@ function selectLocation(el){
   document.getElementById('addressGroup').style.display=selectedLoc==='mobile'?'block':'none';
   updateBookingTotal();
 }
-function submitBooking(){
+async function submitBooking(){
   const name=document.getElementById('bkName').value.trim();
   const phone=document.getElementById('bkPhone').value.trim();
+  const email=document.getElementById('bkEmail').value.trim();
   const date=document.getElementById('bkDate').value;
+  const time=document.getElementById('bkTime').value;
+  const issue=document.getElementById('bkIssue').value.trim();
   const address=document.getElementById('bkAddress').value.trim();
 
-  if(!name||!phone||!date){alert('Please fill in name, phone, and date.');return}
+  if(!name||!phone||!date||!email||!issue){alert('Please fill in all required fields.');return}
 
   if(selectedLoc==='mobile'){
     if(!address){alert('Please enter your address for mobile service.');return}
@@ -772,24 +774,97 @@ function submitBooking(){
   }
 
   const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
-  const b={id:Date.now(),name,phone,email:document.getElementById('bkEmail').value.trim(),date,time:document.getElementById('bkTime').value,issue:document.getElementById('bkIssue').value.trim(),address,service:selectedService,price:selectedPrice,travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,totalPrice,location:selectedLoc,status:'pending',createdAt:new Date().toISOString()};
-  bookings.push(b);localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-  document.getElementById('bookingForm').style.display='none';
-  document.getElementById('bookingSuccess').style.display='block';
+
+  const bookingData={
+    name,phone,email,date,time,issue,address,
+    service:selectedService,
+    price:selectedPrice,
+    travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
+    totalPrice,
+    location:selectedLoc
+  };
+
+  try{
+    const response=await fetch('/api/bookings',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(bookingData)
+    });
+
+    const result=await response.json();
+
+    if(response.ok){
+      document.getElementById('bookingForm').style.display='none';
+      document.getElementById('bookingSuccess').style.display='block';
+    }else{
+      alert('Error submitting booking: '+(result.error||'Please try again'));
+    }
+  }catch(error){
+    console.error('Booking submission error:',error);
+    alert('Error submitting booking. Please check your connection and try again.');
+  }
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 /* ── ADMIN ── */
-function openAdmin(){renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
+async function openAdmin(){await renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
 function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open')}
-function renderAdmin(){
-  const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-  document.getElementById('adminCount').textContent=data.length;
-  const tb=document.getElementById('adminBody');
-  if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';return}
-  tb.innerHTML=data.map((b,i)=>`<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">$${b.price}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${b.status}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td></tr>`).join('');
+
+async function renderAdmin(){
+  try{
+    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Loading...</td></tr>';
+
+    const response=await fetch('/api/bookings');
+    const data=await response.json();
+
+    if(!response.ok){
+      throw new Error(data.error||'Failed to load bookings');
+    }
+
+    document.getElementById('adminCount').textContent=data.length;
+    const tb=document.getElementById('adminBody');
+
+    if(!data.length){
+      tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
+      return;
+    }
+
+    tb.innerHTML=data.map(b=>{
+      const totalDisplay=b.totalPrice?`$${b.totalPrice}`:b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`;
+      return `<tr>
+        <td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td>
+        <td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
+        <td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td>
+        <td>${b.phone}</td>
+        <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+        <td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking('${b.id}')">Confirm</button>`:'✓'}</td>
+      </tr>`;
+    }).join('');
+
+  }catch(error){
+    console.error('Error loading bookings:',error);
+    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Error loading bookings</td></tr>';
+  }
 }
-function confirmBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
+
+async function confirmBooking(bookingId){
+  try{
+    const response=await fetch(`/api/bookings?id=${bookingId}&status=confirmed`,{
+      method:'PATCH'
+    });
+
+    const result=await response.json();
+
+    if(response.ok){
+      await renderAdmin(); // Refresh the admin panel
+    }else{
+      alert('Error confirming booking: '+(result.error||'Please try again'));
+    }
+  }catch(error){
+    console.error('Error confirming booking:',error);
+    alert('Error confirming booking. Please try again.');
+  }
+}
 document.querySelector('.nav-logo').addEventListener('dblclick',openAdmin);
 
 /* ── DEFAULT DATE ── */
