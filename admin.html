@@ -625,16 +625,28 @@ function renderBookings() {
         <div style="font-size: 0.8rem; color: var(--ink3);">${booking.email}</div>
       </td>
       <td>
-        <div><strong>${booking.service}</strong></div>
-        <div style="font-size: 0.8rem; color: var(--ink3);">$${booking.price} AUD</div>
+        <div><strong>${booking.services ? booking.services.map(s => s.name).join(' + ') : booking.service || 'Unknown'}</strong></div>
+        <div style="font-size: 0.8rem; color: var(--ink3);">$${booking.totalPrice || booking.price || 0} AUD</div>
+        ${booking.totalTime ? `<div style="font-size: 0.7rem; color: var(--ink3);">${booking.totalTime} hour${booking.totalTime > 1 ? 's' : ''}</div>` : ''}
       </td>
       <td class="booking-details">
+        ${booking.services ?
+          `<div class="detail-row">
+            <span class="detail-label">Services:</span><br>
+            ${booking.services.map(s => `• ${s.name} ($${s.price})`).join('<br>')}
+          </div>` : ''
+        }
         <div class="detail-row">
-          <span class="detail-label">Location:</span> ${booking.address}
+          <span class="detail-label">Location:</span> ${booking.address || 'Drop-off'}
         </div>
         <div class="detail-row">
           <span class="detail-label">Issue:</span> ${booking.issue}
         </div>
+        ${booking.travelSurcharge > 0 ?
+          `<div class="detail-row">
+            <span class="detail-label">Travel:</span> +$${booking.travelSurcharge}
+          </div>` : ''
+        }
         <div class="detail-row" style="font-size: 0.8rem; color: var(--ink3);">
           Booked: ${formatDateTime(booking.timestamp)}
         </div>

@@ -151,11 +151,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center}
-.service-opt:hover,.service-opt.active{border-color:var(--green-mid);background:var(--green-pale)}
+.service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center;position:relative}
+.service-opt:hover{border-color:var(--green-mid);background:var(--green-pale)}
+.service-opt.selected{border-color:var(--green-mid);background:var(--green-pale)}
 .service-opt .svc-name{font-weight:600;font-size:.85rem;margin-bottom:2px;color:var(--dark-text)}
 .service-opt .svc-price{color:var(--green-deep);font-family:var(--font-display);font-size:1.2rem;font-weight:700}
 .service-opt .svc-time{font-size:.72rem;color:var(--mid-gray);margin-top:1px}
+.service-checkbox{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--green-mid);color:white;display:flex;align-items:center;justify-content:center;font-size:.7rem;opacity:0;transition:opacity .3s}
+.service-opt.selected .service-checkbox{opacity:1}
 .location-options{display:flex;gap:10px;margin-bottom:18px}
 .loc-opt{flex:1;padding:12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:10px;text-align:center;cursor:pointer;transition:all .3s;font-size:.83rem;font-weight:600;color:var(--dark-text)}
 .loc-opt:hover,.loc-opt.active{border-color:var(--green-mid);background:var(--green-pale);color:var(--green-deep)}
@@ -416,18 +419,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Service</label>
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Services (Multiple Selection)</label>
       <div class="service-options">
-        <div class="service-opt active" data-service="Ozone Treatment" data-price="100" onclick="selectService(this)">
+        <div class="service-opt" data-service="Ozone Treatment" data-price="100" data-time="1" onclick="toggleService(this)">
+          <div class="service-checkbox">✓</div>
           <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="selectService(this)">
+        <div class="service-opt" data-service="Seat Cleaning" data-price="100" data-time="1" onclick="toggleService(this)">
+          <div class="service-checkbox">✓</div>
           <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="selectService(this)">
+        <div class="service-opt" data-service="Seat + Floor" data-price="180" data-time="2" onclick="toggleService(this)">
+          <div class="service-checkbox">✓</div>
           <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
         </div>
-        <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="selectService(this)">
+        <div class="service-opt" data-service="Spot Cleaning" data-price="70" data-time="1" onclick="toggleService(this)">
+          <div class="service-checkbox">✓</div>
           <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
         </div>
       </div>
@@ -721,7 +728,7 @@ if(document.readyState==='loading'){
 }
 
 /* ── BOOKING ── */
-let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
+let selectedServices=[],selectedLoc='dropoff';
 
 // Load current prices from localStorage
 function loadCurrentPrices(){
@@ -753,33 +760,57 @@ function loadCurrentPrices(){
   servicePrices[2].innerHTML='<sup>$</sup>'+prices['Seat + Floor'];
   servicePrices[3].innerHTML='<sup>$</sup>'+prices['Spot Cleaning'];
 
-  // Update initial selected price
-  selectedPrice=prices['Ozone Treatment'];
+  // Clear initial selections and update total
+  selectedServices=[];
   updateBookingTotal();
 }
 
-function selectService(el){
-  document.querySelectorAll('.service-opt').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  selectedService=el.dataset.service;
-  selectedPrice=parseInt(el.dataset.price);
+function toggleService(el){
+  const service=el.dataset.service;
+  const price=parseInt(el.dataset.price);
+  const time=parseInt(el.dataset.time);
+
+  if(el.classList.contains('selected')){
+    // Remove service
+    el.classList.remove('selected');
+    selectedServices=selectedServices.filter(s=>s.name!==service);
+  }else{
+    // Add service
+    el.classList.add('selected');
+    selectedServices.push({
+      name:service,
+      price:price,
+      time:time
+    });
+  }
+
   updateBookingTotal();
 }
 
 function updateBookingTotal(){
-  let totalPrice=selectedPrice;
-  let serviceText=selectedService+' · '+(selectedPrice===180?'2 hours':'1 hour');
+  if(selectedServices.length===0){
+    document.getElementById('totalPrice').textContent='$0';
+    document.getElementById('totalService').textContent='No services selected';
+    return;
+  }
+
+  let totalPrice=selectedServices.reduce((sum,service)=>sum+service.price,0);
+  let totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
+  let serviceNames=selectedServices.map(s=>s.name).join(' + ');
 
   if(selectedLoc==='mobile'){
     if(travelSurcharge===-1){
-      // 40km+ case
       document.getElementById('totalPrice').innerHTML='<span style="font-size:1.2rem">Call Us</span>';
-      document.getElementById('totalService').textContent=serviceText+' • Distance quote required';
+      document.getElementById('totalService').textContent=serviceNames+' • Distance quote required';
       return;
     }else if(travelSurcharge>0){
       totalPrice+=travelSurcharge;
-      serviceText+=` • +$${travelSurcharge} travel`;
     }
+  }
+
+  let serviceText=serviceNames+` • ${totalTime} hour${totalTime>1?'s':''}`;
+  if(selectedLoc==='mobile'&&travelSurcharge>0){
+    serviceText+=` • +$${travelSurcharge} travel`;
   }
 
   document.getElementById('totalPrice').textContent='$'+totalPrice;
@@ -807,6 +838,11 @@ function submitBooking(){
       return;
     }
 
+    if(selectedServices.length===0){
+      alert('Please select at least one service.');
+      return;
+    }
+
     if(selectedLoc==='mobile'){
       if(!address){
         alert('Please enter your address for mobile service.');
@@ -818,15 +854,18 @@ function submitBooking(){
       }
     }
 
-    const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
+    const servicePrice=selectedServices.reduce((sum,service)=>sum+service.price,0);
+    const totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
+    const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?servicePrice+travelSurcharge:servicePrice;
 
     const booking={
       id:Date.now().toString()+Math.random().toString(36).substr(2,5),
       timestamp:new Date().toISOString(),
       status:'pending',
       name,phone,email,date,time,issue,address,
-      service:selectedService,
-      price:selectedPrice,
+      services:selectedServices,
+      servicePrice:servicePrice,
+      totalTime:totalTime,
       travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
       totalPrice,
       location:selectedLoc
