@@ -757,7 +757,7 @@ function selectLocation(el){
   document.getElementById('addressGroup').style.display=selectedLoc==='mobile'?'block':'none';
   updateBookingTotal();
 }
-async function submitBooking(){
+function submitBooking(){
   const name=document.getElementById('bkName').value.trim();
   const phone=document.getElementById('bkPhone').value.trim();
   const email=document.getElementById('bkEmail').value.trim();
@@ -787,24 +787,18 @@ async function submitBooking(){
     location:selectedLoc
   };
 
-  // Store locally first (so admin can see it immediately)
-  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-  bookings.push(booking);
-  localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-
-  // Send email notification (doesn't matter if it fails)
+  // Just store locally - simple and always works
   try{
-    await fetch('/api/bookings',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(booking)
-    });
-  }catch(error){
-    console.log('Email notification failed, but booking saved locally');
-  }
+    const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+    bookings.push(booking);
+    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
 
-  document.getElementById('bookingForm').style.display='none';
-  document.getElementById('bookingSuccess').style.display='block';
+    document.getElementById('bookingForm').style.display='none';
+    document.getElementById('bookingSuccess').style.display='block';
+  }catch(error){
+    alert('Error saving booking. Please try again.');
+    console.error('Booking error:',error);
+  }
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
