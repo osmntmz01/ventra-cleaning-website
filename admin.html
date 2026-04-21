@@ -571,8 +571,8 @@ function updateBookingStatus(id, status) {
     console.log('All booking IDs:', allBookings.map(b => b.id));
     console.log('All bookings:', allBookings);
 
-    // Update in memory
-    const booking = allBookings.find(b => b.id === id);
+    // Update in memory (convert both IDs to string for comparison)
+    const booking = allBookings.find(b => String(b.id) === String(id));
     console.log('Found booking:', booking);
 
     if (booking) {
