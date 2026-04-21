@@ -723,6 +723,41 @@ if(document.readyState==='loading'){
 /* ── BOOKING ── */
 let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
 
+// Load current prices from localStorage
+function loadCurrentPrices(){
+  const defaultPrices={
+    'Ozone Treatment':100,
+    'Seat Cleaning':100,
+    'Seat + Floor':180,
+    'Spot Cleaning':70
+  };
+  const prices=JSON.parse(localStorage.getItem('service_prices')||JSON.stringify(defaultPrices));
+
+  // Update service options with current prices
+  document.querySelector('[data-service="Ozone Treatment"]').setAttribute('data-price',prices['Ozone Treatment']);
+  document.querySelector('[data-service="Ozone Treatment"] .svc-price').textContent='$'+prices['Ozone Treatment'];
+
+  document.querySelector('[data-service="Seat Cleaning"]').setAttribute('data-price',prices['Seat Cleaning']);
+  document.querySelector('[data-service="Seat Cleaning"] .svc-price').textContent='$'+prices['Seat Cleaning'];
+
+  document.querySelector('[data-service="Seat + Floor"]').setAttribute('data-price',prices['Seat + Floor']);
+  document.querySelector('[data-service="Seat + Floor"] .svc-price').textContent='$'+prices['Seat + Floor'];
+
+  document.querySelector('[data-service="Spot Cleaning"]').setAttribute('data-price',prices['Spot Cleaning']);
+  document.querySelector('[data-service="Spot Cleaning"] .svc-price').textContent='$'+prices['Spot Cleaning'];
+
+  // Update main services section prices too
+  const servicePrices=document.querySelectorAll('.service-price');
+  servicePrices[0].innerHTML='<sup>$</sup>'+prices['Ozone Treatment'];
+  servicePrices[1].innerHTML='<sup>$</sup>'+prices['Seat Cleaning'];
+  servicePrices[2].innerHTML='<sup>$</sup>'+prices['Seat + Floor'];
+  servicePrices[3].innerHTML='<sup>$</sup>'+prices['Spot Cleaning'];
+
+  // Update initial selected price
+  selectedPrice=prices['Ozone Treatment'];
+  updateBookingTotal();
+}
+
 function selectService(el){
   document.querySelectorAll('.service-opt').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
@@ -871,6 +906,9 @@ function confirmBooking(bookingIndex){
 const t=new Date();
 document.getElementById('bkDate').value=t.toISOString().split('T')[0];
 document.getElementById('bkDate').min=t.toISOString().split('T')[0];
+
+/* ── LOAD CURRENT PRICES ── */
+loadCurrentPrices();
 </script>
 
 </body>

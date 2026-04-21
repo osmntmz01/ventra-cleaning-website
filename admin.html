@@ -328,6 +328,30 @@ body {
   color: var(--ink2);
 }
 
+/* Price Management */
+.price-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid rgba(15,15,15,0.1);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.price-input:focus {
+  outline: none;
+  border-color: var(--teal);
+}
+
+.price-item {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(15,15,15,0.05);
+}
+
 @media (max-width: 768px) {
   .container { padding: 20px 10px; }
   .admin-header { flex-direction: column; gap: 20px; align-items: flex-start; }
@@ -390,6 +414,49 @@ body {
       <div class="stat-card rejected">
         <div class="stat-number" id="rejectedCount">0</div>
         <div class="stat-label">Rejected</div>
+      </div>
+    </div>
+
+    <!-- Price Management -->
+    <div class="bookings-container" style="margin-bottom: 40px;">
+      <div style="padding: 20px; border-bottom: 2px solid var(--teal);">
+        <h3 style="margin: 0; color: var(--teal); font-size: 1.2rem;">💰 Price Management</h3>
+      </div>
+      <div style="padding: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🌿 Ozone Treatment</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-ozone" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Ozone Treatment', 'price-ozone')">Update</button>
+            </div>
+          </div>
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🪑 Seat Cleaning</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-seat" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Seat Cleaning', 'price-seat')">Update</button>
+            </div>
+          </div>
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🚗 Seat + Floor</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-seatfloor" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Seat + Floor', 'price-seatfloor')">Update</button>
+            </div>
+          </div>
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🎯 Spot Cleaning</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-spot" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Spot Cleaning', 'price-spot')">Update</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -459,10 +526,44 @@ function loadBookings() {
     allBookings = bookingsData ? JSON.parse(bookingsData) : [];
     updateStats();
     renderBookings();
+    loadPrices();
   } catch (error) {
     console.error('Error loading bookings from localStorage:', error);
     allBookings = [];
   }
+}
+
+// Load and display current prices
+function loadPrices() {
+  const defaultPrices = {
+    'Ozone Treatment': 100,
+    'Seat Cleaning': 100,
+    'Seat + Floor': 180,
+    'Spot Cleaning': 70
+  };
+
+  const prices = JSON.parse(localStorage.getItem('service_prices') || JSON.stringify(defaultPrices));
+
+  document.getElementById('price-ozone').value = prices['Ozone Treatment'] || 100;
+  document.getElementById('price-seat').value = prices['Seat Cleaning'] || 100;
+  document.getElementById('price-seatfloor').value = prices['Seat + Floor'] || 180;
+  document.getElementById('price-spot').value = prices['Spot Cleaning'] || 70;
+}
+
+// Update service price
+function updatePrice(serviceName, inputId) {
+  const newPrice = parseInt(document.getElementById(inputId).value);
+
+  if (!newPrice || newPrice < 0) {
+    alert('Please enter a valid price');
+    return;
+  }
+
+  const prices = JSON.parse(localStorage.getItem('service_prices') || '{}');
+  prices[serviceName] = newPrice;
+  localStorage.setItem('service_prices', JSON.stringify(prices));
+
+  alert(`${serviceName} price updated to $${newPrice}`);
 }
 
 // Update stats
