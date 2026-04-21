@@ -789,9 +789,12 @@ function submitBooking(){
 
   // Just store locally - simple and always works
   try{
+    console.log('Saving booking:',booking);
     const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+    console.log('Current bookings:',bookings.length);
     bookings.push(booking);
     localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+    console.log('Saved! Total bookings now:',bookings.length);
 
     document.getElementById('bookingForm').style.display='none';
     document.getElementById('bookingSuccess').style.display='block';
@@ -803,33 +806,49 @@ function submitBooking(){
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 /* ── ADMIN ── */
-function openAdmin(){renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
+function openAdmin(){
+  console.log('Opening admin panel...');
+  console.log('localStorage ventra_bookings:',localStorage.getItem('ventra_bookings'));
+  renderAdmin();
+  document.getElementById('adminOverlay').classList.add('open');
+}
 function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open')}
 
 function renderAdmin(){
-  const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-  // Sort by timestamp (newest first)
-  data.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+  try{
+    const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+    console.log('Admin panel - Found bookings:',data.length,data);
 
-  document.getElementById('adminCount').textContent=data.length;
-  const tb=document.getElementById('adminBody');
+    // Sort by timestamp (newest first)
+    if(data.length>0){
+      data.sort((a,b)=>new Date(b.timestamp||b.createdAt||0)-new Date(a.timestamp||a.createdAt||0));
+    }
 
-  if(!data.length){
-    tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
-    return;
+    document.getElementById('adminCount').textContent=data.length;
+    const tb=document.getElementById('adminBody');
+
+    if(!data.length){
+      tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
+      return;
+    }
+
+    tb.innerHTML=data.map((b,i)=>{
+      const totalDisplay=b.totalPrice?`$${b.totalPrice}`:(b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`);
+      const statusClass=b.status||'pending';
+      return `<tr>
+        <td><strong>${b.name||'Unknown'}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'No email'}</span></td>
+        <td>${b.service||'Unknown service'}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
+        <td>${b.date||'No date'}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time||'No time'}</span></td>
+        <td>${b.phone||'No phone'}</td>
+        <td><span class="status-badge status-${statusClass}">${statusClass}</span></td>
+        <td>${statusClass==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td>
+      </tr>`;
+    }).join('');
+
+  }catch(error){
+    console.error('Admin panel error:',error);
+    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:red;padding:36px">Error loading bookings</td></tr>';
   }
-
-  tb.innerHTML=data.map((b,i)=>{
-    const totalDisplay=b.totalPrice?`$${b.totalPrice}`:b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`;
-    return `<tr>
-      <td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td>
-      <td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
-      <td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td>
-      <td>${b.phone}</td>
-      <td><span class="status-badge status-${b.status}">${b.status}</span></td>
-      <td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td>
-    </tr>`;
-  }).join('');
 }
 
 function confirmBooking(bookingIndex){
