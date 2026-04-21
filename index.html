@@ -758,49 +758,66 @@ function selectLocation(el){
   updateBookingTotal();
 }
 function submitBooking(){
-  const name=document.getElementById('bkName').value.trim();
-  const phone=document.getElementById('bkPhone').value.trim();
-  const email=document.getElementById('bkEmail').value.trim();
-  const date=document.getElementById('bkDate').value;
-  const time=document.getElementById('bkTime').value;
-  const issue=document.getElementById('bkIssue').value.trim();
-  const address=document.getElementById('bkAddress').value.trim();
+  console.log('submitBooking called');
 
-  if(!name||!phone||!date||!email||!issue){alert('Please fill in all required fields.');return}
-
-  if(selectedLoc==='mobile'){
-    if(!address){alert('Please enter your address for mobile service.');return}
-    if(travelSurcharge===-1){alert('Your location is outside our service area. Please call us at 0432 066 372 for a custom quote.');return}
-  }
-
-  const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
-
-  const booking={
-    id:Date.now().toString()+Math.random().toString(36).substr(2,5),
-    timestamp:new Date().toISOString(),
-    status:'pending',
-    name,phone,email,date,time,issue,address,
-    service:selectedService,
-    price:selectedPrice,
-    travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
-    totalPrice,
-    location:selectedLoc
-  };
-
-  // Just store locally - simple and always works
   try{
-    console.log('Saving booking:',booking);
-    const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+    const name=document.getElementById('bkName').value.trim();
+    const phone=document.getElementById('bkPhone').value.trim();
+    const email=document.getElementById('bkEmail').value.trim();
+    const date=document.getElementById('bkDate').value;
+    const time=document.getElementById('bkTime').value;
+    const issue=document.getElementById('bkIssue').value.trim();
+    const address=document.getElementById('bkAddress').value.trim();
+
+    console.log('Form data:',{name,phone,email,date,time,issue,address});
+
+    if(!name||!phone||!date||!email||!issue){
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    if(selectedLoc==='mobile'){
+      if(!address){
+        alert('Please enter your address for mobile service.');
+        return;
+      }
+      if(travelSurcharge===-1){
+        alert('Your location is outside our service area. Please call us at 0432 066 372 for a custom quote.');
+        return;
+      }
+    }
+
+    const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?selectedPrice+travelSurcharge:selectedPrice;
+
+    const booking={
+      id:Date.now().toString()+Math.random().toString(36).substr(2,5),
+      timestamp:new Date().toISOString(),
+      status:'pending',
+      name,phone,email,date,time,issue,address,
+      service:selectedService,
+      price:selectedPrice,
+      travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
+      totalPrice,
+      location:selectedLoc
+    };
+
+    console.log('Creating booking:',booking);
+
+    // Store in localStorage
+    let bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
     console.log('Current bookings:',bookings.length);
+
     bookings.push(booking);
     localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
     console.log('Saved! Total bookings now:',bookings.length);
 
+    // Show success
     document.getElementById('bookingForm').style.display='none';
     document.getElementById('bookingSuccess').style.display='block';
+
   }catch(error){
-    alert('Error saving booking. Please try again.');
     console.error('Booking error:',error);
+    alert('Error: '+error.message);
   }
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
