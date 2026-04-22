@@ -1116,7 +1116,7 @@ let currentCalendarDate = new Date();
 let bookingData = [];
 let selectedDate = null;
 let selectedTime = null;
-const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM'];
 
 function calculateServiceDuration(services) {
   if (!services || services.length === 0) return 2; // Default 2 hours
@@ -1375,10 +1375,12 @@ function showTimeSlots(dateString) {
     let isAvailable = true;
     const requiredSlots = getBlockedTimeSlots(time, currentDuration);
 
-    // Check if we have enough slots remaining and none are blocked
-    if (index + currentDuration > timeSlots.length) {
-      isAvailable = false; // Not enough time remaining in day
+    // Check if service would end after 7:00 PM (business hours end)
+    const lastRequiredSlotIndex = timeSlots.indexOf(requiredSlots[requiredSlots.length - 1]);
+    if (lastRequiredSlotIndex === -1 || lastRequiredSlotIndex >= timeSlots.length) {
+      isAvailable = false; // Service would extend past business hours
     } else {
+      // Check if any required slots are already blocked
       requiredSlots.forEach(requiredSlot => {
         if (allBlockedSlots.has(requiredSlot)) {
           isAvailable = false;
@@ -1391,12 +1393,15 @@ function showTimeSlots(dateString) {
       if (allBlockedSlots.has(time)) {
         slot.style.textDecoration = 'line-through';
         slot.title = 'This time slot is already booked';
+      } else if (lastRequiredSlotIndex === -1 || lastRequiredSlotIndex >= timeSlots.length) {
+        slot.title = `Service would end after 7:00 PM (needs ${currentDuration} hours)`;
       } else {
         slot.title = 'Not enough consecutive time available for selected services';
       }
     } else {
       slot.addEventListener('click', () => selectTime(time, slot));
-      slot.title = `Available - will block ${currentDuration} hour${currentDuration > 1 ? 's' : ''} (${requiredSlots.join(', ')})`;
+      const endTime = requiredSlots[requiredSlots.length - 1];
+      slot.title = `Available - will block ${currentDuration} hour${currentDuration > 1 ? 's' : ''} (${requiredSlots[0]} to ${endTime})`;
     }
 
     if (selectedTime === time) {
