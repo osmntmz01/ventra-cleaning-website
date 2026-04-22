@@ -89,8 +89,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .ba-card .ba-desc{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:var(--white);font-size:.9rem;font-weight:500}
 
 /* stagger animation */
-.ba-grid,.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
-.ba-grid.visible,.odour-card.visible,.step-item.visible,.service-card.visible,.faq-item.visible,.testimonial-quote.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
+.ba-grid,.odour-card,.step-item,.service-card,.faq-item,.testimonial-slide,.testimonial-carousel,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.ba-grid.visible,.odour-card.visible,.step-item.visible,.service-card.visible,.faq-item.visible,.testimonial-slide.visible,.testimonial-carousel.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
 
 /* ═══ ODOURS ═══ */
 .odours{background:var(--green-deep);color:var(--white);flex-direction:column;padding:100px 40px}
@@ -135,10 +135,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .testimonial-section{background:var(--blue-deep);color:var(--white);flex-direction:column;padding:100px 40px;text-align:center}
 .testimonial-section .section-label{color:var(--blue-light)}
 .testimonial-section .section-label::before{background:var(--blue-light)}
-.testimonial-quote{font-family:var(--font-display);font-size:clamp(1.3rem,2.8vw,1.9rem);font-style:italic;max-width:700px;line-height:1.6;margin-bottom:28px;position:relative;color:rgba(255,255,255,.92)}
-.testimonial-quote::before{content:'"';font-size:7rem;color:var(--blue-light);opacity:.15;position:absolute;top:-50px;left:-15px;font-family:Georgia,serif}
-.testimonial-author{color:rgba(255,255,255,.55);font-size:.88rem}
-.testimonial-author strong{color:rgba(255,255,255,.85);font-weight:600}
+.testimonial-section .section-title{color:var(--white);margin-bottom:50px}
+.testimonial-section .section-title em{color:var(--blue-light)}
+
+/* ═══ TESTIMONIAL CAROUSEL ═══ */
+.testimonial-carousel{position:relative;max-width:1100px;width:100%;margin:0 auto}
+.testimonial-container{overflow:hidden;border-radius:20px;position:relative}
+.testimonial-track{display:flex;transition:transform .5s ease;width:100%}
+.testimonial-slide{min-width:100%;padding:0 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+
+.testimonial-stars{font-size:1.2rem;color:#fbbf24;margin-bottom:20px;letter-spacing:2px}
+.testimonial-quote{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);font-style:italic;max-width:600px;line-height:1.6;margin-bottom:24px;position:relative;color:rgba(255,255,255,.92)}
+.testimonial-quote::before{content:'"';font-size:4rem;color:var(--blue-light);opacity:.2;position:absolute;top:-20px;left:-20px;font-family:Georgia,serif}
+.testimonial-author{color:rgba(255,255,255,.65);font-size:.9rem;font-weight:500}
+.testimonial-author strong{color:rgba(255,255,255,.9);font-weight:600}
+
+.carousel-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:1.8rem;width:50px;height:50px;border-radius:50%;cursor:pointer;transition:all .3s;z-index:10;display:flex;align-items:center;justify-content:center}
+.carousel-nav:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4)}
+.carousel-nav.prev{left:-25px}
+.carousel-nav.next{right:-25px}
+
+.carousel-dots{display:flex;justify-content:center;gap:10px;margin-top:40px}
+.carousel-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
+.carousel-dot.active{background:var(--blue-light);transform:scale(1.2)}
+
+/* Desktop: Show multiple slides */
+@media(min-width:768px){
+  .testimonial-slide{min-width:50%;padding:0 30px}
+}
+@media(min-width:1100px){
+  .testimonial-slide{min-width:33.333%;padding:0 25px}
+}
+
+/* Mobile adjustments */
+@media(max-width:767px){
+  .carousel-nav{width:40px;height:40px;font-size:1.4rem}
+  .carousel-nav.prev{left:-20px}
+  .carousel-nav.next{right:-20px}
+  .testimonial-quote{font-size:1.1rem}
+  .testimonial-stars{font-size:1rem}
+}
 
 /* ═══ BOOKING ═══ */
 .booking-section{background:var(--off-white);flex-direction:column;padding:100px 40px}
@@ -440,11 +476,78 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   </div>
 </section>
 
-<!-- ══════ 7. TESTIMONIAL ══════ -->
+<!-- ══════ 7. TESTIMONIALS ══════ -->
 <section class="section testimonial-section" id="testimonial">
   <div class="section-label">Customer Stories</div>
-  <p class="testimonial-quote">"Ozone treatment completely removed 10 years of cigarette smell from our rental car. I honestly thought it was impossible. Worth every dollar."</p>
-  <p class="testimonial-author"><strong>Marcus T.</strong> · Uber driver · Melbourne CBD</p>
+  <h2 class="section-title">Real customers, <em>real results.</em></h2>
+
+  <div class="testimonial-carousel">
+    <button class="carousel-nav prev" id="testimonialPrev">‹</button>
+
+    <div class="testimonial-container">
+      <div class="testimonial-track" id="testimonialTrack">
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Ozone treatment completely removed 10 years of cigarette smell from our rental car. I honestly thought it was impossible. Worth every dollar."</p>
+          <p class="testimonial-author"><strong>Marcus T.</strong> · Uber driver · Melbourne CBD</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"After my cat had an accident on the carpet, the smell was unbearable. Ventra's ozone treatment made it completely disappear. My home smells fresh again!"</p>
+          <p class="testimonial-author"><strong>Sarah M.</strong> · Pet owner · Richmond</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Had a trade-in with heavy smoke smell that was unsellable. One ozone treatment later and it sold within a week. Paid for itself instantly."</p>
+          <p class="testimonial-author"><strong>David K.</strong> · Used car dealer · Preston</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"The fish smell in our restaurant kitchen was affecting customers. Ozone treatment eliminated it completely - now our dining room smells fresh every day."</p>
+          <p class="testimonial-author"><strong>Anna L.</strong> · Restaurant owner · Fitzroy</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Mould smell in a rental property was costing me tenants. Ventra fixed it in one session. Property rented the next week!"</p>
+          <p class="testimonial-author"><strong>James R.</strong> · Real estate agent · St Kilda</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Passenger was sick in my taxi on Friday night. Called Ventra Saturday morning - by afternoon it was like nothing happened. Back earning same day!"</p>
+          <p class="testimonial-author"><strong>Ahmed S.</strong> · Taxi driver · Airport</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"My toddler spilled milk in the car during summer. The smell was horrible after a few days. Ozone treatment completely saved our family car."</p>
+          <p class="testimonial-author"><strong>Lisa W.</strong> · Family · Glen Waverley</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Diesel fumes in my work ute were giving me headaches. Ozone treatment cleared the air completely. Much better work environment now."</p>
+          <p class="testimonial-author"><strong>Tony B.</strong> · Tradie · Campbellfield</p>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Professional service and amazing results. The team knows what they're doing and the guarantee gives you complete peace of mind."</p>
+          <p class="testimonial-author"><strong>Rebecca H.</strong> · Office manager · CBD</p>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="carousel-nav next" id="testimonialNext">›</button>
+  </div>
+
+  <div class="carousel-dots" id="testimonialDots"></div>
 </section>
 
 <!-- ══════ 8. BOOKING ══════ -->
@@ -589,7 +692,7 @@ sectionIds.forEach((id,i)=>{
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      const items=e.target.querySelectorAll('.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.ba-slider-wrap');
+      const items=e.target.querySelectorAll('.odour-card,.step-item,.service-card,.faq-item,.testimonial-slide,.testimonial-carousel,.ba-slider-wrap');
       items.forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),i*120));
       // dots
       const idx=sectionIds.indexOf(e.target.id);
@@ -781,6 +884,145 @@ if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',initAddressAutocomplete);
 }else{
   initAddressAutocomplete();
+}
+
+/* ── TESTIMONIAL CAROUSEL ── */
+let currentTestimonialSlide = 0;
+let testimonialSlides = [];
+let testimonialAutoScroll;
+let testimonialSlidesPerView = 1;
+
+function initTestimonialCarousel() {
+  testimonialSlides = document.querySelectorAll('.testimonial-slide');
+  const track = document.getElementById('testimonialTrack');
+  const dotsContainer = document.getElementById('testimonialDots');
+
+  // Calculate slides per view based on screen size
+  updateSlidesPerView();
+
+  // Create dots
+  const totalDots = Math.ceil(testimonialSlides.length / testimonialSlidesPerView);
+  dotsContainer.innerHTML = '';
+  for (let i = 0; i < totalDots; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'carousel-dot';
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToTestimonialSlide(i * testimonialSlidesPerView));
+    dotsContainer.appendChild(dot);
+  }
+
+  // Navigation buttons
+  document.getElementById('testimonialPrev').addEventListener('click', prevTestimonialSlide);
+  document.getElementById('testimonialNext').addEventListener('click', nextTestimonialSlide);
+
+  // Touch/swipe support
+  let startX = 0;
+  let isDragging = false;
+
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    stopTestimonialAutoScroll();
+  });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+  });
+
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) { // Minimum swipe distance
+      if (diff > 0) {
+        nextTestimonialSlide();
+      } else {
+        prevTestimonialSlide();
+      }
+    }
+
+    startTestimonialAutoScroll();
+  });
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    updateSlidesPerView();
+    updateTestimonialSlide();
+  });
+
+  // Initial setup
+  updateTestimonialSlide();
+  startTestimonialAutoScroll();
+}
+
+function updateSlidesPerView() {
+  const width = window.innerWidth;
+  if (width >= 1100) {
+    testimonialSlidesPerView = 3;
+  } else if (width >= 768) {
+    testimonialSlidesPerView = 2;
+  } else {
+    testimonialSlidesPerView = 1;
+  }
+}
+
+function updateTestimonialSlide() {
+  const track = document.getElementById('testimonialTrack');
+  const slideWidth = 100 / testimonialSlidesPerView;
+  const offset = -(currentTestimonialSlide * slideWidth);
+
+  track.style.transform = `translateX(${offset}%)`;
+
+  // Update dots
+  const dots = document.querySelectorAll('.carousel-dot');
+  dots.forEach((dot, index) => {
+    const slideIndex = Math.floor(currentTestimonialSlide / testimonialSlidesPerView);
+    dot.classList.toggle('active', index === slideIndex);
+  });
+}
+
+function nextTestimonialSlide() {
+  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
+  currentTestimonialSlide = currentTestimonialSlide >= maxSlide ? 0 : currentTestimonialSlide + 1;
+  updateTestimonialSlide();
+}
+
+function prevTestimonialSlide() {
+  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
+  currentTestimonialSlide = currentTestimonialSlide <= 0 ? maxSlide : currentTestimonialSlide - 1;
+  updateTestimonialSlide();
+}
+
+function goToTestimonialSlide(slideIndex) {
+  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
+  currentTestimonialSlide = Math.max(0, Math.min(slideIndex, maxSlide));
+  updateTestimonialSlide();
+  stopTestimonialAutoScroll();
+  startTestimonialAutoScroll();
+}
+
+function startTestimonialAutoScroll() {
+  stopTestimonialAutoScroll();
+  testimonialAutoScroll = setInterval(nextTestimonialSlide, 5000);
+}
+
+function stopTestimonialAutoScroll() {
+  if (testimonialAutoScroll) {
+    clearInterval(testimonialAutoScroll);
+  }
+}
+
+// Pause auto-scroll on hover
+function setupTestimonialHover() {
+  const carousel = document.querySelector('.testimonial-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', stopTestimonialAutoScroll);
+    carousel.addEventListener('mouseleave', startTestimonialAutoScroll);
+  }
 }
 
 /* ── CALENDAR ── */
@@ -1297,6 +1539,10 @@ updateServiceVisuals();
 
 /* ── INITIALIZE CALENDAR ── */
 initializeCalendar();
+
+/* ── INITIALIZE TESTIMONIAL CAROUSEL ── */
+initTestimonialCarousel();
+setupTestimonialHover();
 </script>
 
 </body>
