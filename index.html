@@ -117,7 +117,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
 /* ═══ SERVICES ═══ */
 .services-section{background:var(--white);flex-direction:column;padding:100px 40px}
-.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1100px;width:100%}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;width:100%}
 .service-card{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:36px 24px;text-align:center;position:relative;overflow:hidden;transition:all .4s}
 .service-card.popular{border-color:var(--green-mid)}
 .service-card.popular::after{content:'BEST VALUE';position:absolute;top:14px;right:-28px;background:var(--green-mid);color:var(--white);font-size:.6rem;font-weight:700;padding:3px 36px;letter-spacing:1.5px;transform:rotate(45deg)}
@@ -150,7 +150,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(22,107,74,.08)}
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.service-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
 .service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center}
 .service-opt:hover,.service-opt.active{border-color:var(--green-mid);background:var(--green-pale)}
 .service-opt .svc-name{font-weight:600;font-size:.85rem;margin-bottom:2px;color:var(--dark-text)}
@@ -393,6 +393,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       <div class="service-price"><sup>$</sup>70</div>
       <div class="service-meta">1 hour · single area</div>
     </div>
+    <div class="service-card popular">
+      <div class="svc-icon green">🌿🪑</div>
+      <h3>Ozone + Seat</h3>
+      <p class="desc">Complete odour elimination plus deep seat cleaning. Perfect combo.</p>
+      <div class="service-price"><sup>$</sup>180</div>
+      <div class="service-meta">1.5 hours · save $20</div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon blue">🌿🎯</div>
+      <h3>Ozone + Spot</h3>
+      <p class="desc">Odour elimination with targeted stain removal. Great for emergencies.</p>
+      <div class="service-price"><sup>$</sup>150</div>
+      <div class="service-meta">1.5 hours · save $20</div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon green">🌿🚗</div>
+      <h3>Ozone + Full Interior</h3>
+      <p class="desc">Complete transformation — odour elimination, seats, and floor.</p>
+      <div class="service-price"><sup>$</sup>250</div>
+      <div class="service-meta">2.5 hours · save $30</div>
+    </div>
   </div>
 </section>
 
@@ -423,6 +444,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         </div>
         <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="selectService(this)">
           <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
+        </div>
+        <div class="service-opt" data-service="Ozone + Seat" data-price="180" onclick="selectService(this)">
+          <div class="svc-name">🌿🪑 Ozone+Seat</div><div class="svc-price">$180</div><div class="svc-time">1.5 hours</div>
+        </div>
+        <div class="service-opt" data-service="Ozone + Spot" data-price="150" onclick="selectService(this)">
+          <div class="svc-name">🌿🎯 Ozone+Spot</div><div class="svc-price">$150</div><div class="svc-time">1.5 hours</div>
+        </div>
+        <div class="service-opt" data-service="Ozone + Full Interior" data-price="250" onclick="selectService(this)">
+          <div class="svc-name">🌿🚗 Ozone+Full</div><div class="svc-price">$250</div><div class="svc-time">2.5 hours</div>
         </div>
       </div>
 
@@ -601,8 +631,31 @@ function selectService(el){
   el.classList.add('active');
   selectedService=el.dataset.service;
   selectedPrice=parseInt(el.dataset.price);
+
+  // Determine service duration based on service type
+  let duration;
+  switch(selectedService){
+    case 'Ozone Treatment':
+    case 'Seat Cleaning':
+    case 'Spot Cleaning':
+      duration = '1 hour';
+      break;
+    case 'Seat + Floor':
+      duration = '2 hours';
+      break;
+    case 'Ozone + Seat':
+    case 'Ozone + Spot':
+      duration = '1.5 hours';
+      break;
+    case 'Ozone + Full Interior':
+      duration = '2.5 hours';
+      break;
+    default:
+      duration = '1 hour';
+  }
+
   document.getElementById('totalPrice').textContent='$'+selectedPrice;
-  document.getElementById('totalService').textContent=selectedService+' · '+(selectedPrice===180?'2 hours':'1 hour');
+  document.getElementById('totalService').textContent=selectedService+' · '+duration;
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
