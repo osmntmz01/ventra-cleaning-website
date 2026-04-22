@@ -71,6 +71,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .scroll-bar{width:1px;height:36px;background:linear-gradient(to bottom,var(--green-light),transparent);animation:scrollP 2s infinite}
 @keyframes scrollP{0%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.5)}100%{opacity:1;transform:scaleY(1)}}
 
+/* ═══ SERVICE TYPE SELECTOR ═══ */
+.service-type-selector{display:flex;gap:20px;margin:32px 0;opacity:0;animation:fadeUp .8s .8s forwards}
+.service-type-btn{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:var(--white);padding:16px 24px;border-radius:12px;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:160px;font-family:var(--font-body);font-size:1rem;font-weight:600}
+.service-type-btn:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+.service-type-btn.active{background:var(--green-light);border-color:var(--green-light);color:var(--white)}
+.service-type-btn.active:hover{background:#28b878}
+.service-icon{font-size:2rem;display:block}
+.service-text{font-weight:600;letter-spacing:.5px}
+
 /* ═══ BEFORE/AFTER SECTION ═══ */
 .ba-section{background:var(--white);flex-direction:column;padding:100px 40px}
 .ba-section.alt{background:var(--off-white)}
@@ -288,6 +297,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .time-slot.unavailable:hover{border-color:var(--light-gray);background:var(--light-gray)}
 .time-slot.unavailable[style*="line-through"]{background:#fee2e2;color:#991b1b;border-color:#ef4444}
 
+/* ═══ ROOM SELECTOR ═══ */
+.room-btn{width:40px;height:40px;border:2px solid var(--light-gray);background:var(--off-white);color:var(--dark-text);border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s;display:flex;align-items:center;justify-content:center}
+.room-btn:hover{border-color:var(--green-mid);background:var(--green-pale)}
+.room-btn.selected{background:var(--green-mid);color:var(--white);border-color:var(--green-mid)}
+
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;-webkit-user-select:none;user-select:none}
 .ba-slider-wrap .ba-before-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none}
@@ -324,6 +338,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   .services-grid{grid-template-columns:1fr}
   .hero-stats{flex-direction:column;gap:20px}
   .service-options{grid-template-columns:1fr}
+  .service-type-selector{gap:12px}
+  .service-type-btn{min-width:140px;padding:12px 16px}
+  .service-icon{font-size:1.5rem}
 }
 </style>
 </head>
@@ -354,6 +371,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <div class="hero-badge"><span class="dot"></span> Now booking same-day appointments</div>
   <h1>No more bad smells.<br>Just <em>fresh.</em></h1>
   <p class="hero-sub">Professional ozone treatment that destroys odours at the molecular level. Cigarette smoke, pet accidents, mould - completely eliminated. Guaranteed.</p>
+  <!-- Service Type Selection -->
+  <div class="service-type-selector">
+    <button class="service-type-btn active" id="vehicleBtn" onclick="selectServiceType('vehicle')">
+      <span class="service-icon">🚗</span>
+      <span class="service-text">Vehicle Services</span>
+    </button>
+    <button class="service-type-btn" id="homeBtn" onclick="selectServiceType('home')">
+      <span class="service-icon">🏠</span>
+      <span class="service-text">Home Services</span>
+    </button>
+  </div>
+
   <div class="hero-ctas">
     <a href="#booking" class="btn-primary">Book a Treatment</a>
     <a href="#how" class="btn-outline-w">See How It Works</a>
@@ -552,24 +581,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div id="bookingForm">
       <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Services</label>
       <div id="ozoneHelp" style="display:none;font-size:.75rem;color:var(--green-mid);margin-bottom:8px;text-align:center">✨ Ozone selected! You can now add cleaning services ✨</div>
-      <div class="service-options">
-        <div class="service-opt ozone-service" data-service="Ozone Treatment" data-price="100" data-time="1" data-category="ozone" onclick="toggleService(this)">
-          <div class="service-checkbox">✓</div>
-          <div class="plus-indicator" style="display:none;">+</div>
-          <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+      <div class="service-options" id="serviceOptions">
+        <!-- Services will be populated by JavaScript -->
+      </div>
+
+      <!-- Room Selector for Full House Ozone -->
+      <div id="roomSelector" style="display:none;margin-bottom:16px">
+        <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Number of Rooms</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="room-btn" data-rooms="1" onclick="selectRooms(1)">1</button>
+          <button type="button" class="room-btn" data-rooms="2" onclick="selectRooms(2)">2</button>
+          <button type="button" class="room-btn" data-rooms="3" onclick="selectRooms(3)">3</button>
+          <button type="button" class="room-btn" data-rooms="4" onclick="selectRooms(4)">4</button>
+          <button type="button" class="room-btn" data-rooms="5" onclick="selectRooms(5)">5</button>
+          <button type="button" class="room-btn" data-rooms="6" onclick="selectRooms(6)">6</button>
+          <button type="button" class="room-btn" data-rooms="7" onclick="selectRooms(7)">7</button>
+          <button type="button" class="room-btn" data-rooms="8" onclick="selectRooms(8)">8</button>
         </div>
-        <div class="service-opt cleaning-service" data-service="Seat Cleaning" data-price="100" data-time="1" data-category="cleaning" onclick="toggleService(this)">
-          <div class="service-checkbox">✓</div>
-          <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
-        </div>
-        <div class="service-opt cleaning-service" data-service="Seat + Floor" data-price="180" data-time="2" data-category="cleaning" onclick="toggleService(this)">
-          <div class="service-checkbox">✓</div>
-          <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
-        </div>
-        <div class="service-opt cleaning-service" data-service="Spot Cleaning" data-price="70" data-time="1" data-category="cleaning" onclick="toggleService(this)">
-          <div class="service-checkbox">✓</div>
-          <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
-        </div>
+        <div id="roomPrice" style="font-size:.85rem;color:var(--green-mid);margin-top:8px;text-align:center"></div>
       </div>
 
       <div class="form-group"><label>Describe the Issue</label><textarea id="bkIssue" placeholder="e.g., Heavy cigarette smell in a 2019 Toyota Camry..."></textarea></div>
@@ -1111,6 +1140,100 @@ function setupTestimonialHover() {
   }
 }
 
+/* ── SERVICE TYPE SELECTION ── */
+let currentServiceType = 'vehicle'; // 'vehicle' or 'home'
+
+const serviceData = {
+  vehicle: {
+    services: [
+      { id: 'ozone-vehicle', name: 'Ozone Treatment', price: 100, time: 1, blockHours: 2, category: 'ozone', icon: '🌿' },
+      { id: 'seat', name: 'Seat Cleaning', price: 100, time: 1, blockHours: 2, category: 'cleaning', icon: '🪑' },
+      { id: 'seatfloor', name: 'Seat + Floor', price: 180, time: 2, blockHours: 3, category: 'cleaning', icon: '🚗' },
+      { id: 'spot-vehicle', name: 'Spot Cleaning', price: 70, time: 1, blockHours: 2, category: 'cleaning', icon: '🎯' }
+    ],
+    allowDropOff: true
+  },
+  home: {
+    services: [
+      { id: 'ozone-room', name: 'Ozone Single Room', price: 80, time: 1, blockHours: 2, category: 'ozone', icon: '🌿' },
+      { id: 'ozone-house', name: 'Ozone Full House', price: 'dynamic', time: 'dynamic', blockHours: 'dynamic', category: 'ozone', icon: '🏠' },
+      { id: 'couch', name: 'Couch/Sofa Cleaning', price: 150, time: 2, blockHours: 3, category: 'cleaning', icon: '🛋️' },
+      { id: 'rug', name: 'Area Rug Cleaning', price: 'quote', time: 'quote', blockHours: 'quote', category: 'cleaning', icon: '🪐' },
+      { id: 'spot-home', name: 'Spot Cleaning', price: 60, time: 1, blockHours: 2, category: 'cleaning', icon: '🎯' }
+    ],
+    allowDropOff: false
+  }
+};
+
+function selectServiceType(type) {
+  currentServiceType = type;
+
+  // Update button states
+  document.getElementById('vehicleBtn').classList.toggle('active', type === 'vehicle');
+  document.getElementById('homeBtn').classList.toggle('active', type === 'home');
+
+  // Update services section
+  updateServicesSection();
+
+  // Update booking form
+  updateBookingForm();
+
+  // Clear selected services
+  selectedServices = [];
+  updateServiceVisuals();
+  updateBookingTotal();
+
+  // Refresh time slots if date selected
+  if (selectedDate) {
+    showTimeSlots(selectedDate);
+  }
+}
+
+function updateServicesSection() {
+  const services = serviceData[currentServiceType].services;
+  const servicesGrid = document.querySelector('.services-grid');
+
+  servicesGrid.innerHTML = services.map(service => {
+    let priceDisplay, metaDisplay;
+
+    if (service.price === 'quote') {
+      priceDisplay = '<div style="font-size:0.9rem;color:var(--green-deep);font-weight:600;text-align:center">Contact for Quote</div>';
+      metaDisplay = 'Call 0432 066 372';
+    } else if (service.price === 'dynamic') {
+      priceDisplay = '<sup>$</sup>60<span style="font-size:0.8rem">/room</span>';
+      metaDisplay = '1-8 rooms available';
+    } else {
+      priceDisplay = '<sup>$</sup>' + service.price;
+      metaDisplay = service.time + ' hour' + (service.time > 1 ? 's' : '') + ' · professional';
+    }
+
+    return `
+      <div class="service-card ${service.id === 'seatfloor' ? 'popular' : ''}">
+        <div class="svc-icon ${service.category === 'ozone' ? 'green' : 'blue'}">${service.icon}</div>
+        <h3>${service.name}</h3>
+        <p class="desc">${getServiceDescription(service)}</p>
+        <div class="service-price">${priceDisplay}</div>
+        <div class="service-meta">${metaDisplay}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getServiceDescription(service) {
+  const descriptions = {
+    'ozone-vehicle': 'Complete odour elimination for any vehicle. Guaranteed.',
+    'seat': 'Deep clean of all car seats. Perfect for Uber drivers.',
+    'seatfloor': 'Complete interior refresh. Seats and floor carpets combined.',
+    'spot-vehicle': 'Targeted stain removal. One area, done properly.',
+    'ozone-room': 'Complete odour elimination for single room. Guaranteed.',
+    'ozone-house': 'Full house ozone treatment. Price based on room count.',
+    'couch': 'Deep cleaning of couches and sofas. Professional results.',
+    'rug': 'Complete area rug cleaning service. Custom quote required.',
+    'spot-home': 'Targeted stain removal for home areas. Professional service.'
+  };
+  return descriptions[service.id] || 'Professional cleaning service.';
+}
+
 /* ── CALENDAR ── */
 let currentCalendarDate = new Date();
 let bookingData = [];
@@ -1121,22 +1244,18 @@ const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:
 function calculateServiceDuration(services) {
   if (!services || services.length === 0) return 2; // Default 2 hours
 
-  const hasOzone = services.some(s => s.category === 'ozone');
-  const cleaningServices = services.filter(s => s.category === 'cleaning');
+  let totalDuration = 0;
 
-  let baseDuration = 2; // Default: service + 1hr buffer
+  services.forEach(service => {
+    if (service.blockHours) {
+      totalDuration = Math.max(totalDuration, service.blockHours);
+    } else {
+      // Fallback to old logic
+      totalDuration = Math.max(totalDuration, (service.time || 1) + 1);
+    }
+  });
 
-  // Check for Seat + Floor combination
-  if (cleaningServices.some(s => s.name === 'Seat + Floor')) {
-    baseDuration = 3; // 2hr service + 1hr buffer
-  }
-
-  // Add 1 hour if combined with Ozone
-  if (hasOzone && cleaningServices.length > 0) {
-    baseDuration += 1;
-  }
-
-  return baseDuration;
+  return totalDuration || 2;
 }
 
 function getBlockedTimeSlots(startTime, duration) {
@@ -1439,6 +1558,96 @@ function setupCalendarEvents() {
   });
 }
 
+function updateBookingForm() {
+  const services = serviceData[currentServiceType].services;
+  const serviceOptions = document.getElementById('serviceOptions');
+
+  serviceOptions.innerHTML = services.map(service => {
+    let priceText, timeText;
+
+    if (service.price === 'quote') {
+      priceText = 'Quote';
+      timeText = 'Call us';
+    } else if (service.price === 'dynamic') {
+      priceText = '$60/rm';
+      timeText = 'varies';
+    } else {
+      priceText = '$' + service.price;
+      timeText = service.time + ' hour' + (service.time > 1 ? 's' : '');
+    }
+
+    return `
+      <div class="service-opt ${service.category}-service"
+           data-service-id="${service.id}"
+           data-service="${service.name}"
+           data-price="${service.price}"
+           data-time="${service.time}"
+           data-category="${service.category}"
+           onclick="toggleService(this)">
+        <div class="service-checkbox">✓</div>
+        <div class="plus-indicator" style="display:none;">+</div>
+        <div class="svc-name">${service.icon} ${service.name.replace(' Treatment', '').replace(' Cleaning', '')}</div>
+        <div class="svc-price">${priceText}</div>
+        <div class="svc-time">${timeText}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Update location options based on service type
+  updateLocationOptions();
+}
+
+function updateLocationOptions() {
+  const locationOptions = document.querySelector('.location-options');
+
+  if (currentServiceType === 'home') {
+    // For home services, only show "Come to Me" and auto-select it
+    locationOptions.innerHTML = `
+      <div class="loc-opt active" data-loc="mobile" onclick="selectLocation(this)">📍 Come to My Address</div>
+    `;
+    selectedLoc = 'mobile';
+    document.getElementById('addressGroup').style.display = 'block';
+  } else {
+    // For vehicle services, show both options
+    locationOptions.innerHTML = `
+      <div class="loc-opt active" data-loc="dropoff" onclick="selectLocation(this)">🏭 I'll Drop Off</div>
+      <div class="loc-opt" data-loc="mobile" onclick="selectLocation(this)">📍 Come to Me</div>
+    `;
+    selectedLoc = 'dropoff';
+    document.getElementById('addressGroup').style.display = 'none';
+  }
+}
+
+let selectedRooms = 0;
+
+function selectRooms(rooms) {
+  selectedRooms = rooms;
+
+  // Update button states
+  document.querySelectorAll('.room-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.rooms) === rooms);
+  });
+
+  // Calculate and display price
+  const price = rooms * 60;
+  const totalTime = Math.ceil(rooms / 2); // Roughly 30 min per room, rounded up
+
+  document.getElementById('roomPrice').textContent = `${rooms} room${rooms > 1 ? 's' : ''} = $${price} (approx ${totalTime} hour${totalTime > 1 ? 's' : ''})`;
+
+  // Update the full house service if it's selected
+  const fullHouseService = selectedServices.find(s => s.id === 'ozone-house');
+  if (fullHouseService) {
+    fullHouseService.price = price;
+    fullHouseService.time = totalTime;
+    fullHouseService.blockHours = totalTime + 1; // Add 1 hour buffer
+    updateBookingTotal();
+
+    if (selectedDate) {
+      showTimeSlots(selectedDate);
+    }
+  }
+}
+
 /* ── BOOKING ── */
 let selectedServices=[],selectedLoc='dropoff';
 
@@ -1482,15 +1691,38 @@ function toggleService(el){
   // Don't allow interaction if disabled
   if(el.classList.contains('disabled')) return;
 
-  const service=el.dataset.service;
-  const price=parseInt(el.dataset.price);
-  const time=parseInt(el.dataset.time);
-  const category=el.dataset.category;
+  const serviceId = el.dataset.serviceId;
+  const serviceName = el.dataset.service;
+  const category = el.dataset.category;
+  let price = el.dataset.price;
+  let time = el.dataset.time;
+
+  // Handle special cases
+  if (price === 'quote') {
+    alert('Please call 0432 066 372 for a custom quote on Area Rug Cleaning.');
+    return;
+  }
+
+  if (serviceId === 'ozone-house') {
+    if (!selectedRooms) {
+      alert('Please select the number of rooms first.');
+      return;
+    }
+    price = selectedRooms * 60;
+    time = Math.ceil(selectedRooms / 2);
+  }
 
   if(el.classList.contains('selected')){
     // Remove service
     el.classList.remove('selected');
-    selectedServices=selectedServices.filter(s=>s.name!==service);
+    selectedServices = selectedServices.filter(s => s.id !== serviceId);
+
+    // Hide room selector if removing full house
+    if (serviceId === 'ozone-house') {
+      document.getElementById('roomSelector').style.display = 'none';
+      selectedRooms = 0;
+      document.querySelectorAll('.room-btn').forEach(btn => btn.classList.remove('selected'));
+    }
   }else{
     // Check if we're trying to select multiple cleaning services
     if(category==='cleaning'){
@@ -1505,13 +1737,26 @@ function toggleService(el){
       }
     }
 
+    // Show room selector for full house ozone
+    if (serviceId === 'ozone-house') {
+      document.getElementById('roomSelector').style.display = 'block';
+      if (!selectedRooms) {
+        // Don't add service until rooms are selected
+        return;
+      }
+    }
+
     // Add service
     el.classList.add('selected');
+
+    const serviceData = getCurrentServiceById(serviceId);
     selectedServices.push({
-      name:service,
-      price:price,
-      time:time,
-      category:category
+      id: serviceId,
+      name: serviceName,
+      price: parseInt(price),
+      time: parseInt(time),
+      blockHours: getBlockHours(serviceId, time),
+      category: category
     });
   }
 
@@ -1522,6 +1767,25 @@ function toggleService(el){
   if (selectedDate) {
     showTimeSlots(selectedDate);
   }
+}
+
+function getCurrentServiceById(serviceId) {
+  return serviceData[currentServiceType].services.find(s => s.id === serviceId);
+}
+
+function getBlockHours(serviceId, serviceTime) {
+  const service = getCurrentServiceById(serviceId);
+
+  if (serviceId === 'ozone-house') {
+    return parseInt(serviceTime) + 1; // Service time + 1 hour buffer
+  }
+
+  if (service && typeof service.blockHours === 'number') {
+    return service.blockHours;
+  }
+
+  // Default: service time + 1 hour buffer
+  return parseInt(serviceTime) + 1;
 }
 
 function updateServiceVisuals(){
@@ -1772,6 +2036,10 @@ initializeCalendar();
 /* ── INITIALIZE TESTIMONIAL CAROUSEL ── */
 initTestimonialCarousel();
 setupTestimonialHover();
+
+/* ── INITIALIZE SERVICE TYPE ── */
+updateServicesSection();
+updateBookingForm();
 </script>
 
 </body>
