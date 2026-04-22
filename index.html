@@ -625,44 +625,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
       <div class="form-group">
         <label>Select Date & Time</label>
-        <div class="calendar-container">
-          <div class="calendar-header">
-            <button type="button" class="calendar-nav" id="prevMonth">‹</button>
-            <h3 class="calendar-month" id="currentMonth"></h3>
-            <button type="button" class="calendar-nav" id="nextMonth">›</button>
-          </div>
-          <div class="calendar-grid" id="calendarGrid"></div>
-          <div class="calendar-legend">
-            <div class="legend-item"><span class="legend-color available"></span> Available</div>
-            <div class="legend-item"><span class="legend-color partial"></span> Some slots</div>
-            <div class="legend-item"><span class="legend-color full"></span> Fully booked</div>
+
+        <!-- Date Picker -->
+        <div style="margin-bottom:16px">
+          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Choose Date:</label>
+          <input type="date" id="f-date" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px;background:var(--off-white);color:var(--dark-text);font-family:var(--font-body);font-size:.92rem">
+        </div>
+
+        <!-- Time Slots -->
+        <div>
+          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Choose Time:</label>
+          <div class="time-slots" id="timeSlots">
+            <div class="time-slot" onclick="selectTime('8:00 AM', this)">8:00 AM</div>
+            <div class="time-slot" onclick="selectTime('9:00 AM', this)">9:00 AM</div>
+            <div class="time-slot" onclick="selectTime('10:00 AM', this)">10:00 AM</div>
+            <div class="time-slot" onclick="selectTime('11:00 AM', this)">11:00 AM</div>
+            <div class="time-slot" onclick="selectTime('12:00 PM', this)">12:00 PM</div>
+            <div class="time-slot" onclick="selectTime('1:00 PM', this)">1:00 PM</div>
+            <div class="time-slot" onclick="selectTime('2:00 PM', this)">2:00 PM</div>
+            <div class="time-slot" onclick="selectTime('3:00 PM', this)">3:00 PM</div>
+            <div class="time-slot" onclick="selectTime('4:00 PM', this)">4:00 PM</div>
+            <div class="time-slot" onclick="selectTime('5:00 PM', this)">5:00 PM</div>
+            <div class="time-slot" onclick="selectTime('6:00 PM', this)">6:00 PM</div>
+            <div class="time-slot" onclick="selectTime('7:00 PM', this)">7:00 PM</div>
           </div>
         </div>
+
+        <!-- Hidden inputs for form submission -->
         <input type="hidden" id="bkDate">
-
-        <!-- Visible date picker -->
-        <div id="fallbackDatePicker" style="margin-top:10px">
-          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Select Date:</label>
-          <input type="date" id="f-date" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px">
-        </div>
-      </div>
-
-      <div class="form-group" id="timeSlotGroup" style="display:block">
-        <label>Available Times (8:00 AM - 7:00 PM)</label>
-        <div class="time-slots" id="timeSlots">
-          <div class="time-slot" onclick="selectTime('8:00 AM', this)">8:00 AM</div>
-          <div class="time-slot" onclick="selectTime('9:00 AM', this)">9:00 AM</div>
-          <div class="time-slot" onclick="selectTime('10:00 AM', this)">10:00 AM</div>
-          <div class="time-slot" onclick="selectTime('11:00 AM', this)">11:00 AM</div>
-          <div class="time-slot" onclick="selectTime('12:00 PM', this)">12:00 PM</div>
-          <div class="time-slot" onclick="selectTime('1:00 PM', this)">1:00 PM</div>
-          <div class="time-slot" onclick="selectTime('2:00 PM', this)">2:00 PM</div>
-          <div class="time-slot" onclick="selectTime('3:00 PM', this)">3:00 PM</div>
-          <div class="time-slot" onclick="selectTime('4:00 PM', this)">4:00 PM</div>
-          <div class="time-slot" onclick="selectTime('5:00 PM', this)">5:00 PM</div>
-          <div class="time-slot" onclick="selectTime('6:00 PM', this)">6:00 PM</div>
-          <div class="time-slot" onclick="selectTime('7:00 PM', this)">7:00 PM</div>
-        </div>
         <input type="hidden" id="bkTime">
       </div>
       <div class="form-row">
