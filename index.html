@@ -203,8 +203,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .status-badge{padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:700;display:inline-block}
 .status-pending{background:#fef3cd;color:#856404}
 .status-confirmed{background:var(--green-pale);color:var(--green-deep)}
-.admin-btn{padding:6px 16px;background:var(--green-mid);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:background .3s}
+.status-rejected{background:#fee2e2;color:#dc2626}
+.admin-btn{padding:6px 16px;background:var(--green-mid);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:background .3s;margin-right:4px}
 .admin-btn:hover{background:var(--green-deep)}
+.admin-btn.reject{background:#dc2626}
+.admin-btn.reject:hover{background:#b91c1c}
 
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9}
@@ -505,18 +508,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <h2 class="footer-cta">Ready to <em>breathe</em> fresh again?</h2>
   <a href="tel:0432066372" class="footer-phone">📞 0432 066 372</a>
   <p class="footer-hours">Monday – Saturday · 8am – 6pm · Sunday by appointment</p>
-  <div class="footer-bottom">© 2026 Ventra Cleaning · Melbourne, VIC · ventracleaning.com.au</div>
+  <div class="footer-bottom">
+    © 2026 Ventra Cleaning · Melbourne, VIC · ventracleaning.com.au
+    <a href="#admin" style="color:inherit;text-decoration:none;opacity:0.3;font-size:0.7rem;margin-left:20px" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.3'">admin</a>
+  </div>
 </section>
 
 <!-- ADMIN -->
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-panel">
     <button class="admin-close" onclick="closeAdmin()">×</button>
-    <h2>📋 Booking Admin Panel</h2>
-    <p style="color:var(--mid-gray);margin-bottom:20px">Manage incoming booking requests</p>
-    <div style="font-size:.85rem;color:var(--mid-gray);margin-bottom:16px">Total: <strong id="adminCount" style="color:var(--green-mid)">0</strong></div>
+    <h2>📋 Randevu Yönetim Paneli</h2>
+    <p style="color:var(--mid-gray);margin-bottom:20px">Gelen randevu taleplerini yönetin</p>
+    <div style="font-size:.85rem;color:var(--mid-gray);margin-bottom:16px">Toplam: <strong id="adminCount" style="color:var(--green-mid)">0</strong></div>
     <table class="admin-table">
-      <thead><tr><th>Name</th><th>Service</th><th>Date</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead>
+      <thead><tr><th>İsim</th><th>Hizmet</th><th>Tarih</th><th>Telefon</th><th>Durum</th><th>İşlem</th></tr></thead>
       <tbody id="adminBody"><tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr></tbody>
     </table>
   </div>
@@ -623,11 +629,69 @@ function renderAdmin(){
   const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
   document.getElementById('adminCount').textContent=data.length;
   const tb=document.getElementById('adminBody');
-  if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';return}
-  tb.innerHTML=data.map((b,i)=>`<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">$${b.price}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${b.status}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td></tr>`).join('');
+  if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Henüz randevu yok</td></tr>';return}
+  tb.innerHTML=data.map((b,i)=>`<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">$${b.price}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="acceptBooking(${i})">Kabul Et</button><button class="admin-btn reject" onclick="rejectBooking(${i})">Reddet</button>`:getActionText(b.status)}</td></tr>`).join('');
 }
-function confirmBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
-document.querySelector('.nav-logo').addEventListener('dblclick',openAdmin);
+function acceptBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
+function rejectBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='rejected';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
+function getStatusText(status){
+  switch(status){
+    case 'pending': return 'Bekliyor';
+    case 'confirmed': return 'Kabul Edildi';
+    case 'rejected': return 'Reddedildi';
+    default: return status;
+  }
+}
+function getActionText(status){
+  switch(status){
+    case 'confirmed': return '<span style="color:var(--green-mid);font-weight:600">✓ Kabul Edildi</span>';
+    case 'rejected': return '<span style="color:#dc2626;font-weight:600">✗ Reddedildi</span>';
+    default: return '—';
+  }
+}
+
+// URL routing for admin access
+function checkAdminRoute(){
+  const path = window.location.pathname;
+  const hash = window.location.hash;
+  const search = window.location.search;
+
+  if(path === '/admin' || path.endsWith('/admin') || hash === '#admin' || search.includes('admin=true')){
+    openAdmin();
+  }
+}
+// Check admin route on page load and when URL changes
+window.addEventListener('load', checkAdminRoute);
+window.addEventListener('popstate', checkAdminRoute);
+window.addEventListener('hashchange', checkAdminRoute);
+
+// Close admin panel when navigating away
+function checkAdminClose(){
+  const path = window.location.pathname;
+  const hash = window.location.hash;
+  const search = window.location.search;
+
+  if(!(path === '/admin' || path.endsWith('/admin') || hash === '#admin' || search.includes('admin=true'))){
+    closeAdmin();
+  }
+}
+window.addEventListener('popstate', checkAdminClose);
+window.addEventListener('hashchange', checkAdminClose);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.getElementById('adminOverlay').classList.contains('open')){
+    closeAdmin();
+    // Remove admin from URL
+    if(window.location.hash === '#admin'){
+      window.location.hash = '';
+    } else if(window.location.search.includes('admin=true')){
+      const url = new URL(window.location);
+      url.searchParams.delete('admin');
+      window.history.replaceState({}, '', url);
+    }
+  }
+});
 
 /* ── CALENDAR SYSTEM ── */
 let calYear, calMonth, selectedDate='', selectedTime='';
