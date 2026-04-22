@@ -28,7 +28,7 @@
   --shadow-md:0 8px 30px rgba(0,0,0,.08);
   --shadow-lg:0 20px 60px rgba(0,0,0,.1);
 }
-html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--white);color:var(--dark-text);-webkit-font-smoothing:antialiased}
 
 /* ═══ NAV ═══ */
@@ -43,7 +43,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .nav-phone svg{flex-shrink:0}
 
 /* ═══ SECTIONS ═══ */
-.section{min-height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 
 /* ═══ PAGE DOTS ═══ */
 .page-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:10px}
@@ -207,7 +207,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .admin-btn:hover{background:var(--green-deep)}
 
 /* ═══ BEFORE/AFTER SLIDER ═══ */
-.ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;cursor:ew-resize;-webkit-user-select:none;user-select:none}
+.ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9}
 .ba-slider-wrap .ba-before-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none}
 .ba-slider-wrap .ba-after-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;clip-path:inset(0 50% 0 0);pointer-events:none}
 .ba-divider{position:absolute;top:0;bottom:0;left:50%;width:4px;background:var(--white);z-index:5;transform:translateX(-50%);pointer-events:none}
@@ -295,7 +295,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
-  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">← Drag the slider to compare →</p>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">↕ Scroll to see the transformation ↕</p>
 </section>
 
 <!-- ══════ 3. BEFORE/AFTER — SMOKE ══════ -->
@@ -309,7 +309,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
-  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">← Drag the slider to compare →</p>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">↕ Scroll to see the transformation ↕</p>
 </section>
 
 <!-- ══════ 4. ODOURS ══════ -->
@@ -548,33 +548,43 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 
 /* ── BEFORE/AFTER SLIDERS ── */
-function initSlider(wrapperId, dividerId){
+function initScrollSlider(wrapperId, dividerId){
   const wrap=document.getElementById(wrapperId);
   const divider=document.getElementById(dividerId);
   const afterImg=wrap.querySelector('.ba-after-img');
   const labelAfter=wrap.querySelector('.ba-label-after');
   const labelBefore=wrap.querySelector('.ba-label-before');
-  let dragging=false;
 
-  function update(x){
+  function updateFromScroll(){
     const rect=wrap.getBoundingClientRect();
-    let pct=((x-rect.left)/rect.width)*100;
+    const viewportHeight=window.innerHeight;
+
+    // Calculate how much of the slider is visible and its position
+    // When slider is at bottom of viewport, show 100% before (0% after)
+    // When slider is at top of viewport, show 100% after (100% after)
+    const centerY=rect.top + rect.height/2;
+    const normalizedPosition=(viewportHeight - centerY) / viewportHeight;
+
+    // Clamp between 0 and 1, then convert to percentage
+    let pct=Math.max(0, Math.min(1, normalizedPosition)) * 100;
+
+    // Add some padding to make transition smoother
     pct=Math.max(2,Math.min(98,pct));
+
     afterImg.style.clipPath=`inset(0 ${100-pct}% 0 0)`;
     divider.style.left=pct+'%';
     labelAfter.style.display=pct>15?'block':'none';
     labelBefore.style.display=pct<85?'block':'none';
   }
 
-  wrap.addEventListener('mousedown',e=>{dragging=true;update(e.clientX)});
-  window.addEventListener('mousemove',e=>{if(dragging)update(e.clientX)});
-  window.addEventListener('mouseup',()=>dragging=false);
-  wrap.addEventListener('touchstart',e=>{dragging=true;update(e.touches[0].clientX)},{passive:true});
-  window.addEventListener('touchmove',e=>{if(dragging)update(e.touches[0].clientX)},{passive:true});
-  window.addEventListener('touchend',()=>dragging=false);
+  // Update on scroll
+  window.addEventListener('scroll', updateFromScroll);
+  // Initial update
+  updateFromScroll();
 }
-initSlider('slider1','divider1');
-initSlider('slider2','divider2');
+
+initScrollSlider('slider1','divider1');
+initScrollSlider('slider2','divider2');
 
 /* ── BOOKING ── */
 let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
