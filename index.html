@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ventra Cleaning | Professional Odour Elimination | Melbourne</title>
+<title>Ventra Cleaning — Professional Odour Elimination | Melbourne</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -71,15 +71,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .scroll-bar{width:1px;height:36px;background:linear-gradient(to bottom,var(--green-light),transparent);animation:scrollP 2s infinite}
 @keyframes scrollP{0%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.5)}100%{opacity:1;transform:scaleY(1)}}
 
-/* ═══ SERVICE TYPE SELECTOR ═══ */
-.service-type-selector{display:flex;gap:20px;margin:32px 0;opacity:0;animation:fadeUp .8s .8s forwards}
-.service-type-btn{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:var(--white);padding:16px 24px;border-radius:12px;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:160px;font-family:var(--font-body);font-size:1rem;font-weight:600}
-.service-type-btn:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
-.service-type-btn.active{background:var(--green-light);border-color:var(--green-light);color:var(--white)}
-.service-type-btn.active:hover{background:#28b878}
-.service-icon{font-size:2rem;display:block}
-.service-text{font-weight:600;letter-spacing:.5px}
-
 /* ═══ BEFORE/AFTER SECTION ═══ */
 .ba-section{background:var(--white);flex-direction:column;padding:100px 40px}
 .ba-section.alt{background:var(--off-white)}
@@ -98,8 +89,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .ba-card .ba-desc{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:var(--white);font-size:.9rem;font-weight:500}
 
 /* stagger animation */
-.ba-grid,.odour-card,.step-item,.service-card,.faq-item,.testimonial-slide,.testimonial-carousel,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
-.ba-grid.visible,.odour-card.visible,.step-item.visible,.service-card.visible,.faq-item.visible,.testimonial-slide.visible,.testimonial-carousel.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
+.ba-grid,.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.ba-grid.visible,.odour-card.visible,.step-item.visible,.service-card.visible,.faq-item.visible,.testimonial-quote.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
 
 /* ═══ ODOURS ═══ */
 .odours{background:var(--green-deep);color:var(--white);flex-direction:column;padding:100px 40px}
@@ -144,42 +135,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .testimonial-section{background:var(--blue-deep);color:var(--white);flex-direction:column;padding:100px 40px;text-align:center}
 .testimonial-section .section-label{color:var(--blue-light)}
 .testimonial-section .section-label::before{background:var(--blue-light)}
-.testimonial-section .section-title{color:var(--white);margin-bottom:50px}
-.testimonial-section .section-title em{color:var(--blue-light)}
-
-/* ═══ TESTIMONIAL CAROUSEL ═══ */
-.testimonial-carousel{position:relative;max-width:1100px;width:100%;margin:0 auto;cursor:grab}
-.testimonial-carousel.dragging{cursor:grabbing}
-.testimonial-container{overflow:hidden;border-radius:20px;position:relative;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.testimonial-container::-webkit-scrollbar{display:none}
-.testimonial-container{-ms-overflow-style:none;scrollbar-width:none}
-.testimonial-track{display:flex;width:100%;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
-
-.testimonial-slide{min-width:100%;padding:0 20px;display:flex;flex-direction:column;align-items:center;text-align:center;scroll-snap-align:start;scroll-snap-stop:always;flex-shrink:0}
-
-.testimonial-stars{font-size:1.2rem;color:#fbbf24;margin-bottom:20px;letter-spacing:2px}
-.testimonial-quote{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);font-style:italic;max-width:600px;line-height:1.6;margin-bottom:24px;position:relative;color:rgba(255,255,255,.92)}
-.testimonial-quote::before{content:'"';font-size:4rem;color:var(--blue-light);opacity:.2;position:absolute;top:-20px;left:-20px;font-family:Georgia,serif}
-.testimonial-author{color:rgba(255,255,255,.65);font-size:.9rem;font-weight:500}
-.testimonial-author strong{color:rgba(255,255,255,.9);font-weight:600}
-
-.carousel-dots{display:flex;justify-content:center;gap:10px;margin-top:40px}
-.carousel-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
-.carousel-dot.active{background:var(--blue-light);transform:scale(1.2)}
-
-/* Desktop: Show multiple slides */
-@media(min-width:768px){
-  .testimonial-slide{min-width:50%;padding:0 30px}
-}
-@media(min-width:1100px){
-  .testimonial-slide{min-width:33.333%;padding:0 25px}
-}
-
-/* Mobile adjustments */
-@media(max-width:767px){
-  .testimonial-quote{font-size:1.1rem}
-  .testimonial-stars{font-size:1rem}
-}
+.testimonial-quote{font-family:var(--font-display);font-size:clamp(1.3rem,2.8vw,1.9rem);font-style:italic;max-width:700px;line-height:1.6;margin-bottom:28px;position:relative;color:rgba(255,255,255,.92)}
+.testimonial-quote::before{content:'"';font-size:7rem;color:var(--blue-light);opacity:.15;position:absolute;top:-50px;left:-15px;font-family:Georgia,serif}
+.testimonial-author{color:rgba(255,255,255,.55);font-size:.88rem}
+.testimonial-author strong{color:rgba(255,255,255,.85);font-weight:600}
 
 /* ═══ BOOKING ═══ */
 .booking-section{background:var(--off-white);flex-direction:column;padding:100px 40px}
@@ -192,18 +151,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center;position:relative}
-.service-opt:hover{border-color:var(--green-mid);background:var(--green-pale)}
-.service-opt.selected{border-color:var(--green-mid);background:var(--green-pale)}
+.service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center}
+.service-opt:hover,.service-opt.active{border-color:var(--green-mid);background:var(--green-pale)}
 .service-opt .svc-name{font-weight:600;font-size:.85rem;margin-bottom:2px;color:var(--dark-text)}
 .service-opt .svc-price{color:var(--green-deep);font-family:var(--font-display);font-size:1.2rem;font-weight:700}
 .service-opt .svc-time{font-size:.72rem;color:var(--mid-gray);margin-top:1px}
-.service-checkbox{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--green-mid);color:white;display:flex;align-items:center;justify-content:center;font-size:.7rem;opacity:0;transition:opacity .3s}
-.service-opt.selected .service-checkbox{opacity:1}
-.plus-indicator{position:absolute;top:8px;left:8px;width:20px;height:20px;border-radius:50%;background:var(--green-light);color:white;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;opacity:0;transition:opacity .3s}
-.service-opt.ozone-selected .plus-indicator{opacity:1}
-.service-opt.disabled{opacity:0.4;cursor:not-allowed}
-.service-opt.disabled:hover{border-color:var(--light-gray);background:var(--off-white)}
 .location-options{display:flex;gap:10px;margin-bottom:18px}
 .loc-opt{flex:1;padding:12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:10px;text-align:center;cursor:pointer;transition:all .3s;font-size:.83rem;font-weight:600;color:var(--dark-text)}
 .loc-opt:hover,.loc-opt.active{border-color:var(--green-mid);background:var(--green-pale);color:var(--green-deep)}
@@ -254,64 +206,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .admin-btn{padding:6px 16px;background:var(--green-mid);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:background .3s}
 .admin-btn:hover{background:var(--green-deep)}
 
-/* ═══ ADDRESS AUTOCOMPLETE ═══ */
-.address-autocomplete{position:relative}
-.address-suggestions{position:absolute;top:100%;left:0;right:0;background:var(--white);border:2px solid var(--light-gray);border-top:none;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;z-index:1000;display:none}
-.suggestion-item{padding:12px 16px;cursor:pointer;font-size:.9rem;border-bottom:1px solid var(--light-gray);transition:background .2s}
-.suggestion-item:hover{background:var(--green-pale)}
-.suggestion-item:last-child{border-bottom:none}
-.suggestion-item .address-main{color:var(--dark-text);font-weight:500}
-.suggestion-item .address-sub{color:var(--mid-gray);font-size:.8rem;margin-top:2px}
-.distance-info{background:var(--green-pale);color:var(--green-deep);font-size:.72rem;font-weight:600;padding:8px 16px;border-bottom:1px solid var(--green-light)}
-.distance-info.far{background:#fef3cd;color:#856404}
-
-/* ═══ CALENDAR ═══ */
-.calendar-container{background:var(--off-white);border:1.5px solid var(--light-gray);border-radius:12px;padding:16px;margin-bottom:16px}
-.calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.calendar-month{font-family:var(--font-display);font-size:1.1rem;color:var(--dark-text);margin:0}
-.calendar-nav{background:none;border:none;font-size:1.2rem;color:var(--green-mid);cursor:pointer;padding:8px 12px;border-radius:6px;transition:background .2s}
-.calendar-nav:hover{background:var(--green-pale)}
-.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:12px}
-.calendar-day-header{text-align:center;font-size:.7rem;font-weight:600;color:var(--mid-gray);text-transform:uppercase;letter-spacing:.5px;padding:8px 4px}
-.calendar-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.85rem;border-radius:6px;cursor:pointer;transition:all .2s;background:var(--white);border:1px solid var(--light-gray);color:var(--dark-text)}
-.calendar-day:hover:not(.past):not(.selected){background:var(--blue-pale);border-color:var(--blue-mid)}
-.calendar-day.past{background:var(--light-gray);color:var(--mid-gray);cursor:not-allowed;opacity:.5}
-.calendar-day.available{background:#e6f5ee;border-color:#22a06b}
-.calendar-day.partial{background:var(--white);border-color:var(--light-gray)}
-.calendar-day.full{background:#fee2e2;border-color:#ef4444;color:#991b1b}
-.calendar-day.selected{background:var(--green-mid);color:var(--white);border-color:var(--green-mid)}
-.calendar-day.other-month{color:var(--light-gray);background:transparent}
-.calendar-legend{display:flex;gap:16px;justify-content:center;font-size:.75rem;color:var(--mid-gray)}
-.legend-item{display:flex;align-items:center;gap:6px}
-.legend-color{width:12px;height:12px;border-radius:3px;border:1px solid var(--light-gray)}
-.legend-color.available{background:#e6f5ee;border-color:#22a06b}
-.legend-color.partial{background:var(--white);border-color:var(--light-gray)}
-.legend-color.full{background:#fee2e2;border-color:#ef4444}
-
-/* ═══ TIME SLOTS ═══ */
-.time-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.time-slot{padding:10px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:8px;text-align:center;font-size:.85rem;cursor:pointer;transition:all .3s}
-.time-slot:hover{border-color:var(--green-mid);background:var(--green-pale)}
-.time-slot.selected{background:var(--green-mid);color:var(--white);border-color:var(--green-mid)}
-.time-slot.unavailable{background:var(--light-gray);color:var(--mid-gray);cursor:not-allowed;opacity:.6}
-.time-slot.unavailable:hover{border-color:var(--light-gray);background:var(--light-gray)}
-.time-slot.unavailable[style*="line-through"]{background:#fee2e2;color:#991b1b;border-color:#ef4444}
-
-/* ═══ ROOM SELECTOR ═══ */
-.room-stepper{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;width:fit-content;margin-left:auto;margin-right:auto}
-.stepper-btn{width:45px;height:45px;border:2px solid var(--green-mid);background:var(--green-mid);color:var(--white);font-size:1.5rem;font-weight:bold;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;line-height:1}
-.stepper-btn.minus{border-radius:8px 0 0 8px}
-.stepper-btn.plus{border-radius:0 8px 8px 0}
-.stepper-btn:hover{background:var(--green-deep);border-color:var(--green-deep);transform:scale(1.05)}
-.stepper-btn:disabled{background:var(--light-gray);border-color:var(--light-gray);color:var(--mid-gray);cursor:not-allowed;transform:none}
-.room-input{width:80px;height:45px;border:2px solid var(--green-mid);border-left:none;border-right:none;background:var(--white);color:var(--dark-text);text-align:center;font-size:1.1rem;font-weight:600;outline:none;-moz-appearance:textfield}
-.room-input::-webkit-outer-spin-button,.room-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.room-price-display{background:var(--green-pale);color:var(--green-deep);padding:12px 16px;border-radius:8px;text-align:center;font-size:.9rem;border:1px solid var(--green-mid)}
-
 /* ═══ BEFORE/AFTER SLIDER ═══ */
-.ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;-webkit-user-select:none;user-select:none}
+.ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;cursor:ew-resize;-webkit-user-select:none;user-select:none}
 .ba-slider-wrap .ba-before-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none}
-.ba-slider-wrap .ba-after-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;clip-path:inset(0 50% 0 0);transition:none;pointer-events:none}
+.ba-slider-wrap .ba-after-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;clip-path:inset(0 50% 0 0);pointer-events:none}
 .ba-divider{position:absolute;top:0;bottom:0;left:50%;width:4px;background:var(--white);z-index:5;transform:translateX(-50%);pointer-events:none}
 .ba-divider::after{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--green-deep);box-shadow:var(--shadow-md);font-weight:700}
 .ba-label-before,.ba-label-after{position:absolute;top:16px;padding:6px 16px;border-radius:6px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;z-index:6;pointer-events:none}
@@ -344,12 +242,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   .services-grid{grid-template-columns:1fr}
   .hero-stats{flex-direction:column;gap:20px}
   .service-options{grid-template-columns:1fr}
-  .service-type-selector{gap:12px}
-  .service-type-btn{min-width:140px;padding:12px 16px}
-  .service-icon{font-size:1.5rem}
-  .stepper-btn{width:40px;height:40px;font-size:1.2rem}
-  .room-input{width:70px;height:40px;font-size:1rem}
-  .room-price-display{font-size:.85rem;padding:10px 12px}
 }
 </style>
 </head>
@@ -377,21 +269,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
 <!-- ══════ 1. HERO ══════ -->
 <section class="section hero" id="hero">
-  <div class="hero-badge"><span class="dot"></span> Now booking same-day appointments</div>
+  <div class="hero-badge"><span class="dot"></span> Now booking — same-day appointments</div>
   <h1>No more bad smells.<br>Just <em>fresh.</em></h1>
-  <p class="hero-sub">Professional ozone treatment that destroys odours at the molecular level. Cigarette smoke, pet accidents, mould - completely eliminated. Guaranteed.</p>
-  <!-- Service Type Selection -->
-  <div class="service-type-selector">
-    <button class="service-type-btn active" id="vehicleBtn" onclick="selectServiceType('vehicle')">
-      <span class="service-icon">🚗</span>
-      <span class="service-text">Vehicle Services</span>
-    </button>
-    <button class="service-type-btn" id="homeBtn" onclick="selectServiceType('home')">
-      <span class="service-icon">🏠</span>
-      <span class="service-text">Home Services</span>
-    </button>
-  </div>
-
+  <p class="hero-sub">Professional ozone treatment that destroys odours at the molecular level. Cigarette smoke, pet accidents, mould — gone. Guaranteed.</p>
   <div class="hero-ctas">
     <a href="#booking" class="btn-primary">Book a Treatment</a>
     <a href="#how" class="btn-outline-w">See How It Works</a>
@@ -407,27 +287,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 <!-- ══════ 2. BEFORE/AFTER — SEAT ══════ -->
 <section class="section ba-section" id="ba1">
   <div class="section-label">Real Results</div>
-  <h2 class="section-title">Seat cleaning <em>before & after.</em></h2>
+  <h2 class="section-title">Seat cleaning — <em>before & after.</em></h2>
   <div class="ba-slider-wrap" id="slider1">
-    <img src="seat-before.avif" alt="Dirty seat before" class="ba-before-img">
-    <img src="seat-after.avif" alt="Clean seat after" class="ba-after-img">
+    <img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1200&q=80" alt="Dirty seat before" class="ba-before-img">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80" alt="Clean seat after" class="ba-after-img">
     <div class="ba-divider" id="divider1"></div>
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">← Drag the slider to compare →</p>
 </section>
 
 <!-- ══════ 3. BEFORE/AFTER — SMOKE ══════ -->
 <section class="section ba-section alt" id="ba2">
   <div class="section-label">Odour Elimination</div>
-  <h2 class="section-title">Smoke treatment <em>breathe easy.</em></h2>
+  <h2 class="section-title">Smoke treatment — <em>breathe easy.</em></h2>
   <div class="ba-slider-wrap" id="slider2">
-    <img src="smoke-before.png" alt="Smoky hazy car" class="ba-before-img">
-    <img src="smoke-after.png" alt="Fresh clean interior" class="ba-after-img">
+    <img src="https://images.unsplash.com/photo-1527187503833-a5484a5d11fd?w=1200&q=80" alt="Smoky hazy car" class="ba-before-img">
+    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200&q=80" alt="Fresh clean interior" class="ba-after-img">
     <div class="ba-divider" id="divider2"></div>
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">← Drag the slider to compare →</p>
 </section>
 
 <!-- ══════ 4. ODOURS ══════ -->
@@ -437,7 +319,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <div class="odour-grid">
     <div class="odour-card"><span class="odour-icon">🚬</span><h3>Cigarette Smoke</h3><p>Deeply embedded tobacco smell in fabric, carpet, and air vents. Gone in one treatment.</p></div>
     <div class="odour-card"><span class="odour-icon">🐱</span><h3>Cat Urine</h3><p>The most stubborn odour there is. We destroy the uric acid crystals at the source.</p></div>
-    <div class="odour-card"><span class="odour-icon">🐶</span><h3>Dog & Pet Smell</h3><p>Wet dog, dander, accidents - all neutralised completely, even deep in upholstery.</p></div>
+    <div class="odour-card"><span class="odour-icon">🐶</span><h3>Dog & Pet Smell</h3><p>Wet dog, dander, accidents — all neutralised completely, even deep in upholstery.</p></div>
     <div class="odour-card"><span class="odour-icon">💧</span><h3>Mould & Damp</h3><p>Kills mould spores and eliminates the musty smell in basements, cars, and wet rooms.</p></div>
     <div class="odour-card"><span class="odour-icon">🐟</span><h3>Fish & Cooking</h3><p>Strong food odours trapped in kitchens, restaurants, and vehicles. Eliminated permanently.</p></div>
     <div class="odour-card"><span class="odour-icon">🤢</span><h3>Vomit</h3><p>Perfect for Uber drivers. Fast turnaround, complete elimination, same-day service.</p></div>
@@ -458,7 +340,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="step-item">
       <div class="step-num">02</div>
       <h3>Oxidise the Odour</h3>
-      <p>O₃ bonds with bacteria, tar, urine proteins and breaks them apart molecularly.</p>
+      <p>O₃ bonds with bacteria, tar, urine proteins — breaks them apart molecularly.</p>
       <span class="step-arrow">→</span>
     </div>
     <div class="step-item">
@@ -470,7 +352,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="step-item">
       <div class="step-num">04</div>
       <h3>Enjoy Results</h3>
-      <p>Step into a genuinely fresh space. If anything lingers, we come back free.</p>
+      <p>Step into a genuinely fresh space. If anything lingers — we come back free.</p>
     </div>
   </div>
 </section>
@@ -511,74 +393,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   </div>
 </section>
 
-<!-- ══════ 7. TESTIMONIALS ══════ -->
+<!-- ══════ 7. TESTIMONIAL ══════ -->
 <section class="section testimonial-section" id="testimonial">
   <div class="section-label">Customer Stories</div>
-  <h2 class="section-title">Real customers, <em>real results.</em></h2>
-
-  <div class="testimonial-carousel">
-    <div class="testimonial-container">
-      <div class="testimonial-track" id="testimonialTrack">
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Ozone treatment completely removed 10 years of cigarette smell from our rental car. I honestly thought it was impossible. Worth every dollar."</p>
-          <p class="testimonial-author"><strong>Marcus T.</strong> · Uber driver · Melbourne CBD</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"After my cat had an accident on the carpet, the smell was unbearable. Ventra's ozone treatment made it completely disappear. My home smells fresh again!"</p>
-          <p class="testimonial-author"><strong>Sarah M.</strong> · Pet owner · Richmond</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Had a trade-in with heavy smoke smell that was unsellable. One ozone treatment later and it sold within a week. Paid for itself instantly."</p>
-          <p class="testimonial-author"><strong>David K.</strong> · Used car dealer · Preston</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"The fish smell in our restaurant kitchen was affecting customers. Ozone treatment eliminated it completely - now our dining room smells fresh every day."</p>
-          <p class="testimonial-author"><strong>Anna L.</strong> · Restaurant owner · Fitzroy</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Mould smell in a rental property was costing me tenants. Ventra fixed it in one session. Property rented the next week!"</p>
-          <p class="testimonial-author"><strong>James R.</strong> · Real estate agent · St Kilda</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Passenger was sick in my taxi on Friday night. Called Ventra Saturday morning - by afternoon it was like nothing happened. Back earning same day!"</p>
-          <p class="testimonial-author"><strong>Ahmed S.</strong> · Taxi driver · Airport</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"My toddler spilled milk in the car during summer. The smell was horrible after a few days. Ozone treatment completely saved our family car."</p>
-          <p class="testimonial-author"><strong>Lisa W.</strong> · Family · Glen Waverley</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Diesel fumes in my work ute were giving me headaches. Ozone treatment cleared the air completely. Much better work environment now."</p>
-          <p class="testimonial-author"><strong>Tony B.</strong> · Tradie · Campbellfield</p>
-        </div>
-
-        <div class="testimonial-slide">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">"Professional service and amazing results. The team knows what they're doing and the guarantee gives you complete peace of mind."</p>
-          <p class="testimonial-author"><strong>Rebecca H.</strong> · Office manager · CBD</p>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="carousel-dots" id="testimonialDots"></div>
+  <p class="testimonial-quote">"Ozone treatment completely removed 10 years of cigarette smell from our rental car. I honestly thought it was impossible. Worth every dollar."</p>
+  <p class="testimonial-author"><strong>Marcus T.</strong> · Uber driver · Melbourne CBD</p>
 </section>
 
 <!-- ══════ 8. BOOKING ══════ -->
@@ -588,23 +407,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Services</label>
-      <div id="ozoneHelp" style="display:none;font-size:.75rem;color:var(--green-mid);margin-bottom:8px;text-align:center">✨ Ozone selected! You can now add cleaning services ✨</div>
-      <div class="service-options" id="serviceOptions">
-        <!-- Services will be populated by JavaScript -->
-      </div>
-
-      <!-- Room Selector for Full House Ozone -->
-      <div id="roomSelector" style="display:none;margin-bottom:16px">
-        <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:12px;display:block;font-weight:600">How many rooms?</label>
-
-        <div class="room-stepper">
-          <button type="button" class="stepper-btn minus" onclick="adjustRoomCount(-1)">−</button>
-          <input type="number" id="roomCount" class="room-input" min="1" max="10" value="1" readonly>
-          <button type="button" class="stepper-btn plus" onclick="adjustRoomCount(1)">+</button>
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Service</label>
+      <div class="service-options">
+        <div class="service-opt active" data-service="Ozone Treatment" data-price="100" onclick="selectService(this)">
+          <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-
-        <div id="roomPrice" class="room-price-display">1 room × $60 = <strong>$60</strong></div>
+        <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="selectService(this)">
+          <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+        </div>
+        <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="selectService(this)">
+          <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
+        </div>
+        <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="selectService(this)">
+          <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
+        </div>
       </div>
 
       <div class="form-group"><label>Describe the Issue</label><textarea id="bkIssue" placeholder="e.g., Heavy cigarette smell in a 2019 Toyota Camry..."></textarea></div>
@@ -615,46 +431,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         <div class="loc-opt" data-loc="mobile" onclick="selectLocation(this)">📍 Come to Me</div>
       </div>
 
-      <div class="form-group" id="addressGroup" style="display:none">
-        <label>Your Address</label>
-        <div class="address-autocomplete">
-          <input type="text" id="bkAddress" placeholder="Enter your Melbourne address" autocomplete="off">
-          <div id="addressSuggestions" class="address-suggestions"></div>
-        </div>
-      </div>
+      <div class="form-group" id="addressGroup" style="display:none"><label>Your Address</label><input type="text" id="bkAddress" placeholder="Enter your Melbourne address"></div>
 
+      <!-- CALENDAR -->
       <div class="form-group">
-        <label>Select Date & Time</label>
-
-        <!-- Date Picker -->
-        <div style="margin-bottom:16px">
-          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Choose Date:</label>
-          <input type="date" id="f-date" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px;background:var(--off-white);color:var(--dark-text);font-family:var(--font-body);font-size:.92rem">
-        </div>
-
-        <!-- Time Slots -->
-        <div>
-          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Choose Time:</label>
-          <div class="time-slots" id="timeSlots">
-            <div class="time-slot" onclick="selectTime('8:00 AM', this)">8:00 AM</div>
-            <div class="time-slot" onclick="selectTime('9:00 AM', this)">9:00 AM</div>
-            <div class="time-slot" onclick="selectTime('10:00 AM', this)">10:00 AM</div>
-            <div class="time-slot" onclick="selectTime('11:00 AM', this)">11:00 AM</div>
-            <div class="time-slot" onclick="selectTime('12:00 PM', this)">12:00 PM</div>
-            <div class="time-slot" onclick="selectTime('1:00 PM', this)">1:00 PM</div>
-            <div class="time-slot" onclick="selectTime('2:00 PM', this)">2:00 PM</div>
-            <div class="time-slot" onclick="selectTime('3:00 PM', this)">3:00 PM</div>
-            <div class="time-slot" onclick="selectTime('4:00 PM', this)">4:00 PM</div>
-            <div class="time-slot" onclick="selectTime('5:00 PM', this)">5:00 PM</div>
-            <div class="time-slot" onclick="selectTime('6:00 PM', this)">6:00 PM</div>
-            <div class="time-slot" onclick="selectTime('7:00 PM', this)">7:00 PM</div>
+        <label>Select Date</label>
+        <div id="calendarWrap" style="background:var(--white);border:1.5px solid var(--light-gray);border-radius:14px;padding:20px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <button type="button" onclick="changeMonth(-1)" style="background:none;border:1.5px solid var(--light-gray);border-radius:8px;padding:6px 14px;cursor:pointer;font-size:1rem;color:var(--dark-text)">‹</button>
+            <span id="calMonthYear" style="font-family:var(--font-heading);font-weight:700;font-size:1.1rem;color:var(--dark-text)"></span>
+            <button type="button" onclick="changeMonth(1)" style="background:none;border:1.5px solid var(--light-gray);border-radius:8px;padding:6px 14px;cursor:pointer;font-size:1rem;color:var(--dark-text)">›</button>
           </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;margin-bottom:8px">
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Mon</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Tue</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Wed</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Thu</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Fri</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Sat</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--mid-gray);padding:6px 0">Sun</div>
+          </div>
+          <div id="calDays" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"></div>
         </div>
-
-        <!-- Hidden inputs for form submission -->
-        <input type="hidden" id="bkDate">
-        <input type="hidden" id="bkTime">
       </div>
+
+      <!-- TIME SLOTS -->
+      <div class="form-group" id="timeSlotsGroup" style="display:none">
+        <label>Select Time — <span id="selectedDateLabel" style="color:var(--green-mid);font-weight:700"></span></label>
+        <div id="timeSlots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+      </div>
+
+      <input type="hidden" id="bkDate" value="">
+      <input type="hidden" id="bkTime" value="">
       <div class="form-row">
         <div class="form-group"><label>Your Name</label><input type="text" id="bkName" placeholder="Full name"></div>
         <div class="form-group"><label>Phone</label><input type="tel" id="bkPhone" placeholder="04XX XXX XXX"></div>
@@ -683,11 +491,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <div class="section-label" style="display:flex;justify-content:center">FAQ</div>
   <h2 class="section-title" style="text-align:center">Common <em>questions.</em></h2>
   <div class="faq-container">
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does ozone actually eliminate odours?<span class="arrow">▼</span></div><div class="faq-a">Ozone (O₃) reacts with odour-causing compounds, oxidising and breaking down their chemical bonds permanently. Unlike sprays that mask, ozone destroys at the molecular level. It then converts back to oxygen, leaving no residue.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is ozone treatment safe?<span class="arrow">▼</span></div><div class="faq-a">Yes, when handled by professionals. The space is unoccupied during treatment. Once complete, we ventilate thoroughly. Re-entry within 30-60 minutes. Strict safety protocols every job.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does it take?<span class="arrow">▼</span></div><div class="faq-a">Ozone treatment and spot cleaning: ~1 hour. Seat + floor: 2 hours. Severe odours may need extended treatment - we'll advise beforehand.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does ozone actually eliminate odours?<span class="arrow">▼</span></div><div class="faq-a">Ozone (O₃) reacts with odour-causing compounds, oxidising and breaking down their chemical bonds permanently. Unlike sprays that mask, ozone destroys at the molecular level. It then converts back to oxygen — leaving no residue.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is ozone treatment safe?<span class="arrow">▼</span></div><div class="faq-a">Yes — when handled by professionals. The space is unoccupied during treatment. Once complete, we ventilate thoroughly. Re-entry within 30–60 minutes. Strict safety protocols every job.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does it take?<span class="arrow">▼</span></div><div class="faq-a">Ozone treatment and spot cleaning: ~1 hour. Seat + floor: 2 hours. Severe odours may need extended treatment — we'll advise beforehand.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you guarantee the odour is gone?<span class="arrow">▼</span></div><div class="faq-a">100%. If any odour persists, we return at no extra cost. If you're not satisfied, we haven't finished the job.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can you eliminate cigarette smoke in a car?<span class="arrow">▼</span></div><div class="faq-a">One of our most common treatments. Ozone penetrates upholstery, headliner, carpet, and AC system. Most heavy smoke cases are fully resolved in a single 1-hour session.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can you eliminate cigarette smoke in a car?<span class="arrow">▼</span></div><div class="faq-a">One of our most common treatments. Ozone penetrates upholstery, headliner, carpet, and AC system. Most heavy smoke cases — fully resolved in a single 1-hour session.</div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">I'm an Uber driver. Same-day possible?<span class="arrow">▼</span></div><div class="faq-a">Absolutely. Drop off at our Melbourne facility — turnaround in 1–2 hours. Call 0432 066 372 for urgent jobs.</div></div>
   </div>
 </section>
@@ -729,7 +537,7 @@ sectionIds.forEach((id,i)=>{
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      const items=e.target.querySelectorAll('.odour-card,.step-item,.service-card,.faq-item,.testimonial-slide,.testimonial-carousel,.ba-slider-wrap');
+      const items=e.target.querySelectorAll('.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.ba-slider-wrap');
       items.forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),i*120));
       // dots
       const idx=sectionIds.indexOf(e.target.id);
@@ -740,1586 +548,170 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 
 /* ── BEFORE/AFTER SLIDERS ── */
-function initScrollSlider(wrapperId, dividerId){
+function initSlider(wrapperId, dividerId){
   const wrap=document.getElementById(wrapperId);
   const divider=document.getElementById(dividerId);
   const afterImg=wrap.querySelector('.ba-after-img');
   const labelAfter=wrap.querySelector('.ba-label-after');
   const labelBefore=wrap.querySelector('.ba-label-before');
+  let dragging=false;
 
-  function updateSlider(){
+  function update(x){
     const rect=wrap.getBoundingClientRect();
-    const viewportHeight=window.innerHeight;
-
-    // Calculate progress: 0% when section first appears at bottom, 100% when section reaches top
-    let progress=0;
-
-    if(rect.top<=viewportHeight && rect.bottom>=0){
-      // Section is visible in viewport
-      if(rect.top<=viewportHeight){
-        // Calculate how far the section has moved through viewport
-        // When rect.top = viewportHeight: progress = 0 (just appearing at bottom)
-        // When rect.top = 0: progress = 1 (reached the top)
-        progress=Math.max(0,Math.min(1,(viewportHeight-rect.top)/viewportHeight));
-      }
-    }else if(rect.bottom<0){
-      // Section has completely scrolled past the top
-      progress=1;
-    }
-
-    // Convert progress to percentage (0% = full before, 100% = full after)
-    const pct=progress*100;
-
-    // Apply the slider position
+    let pct=((x-rect.left)/rect.width)*100;
+    pct=Math.max(2,Math.min(98,pct));
     afterImg.style.clipPath=`inset(0 ${100-pct}% 0 0)`;
     divider.style.left=pct+'%';
-
-    // Update label visibility
     labelAfter.style.display=pct>15?'block':'none';
     labelBefore.style.display=pct<85?'block':'none';
   }
 
-  // Update on scroll with requestAnimationFrame for smooth performance
-  let ticking=false;
-  function onScroll(){
-    if(!ticking){
-      requestAnimationFrame(()=>{
-        updateSlider();
-        ticking=false;
-      });
-      ticking=true;
-    }
-  }
-
-  window.addEventListener('scroll',onScroll,{passive:true});
-
-  // Initial update
-  updateSlider();
+  wrap.addEventListener('mousedown',e=>{dragging=true;update(e.clientX)});
+  window.addEventListener('mousemove',e=>{if(dragging)update(e.clientX)});
+  window.addEventListener('mouseup',()=>dragging=false);
+  wrap.addEventListener('touchstart',e=>{dragging=true;update(e.touches[0].clientX)},{passive:true});
+  window.addEventListener('touchmove',e=>{if(dragging)update(e.touches[0].clientX)},{passive:true});
+  window.addEventListener('touchend',()=>dragging=false);
 }
-initScrollSlider('slider1','divider1');
-initScrollSlider('slider2','divider2');
-
-/* ── ADDRESS AUTOCOMPLETE ── */
-let travelSurcharge=0;
-let searchTimeout;
-
-function initAddressAutocomplete(){
-  const addressInput=document.getElementById('bkAddress');
-  const suggestionsDiv=document.getElementById('addressSuggestions');
-
-  addressInput.addEventListener('input',function(){
-    clearTimeout(searchTimeout);
-    const query=this.value.trim();
-
-    if(query.length<3){
-      hideSuggestions();
-      return;
-    }
-
-    searchTimeout=setTimeout(()=>searchAddresses(query),300);
-  });
-
-  addressInput.addEventListener('blur',function(){
-    setTimeout(hideSuggestions,200); // Delay to allow click on suggestion
-  });
-
-  function searchAddresses(query){
-    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&countrycodes=au&format=json&addressdetails=1&limit=5`;
-
-    fetch(url)
-      .then(response=>response.json())
-      .then(data=>{
-        displaySuggestions(data);
-      })
-      .catch(error=>{
-        console.log('Address search error:',error);
-        hideSuggestions();
-      });
-  }
-
-  function displaySuggestions(addresses){
-    if(!addresses.length){
-      hideSuggestions();
-      return;
-    }
-
-    let html='';
-    addresses.forEach(addr=>{
-      const mainAddress=addr.display_name.split(',').slice(0,2).join(',');
-      const subAddress=addr.display_name.split(',').slice(2).join(',');
-
-      html+=`<div class="suggestion-item" onclick="selectAddress('${addr.display_name.replace(/'/g,"\\'")}',${addr.lat},${addr.lon})">
-        <div class="address-main">${mainAddress}</div>
-        <div class="address-sub">${subAddress}</div>
-      </div>`;
-    });
-
-    suggestionsDiv.innerHTML=html;
-    suggestionsDiv.style.display='block';
-  }
-
-  function hideSuggestions(){
-    suggestionsDiv.style.display='none';
-  }
-
-  window.selectAddress=function(address,lat,lon){
-    addressInput.value=address;
-    hideSuggestions();
-    calculateDistance(lat,lon);
-  };
-
-  function calculateDistance(lat,lon){
-    // Southern Cross Station coordinates
-    const stationLat=-37.8183;
-    const stationLon=144.9524;
-
-    // Haversine formula for distance calculation
-    const R=6371; // Earth's radius in km
-    const dLat=(lat-stationLat)*Math.PI/180;
-    const dLon=(lon-stationLon)*Math.PI/180;
-    const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(stationLat*Math.PI/180)*Math.cos(lat*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-    const c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-    const distance=R*c;
-
-    // Update travel surcharge based on distance
-    if(distance<=3){
-      travelSurcharge=0;
-    }else if(distance<=10){
-      travelSurcharge=25;
-    }else if(distance<=40){
-      travelSurcharge=50;
-    }else{
-      travelSurcharge=-1; // Special case for 40km+
-    }
-
-    updateBookingTotal();
-
-    // Show distance info
-    let distanceMsg='';
-    if(travelSurcharge===0){
-      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • No travel charge`;
-    }else if(travelSurcharge===-1){
-      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • Please call us for quote`;
-    }else{
-      distanceMsg=`📍 ${distance.toFixed(1)}km from Melbourne CBD • +$${travelSurcharge} travel`;
-    }
-
-    // Create or update distance display
-    let distanceDiv=document.getElementById('distanceInfo');
-    if(!distanceDiv){
-      distanceDiv=document.createElement('div');
-      distanceDiv.id='distanceInfo';
-      distanceDiv.style.cssText='margin-top:8px;font-size:.8rem;color:var(--mid-gray);text-align:center';
-      document.getElementById('addressGroup').appendChild(distanceDiv);
-    }
-    distanceDiv.textContent=distanceMsg;
-  }
-}
-
-// Initialize when DOM is loaded
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',initAddressAutocomplete);
-}else{
-  initAddressAutocomplete();
-}
-
-/* ── TESTIMONIAL CAROUSEL ── */
-let currentTestimonialSlide = 0;
-let testimonialSlides = [];
-let testimonialAutoScroll;
-let testimonialSlidesPerView = 1;
-let isDragging = false;
-let startX = 0;
-let currentX = 0;
-let initialTransform = 0;
-
-function initTestimonialCarousel() {
-  testimonialSlides = document.querySelectorAll('.testimonial-slide');
-  const track = document.getElementById('testimonialTrack');
-  const carousel = document.querySelector('.testimonial-carousel');
-  const dotsContainer = document.getElementById('testimonialDots');
-
-  // Calculate slides per view based on screen size
-  updateSlidesPerView();
-
-  // Create dots
-  const totalDots = Math.ceil(testimonialSlides.length / testimonialSlidesPerView);
-  dotsContainer.innerHTML = '';
-  for (let i = 0; i < totalDots; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'carousel-dot';
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToTestimonialSlide(i * testimonialSlidesPerView));
-    dotsContainer.appendChild(dot);
-  }
-
-  // Desktop drag support
-  track.addEventListener('mousedown', handleDragStart);
-  track.addEventListener('mousemove', handleDragMove);
-  track.addEventListener('mouseup', handleDragEnd);
-  track.addEventListener('mouseleave', handleDragEnd);
-
-  // Mobile touch support
-  track.addEventListener('touchstart', handleTouchStart, {passive: false});
-  track.addEventListener('touchmove', handleTouchMove, {passive: false});
-  track.addEventListener('touchend', handleTouchEnd);
-
-  // Prevent default drag behavior on images
-  track.addEventListener('dragstart', (e) => e.preventDefault());
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    updateSlidesPerView();
-    updateTestimonialSlide();
-  });
-
-  // Initial setup
-  updateTestimonialSlide();
-  startTestimonialAutoScroll();
-}
-
-function handleDragStart(e) {
-  isDragging = true;
-  startX = e.clientX;
-  currentX = startX;
-  initialTransform = getCurrentTransform();
-
-  const carousel = document.querySelector('.testimonial-carousel');
-  carousel.classList.add('dragging');
-
-  stopTestimonialAutoScroll();
-  e.preventDefault();
-}
-
-function handleDragMove(e) {
-  if (!isDragging) return;
-
-  currentX = e.clientX;
-  const diff = currentX - startX;
-  const track = document.getElementById('testimonialTrack');
-
-  // Apply drag with resistance at boundaries
-  const dragAmount = diff * 0.8; // Add some resistance
-  track.style.transform = `translateX(${initialTransform + dragAmount}px)`;
-  track.style.transition = 'none';
-}
-
-function handleDragEnd() {
-  if (!isDragging) return;
-
-  isDragging = false;
-  const carousel = document.querySelector('.testimonial-carousel');
-  carousel.classList.remove('dragging');
-
-  const diff = currentX - startX;
-  const threshold = 80; // Minimum drag distance to trigger slide change
-
-  if (Math.abs(diff) > threshold) {
-    if (diff < 0) {
-      nextTestimonialSlide();
-    } else {
-      prevTestimonialSlide();
-    }
-  } else {
-    // Snap back to current slide
-    updateTestimonialSlide();
-  }
-
-  startTestimonialAutoScroll();
-}
-
-function handleTouchStart(e) {
-  isDragging = true;
-  startX = e.touches[0].clientX;
-  currentX = startX;
-  initialTransform = getCurrentTransform();
-
-  stopTestimonialAutoScroll();
-}
-
-function handleTouchMove(e) {
-  if (!isDragging) return;
-
-  currentX = e.touches[0].clientX;
-  const diff = currentX - startX;
-  const track = document.getElementById('testimonialTrack');
-
-  // Apply drag with momentum
-  const dragAmount = diff * 0.8;
-  track.style.transform = `translateX(${initialTransform + dragAmount}px)`;
-  track.style.transition = 'none';
-
-  // Prevent default scrolling
-  if (Math.abs(diff) > 10) {
-    e.preventDefault();
-  }
-}
-
-function handleTouchEnd() {
-  if (!isDragging) return;
-
-  isDragging = false;
-  const diff = currentX - startX;
-  const threshold = 60; // Minimum swipe distance
-
-  if (Math.abs(diff) > threshold) {
-    if (diff < 0) {
-      nextTestimonialSlide();
-    } else {
-      prevTestimonialSlide();
-    }
-  } else {
-    // Snap back to current slide
-    updateTestimonialSlide();
-  }
-
-  startTestimonialAutoScroll();
-}
-
-function getCurrentTransform() {
-  const track = document.getElementById('testimonialTrack');
-  const style = window.getComputedStyle(track);
-  const matrix = style.transform;
-
-  if (matrix === 'none') return 0;
-
-  const values = matrix.split('(')[1].split(')')[0].split(',');
-  return parseInt(values[4]) || 0;
-}
-
-function updateSlidesPerView() {
-  const width = window.innerWidth;
-  if (width >= 1100) {
-    testimonialSlidesPerView = 3;
-  } else if (width >= 768) {
-    testimonialSlidesPerView = 2;
-  } else {
-    testimonialSlidesPerView = 1;
-  }
-}
-
-function updateTestimonialSlide() {
-  const track = document.getElementById('testimonialTrack');
-  const slideWidth = 100 / testimonialSlidesPerView;
-  const offset = -(currentTestimonialSlide * slideWidth);
-
-  // Smooth momentum animation
-  track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-  track.style.transform = `translateX(${offset}%)`;
-
-  // Update dots
-  const dots = document.querySelectorAll('.carousel-dot');
-  dots.forEach((dot, index) => {
-    const slideIndex = Math.floor(currentTestimonialSlide / testimonialSlidesPerView);
-    dot.classList.toggle('active', index === slideIndex);
-  });
-}
-
-function nextTestimonialSlide() {
-  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
-  currentTestimonialSlide = currentTestimonialSlide >= maxSlide ? 0 : currentTestimonialSlide + 1;
-  updateTestimonialSlide();
-}
-
-function prevTestimonialSlide() {
-  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
-  currentTestimonialSlide = currentTestimonialSlide <= 0 ? maxSlide : currentTestimonialSlide - 1;
-  updateTestimonialSlide();
-}
-
-function goToTestimonialSlide(slideIndex) {
-  const maxSlide = testimonialSlides.length - testimonialSlidesPerView;
-  currentTestimonialSlide = Math.max(0, Math.min(slideIndex, maxSlide));
-  updateTestimonialSlide();
-  stopTestimonialAutoScroll();
-  startTestimonialAutoScroll();
-}
-
-function startTestimonialAutoScroll() {
-  stopTestimonialAutoScroll();
-  testimonialAutoScroll = setInterval(nextTestimonialSlide, 5000);
-}
-
-function stopTestimonialAutoScroll() {
-  if (testimonialAutoScroll) {
-    clearInterval(testimonialAutoScroll);
-  }
-}
-
-// Pause auto-scroll on hover
-function setupTestimonialHover() {
-  const carousel = document.querySelector('.testimonial-carousel');
-  if (carousel) {
-    carousel.addEventListener('mouseenter', stopTestimonialAutoScroll);
-    carousel.addEventListener('mouseleave', startTestimonialAutoScroll);
-  }
-}
-
-/* ── SERVICE TYPE SELECTION ── */
-let currentServiceType = 'vehicle'; // 'vehicle' or 'home'
-
-const serviceData = {
-  vehicle: {
-    services: [
-      { id: 'ozone-vehicle', name: 'Ozone Treatment', price: 100, time: 1, blockHours: 2, category: 'ozone', icon: '🌿' },
-      { id: 'seat', name: 'Seat Cleaning', price: 100, time: 1, blockHours: 2, category: 'cleaning', icon: '🪑' },
-      { id: 'seatfloor', name: 'Seat + Floor', price: 180, time: 2, blockHours: 3, category: 'cleaning', icon: '🚗' },
-      { id: 'spot-vehicle', name: 'Spot Cleaning', price: 70, time: 1, blockHours: 2, category: 'cleaning', icon: '🎯' }
-    ],
-    allowDropOff: true
-  },
-  home: {
-    services: [
-      { id: 'ozone-room', name: 'Ozone Single Room', price: 80, time: 1, blockHours: 2, category: 'ozone', icon: '🌿' },
-      { id: 'ozone-house', name: 'Ozone Full House', price: 'dynamic', time: 'dynamic', blockHours: 'dynamic', category: 'ozone', icon: '🏠' },
-      { id: 'couch', name: 'Couch/Sofa Cleaning', price: 150, time: 2, blockHours: 3, category: 'cleaning', icon: '🛋️' },
-      { id: 'rug', name: 'Area Rug Cleaning', price: 'quote', time: 'quote', blockHours: 'quote', category: 'cleaning', icon: '🪐' },
-      { id: 'spot-home', name: 'Spot Cleaning', price: 60, time: 1, blockHours: 2, category: 'cleaning', icon: '🎯' }
-    ],
-    allowDropOff: false
-  }
-};
-
-function selectServiceType(type) {
-  currentServiceType = type;
-
-  // Update button states
-  const vehicleBtn = document.getElementById('vehicleBtn');
-  const homeBtn = document.getElementById('homeBtn');
-  if (vehicleBtn && homeBtn) {
-    vehicleBtn.classList.toggle('active', type === 'vehicle');
-    homeBtn.classList.toggle('active', type === 'home');
-  }
-
-  // Clear selected services first
-  selectedServices = [];
-
-  // Hide room selector if switching from home to vehicle
-  const roomSelector = document.getElementById('roomSelector');
-  if (roomSelector && type === 'vehicle') {
-    roomSelector.style.display = 'none';
-    selectedRooms = 0;
-  }
-
-  // Update services section
-  updateServicesSection();
-
-  // Update booking form
-  updateBookingForm();
-
-  // Update visual states
-  updateServiceVisuals();
-  updateBookingTotal();
-
-  // Refresh time slots if date selected
-  if (selectedDate) {
-    showTimeSlots(selectedDate);
-  }
-}
-
-function updateServicesSection() {
-  const services = serviceData[currentServiceType].services;
-  const servicesGrid = document.querySelector('.services-grid');
-
-  servicesGrid.innerHTML = services.map(service => {
-    let priceDisplay, metaDisplay;
-
-    if (service.price === 'quote') {
-      priceDisplay = '<div style="font-size:0.9rem;color:var(--green-deep);font-weight:600;text-align:center">Contact for Quote</div>';
-      metaDisplay = 'Call 0432 066 372';
-    } else if (service.price === 'dynamic') {
-      priceDisplay = '<sup>$</sup>60<span style="font-size:0.8rem">/room</span>';
-      metaDisplay = '1-8 rooms available';
-    } else {
-      priceDisplay = '<sup>$</sup>' + service.price;
-      metaDisplay = service.time + ' hour' + (service.time > 1 ? 's' : '') + ' · professional';
-    }
-
-    return `
-      <div class="service-card ${service.id === 'seatfloor' ? 'popular' : ''}">
-        <div class="svc-icon ${service.category === 'ozone' ? 'green' : 'blue'}">${service.icon}</div>
-        <h3>${service.name}</h3>
-        <p class="desc">${getServiceDescription(service)}</p>
-        <div class="service-price">${priceDisplay}</div>
-        <div class="service-meta">${metaDisplay}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-function getServiceDescription(service) {
-  const descriptions = {
-    'ozone-vehicle': 'Complete odour elimination for any vehicle. Guaranteed.',
-    'seat': 'Deep clean of all car seats. Perfect for Uber drivers.',
-    'seatfloor': 'Complete interior refresh. Seats and floor carpets combined.',
-    'spot-vehicle': 'Targeted stain removal. One area, done properly.',
-    'ozone-room': 'Complete odour elimination for single room. Guaranteed.',
-    'ozone-house': 'Full house ozone treatment. Price based on room count.',
-    'couch': 'Deep cleaning of couches and sofas. Professional results.',
-    'rug': 'Complete area rug cleaning service. Custom quote required.',
-    'spot-home': 'Targeted stain removal for home areas. Professional service.'
-  };
-  return descriptions[service.id] || 'Professional cleaning service.';
-}
-
-/* ── CALENDAR ── */
-let currentCalendarDate = new Date();
-let bookingData = [];
-let selectedDate = null;
-let selectedTime = null;
-const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM'];
-
-function calculateServiceDuration(services) {
-  if (!services || services.length === 0) return 2; // Default 2 hours
-
-  let totalDuration = 0;
-
-  services.forEach(service => {
-    if (service.blockHours) {
-      totalDuration = Math.max(totalDuration, service.blockHours);
-    } else {
-      // Fallback to old logic
-      totalDuration = Math.max(totalDuration, (service.time || 1) + 1);
-    }
-  });
-
-  return totalDuration || 2;
-}
-
-function getBlockedTimeSlots(startTime, duration) {
-  const startIndex = timeSlots.indexOf(startTime);
-  if (startIndex === -1) return [startTime];
-
-  const blockedSlots = [];
-  for (let i = 0; i < duration && (startIndex + i) < timeSlots.length; i++) {
-    blockedSlots.push(timeSlots[startIndex + i]);
-  }
-
-  return blockedSlots;
-}
-
-function initializeCalendar() {
-  fetchBookingData().then(() => {
-    renderCalendar();
-    setupCalendarEvents();
-    setupFallbackDatePicker();
-
-    // Ensure calendar container is visible
-    const calendarContainer = document.querySelector('.calendar-container');
-    if (calendarContainer) {
-      calendarContainer.style.display = 'block';
-    }
-  });
-}
-
-function setupFallbackDatePicker() {
-  const dateInput = document.getElementById('f-date');
-  if (dateInput) {
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    dateInput.value = today;
-
-    // Handle date selection
-    dateInput.addEventListener('change', function() {
-      const selectedDate = this.value;
-      if (selectedDate) {
-        // Update hidden input
-        document.getElementById('bkDate').value = selectedDate;
-
-        // Update global variable
-        window.selectedDate = selectedDate;
-
-        // Update calendar visual selection if calendar exists
-        updateCalendarSelection(selectedDate);
-
-        // Show updated time slots based on availability
-        updateTimeSlotAvailability();
-      }
-    });
-
-    // Initialize with today's date
-    const todayValue = today;
-    document.getElementById('bkDate').value = todayValue;
-    window.selectedDate = todayValue;
-    updateTimeSlotAvailability();
-  }
-}
-
-function selectTime(time, element) {
-  if (element.classList.contains('unavailable')) {
-    return; // Don't select unavailable times
-  }
-
-  // Remove previous selection
-  document.querySelectorAll('.time-slot.selected').forEach(slot =>
-    slot.classList.remove('selected')
-  );
-
-  // Select new time
-  element.classList.add('selected');
-  selectedTime = time;
-  document.getElementById('bkTime').value = time;
-
-  console.log('Selected time:', time);
-}
-
-function updateTimeSlotAvailability() {
-  const selectedDate = document.getElementById('f-date').value;
-  if (!selectedDate) return;
-
-  // Get current service duration
-  const currentDuration = calculateServiceDuration(selectedServices);
-
-  // Get booked slots for the selected date (simplified)
-  const bookedSlots = []; // You can add real booking data here
-
-  // Update each time slot
-  document.querySelectorAll('.time-slot').forEach((slot, index) => {
-    const time = slot.textContent;
-    const hour = parseInt(time.split(':')[0]);
-    const isPM = time.includes('PM');
-    let hour24 = hour;
-
-    if (isPM && hour !== 12) hour24 += 12;
-    if (!isPM && hour === 12) hour24 = 0;
-
-    // Check if this slot would extend past 7 PM (19:00)
-    const endHour = hour24 + currentDuration;
-    const wouldExtendPastClose = endHour > 19;
-
-    // Check if already booked
-    const isBooked = bookedSlots.includes(time);
-
-    // Update visual state
-    slot.classList.remove('unavailable', 'selected');
-
-    if (isBooked) {
-      slot.classList.add('unavailable');
-      slot.style.textDecoration = 'line-through';
-      slot.style.backgroundColor = '#fee2e2';
-      slot.style.color = '#991b1b';
-      slot.title = 'This time slot is already booked';
-    } else if (wouldExtendPastClose) {
-      slot.classList.add('unavailable');
-      slot.title = `Service would end after 7:00 PM (needs ${currentDuration} hours)`;
-    } else {
-      slot.style.textDecoration = 'none';
-      slot.style.backgroundColor = '';
-      slot.style.color = '';
-      slot.title = `Available - service duration: ${currentDuration} hour(s)`;
-    }
-  });
-}
-
-function updateCalendarSelection(dateString) {
-  // Remove previous selections
-  document.querySelectorAll('.calendar-day.selected').forEach(el =>
-    el.classList.remove('selected')
-  );
-
-  // Try to find and select the new date
-  document.querySelectorAll('.calendar-day').forEach(dayEl => {
-    const dayText = dayEl.textContent;
-    const currentDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), parseInt(dayText));
-    const dayDateString = currentDate.toISOString().split('T')[0];
-
-    if (dayDateString === dateString && !dayEl.classList.contains('other-month')) {
-      dayEl.classList.add('selected');
-    }
-  });
-}
-
-async function fetchBookingData() {
-  try {
-    // First try to get from API
-    const response = await fetch('/api/bookings');
-    if (response.ok) {
-      const apiData = await response.json();
-      bookingData = [...apiData];
-    }
-  } catch (error) {
-    console.log('API not available, using localStorage only');
-  }
-
-  // Always include localStorage bookings
-  const localBookings = JSON.parse(localStorage.getItem('ventra_bookings') || '[]');
-  bookingData = [...bookingData, ...localBookings];
-
-  // Remove duplicates by ID
-  const uniqueBookings = bookingData.filter((booking, index, self) =>
-    index === self.findIndex(b => b.id === booking.id)
-  );
-  bookingData = uniqueBookings;
-}
-
-function renderCalendar() {
-  const grid = document.getElementById('calendarGrid');
-  const monthElement = document.getElementById('currentMonth');
-
-  const year = currentCalendarDate.getFullYear();
-  const month = currentCalendarDate.getMonth();
-
-  // Set month header
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                      'July', 'August', 'September', 'October', 'November', 'December'];
-  monthElement.textContent = `${monthNames[month]} ${year}`;
-
-  // Clear grid
-  grid.innerHTML = '';
-
-  // Add day headers
-  const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  dayHeaders.forEach(day => {
-    const header = document.createElement('div');
-    header.className = 'calendar-day-header';
-    header.textContent = day;
-    grid.appendChild(header);
-  });
-
-  // Get first day of month and number of days
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const daysInMonth = lastDay.getDate();
-  const startingDayOfWeek = firstDay.getDay();
-
-  // Add empty cells for days before month starts
-  for (let i = 0; i < startingDayOfWeek; i++) {
-    const emptyDay = document.createElement('div');
-    emptyDay.className = 'calendar-day other-month';
-    grid.appendChild(emptyDay);
-  }
-
-  // Add days of the month
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dayElement = document.createElement('div');
-    dayElement.className = 'calendar-day';
-    dayElement.textContent = day;
-
-    const currentDate = new Date(year, month, day);
-    const dateString = currentDate.toISOString().split('T')[0];
-
-    // Check if past date
-    if (currentDate < today) {
-      dayElement.classList.add('past');
-    } else {
-      // Calculate availability
-      const availability = calculateDayAvailability(dateString);
-      dayElement.classList.add(availability);
-
-      // Add click handler
-      dayElement.addEventListener('click', () => selectDate(dateString, dayElement));
-    }
-
-    // Check if selected
-    if (selectedDate === dateString) {
-      dayElement.classList.add('selected');
-    }
-
-    grid.appendChild(dayElement);
-  }
-}
-
-function calculateDayAvailability(dateString) {
-  const dayBookings = bookingData.filter(booking =>
-    booking.date === dateString &&
-    (booking.status === 'confirmed' || booking.status === 'pending')
-  );
-
-  if (dayBookings.length === 0) {
-    return 'available'; // No bookings - green
-  }
-
-  // Get all blocked time slots for this day
-  const allBlockedSlots = new Set();
-
-  dayBookings.forEach(booking => {
-    // Use stored blockedSlots if available, otherwise calculate from services
-    let blockedSlots;
-    if (booking.blockedSlots && booking.blockedSlots.length > 0) {
-      blockedSlots = booking.blockedSlots;
-    } else {
-      // Legacy booking - calculate duration from services or use default
-      const duration = booking.services ? calculateServiceDuration(booking.services) : 2;
-      blockedSlots = getBlockedTimeSlots(booking.time, duration);
-    }
-
-    blockedSlots.forEach(slot => allBlockedSlots.add(slot));
-  });
-
-  // Check availability
-  const availableSlots = timeSlots.filter(slot => !allBlockedSlots.has(slot));
-
-  if (availableSlots.length === 0) {
-    return 'full'; // All slots taken - red
-  }
-
-  // Check if there are enough consecutive slots for new bookings
-  const minSlotsNeeded = 2; // Minimum service duration
-  let hasConsecutiveSlots = false;
-
-  for (let i = 0; i <= availableSlots.length - minSlotsNeeded; i++) {
-    const consecutiveSlots = [];
-    for (let j = 0; j < minSlotsNeeded; j++) {
-      const slotIndex = timeSlots.indexOf(availableSlots[i + j]);
-      if (slotIndex !== -1) {
-        consecutiveSlots.push(slotIndex);
-      }
-    }
-
-    // Check if slots are actually consecutive
-    if (consecutiveSlots.length === minSlotsNeeded) {
-      let isConsecutive = true;
-      for (let k = 1; k < consecutiveSlots.length; k++) {
-        if (consecutiveSlots[k] !== consecutiveSlots[k-1] + 1) {
-          isConsecutive = false;
-          break;
-        }
-      }
-      if (isConsecutive) {
-        hasConsecutiveSlots = true;
-        break;
-      }
-    }
-  }
-
-  if (!hasConsecutiveSlots) {
-    return 'full'; // Not enough consecutive slots
-  }
-
-  return 'partial'; // Some slots available - white
-}
-
-function selectDate(dateString, dayElement) {
-  // Remove previous selection
-  document.querySelectorAll('.calendar-day.selected').forEach(el =>
-    el.classList.remove('selected')
-  );
-
-  // Select new date
-  dayElement.classList.add('selected');
-  selectedDate = dateString;
-  document.getElementById('bkDate').value = dateString;
-
-  // Show available time slots
-  showTimeSlots(dateString);
-}
-
-function showTimeSlots(dateString) {
-  const timeSlotGroup = document.getElementById('timeSlotGroup');
-  const timeSlotsContainer = document.getElementById('timeSlots');
-
-  if (!timeSlotGroup || !timeSlotsContainer) {
-    console.error('Time slot elements not found');
-    return;
-  }
-
-  // Get all blocked time slots for this date
-  const dayBookings = bookingData.filter(booking =>
-    booking.date === dateString &&
-    (booking.status === 'confirmed' || booking.status === 'pending')
-  );
-
-  const allBlockedSlots = new Set();
-  dayBookings.forEach(booking => {
-    let blockedSlots;
-    if (booking.blockedSlots && booking.blockedSlots.length > 0) {
-      blockedSlots = booking.blockedSlots;
-    } else {
-      // Legacy booking - calculate from services
-      const duration = booking.services ? calculateServiceDuration(booking.services) : 2;
-      blockedSlots = getBlockedTimeSlots(booking.time, duration);
-    }
-    blockedSlots.forEach(slot => allBlockedSlots.add(slot));
-  });
-
-  // Get duration for currently selected services
-  const currentDuration = calculateServiceDuration(selectedServices);
-
-  // Clear existing slots
-  timeSlotsContainer.innerHTML = '';
-
-  // Create time slot elements
-  timeSlots.forEach((time, index) => {
-    const slot = document.createElement('div');
-    slot.className = 'time-slot';
-    slot.textContent = time;
-
-    // Check if this slot or any required subsequent slots are blocked
-    let isAvailable = true;
-    const requiredSlots = getBlockedTimeSlots(time, currentDuration);
-
-    // Check if service would end after 7:00 PM (business hours end)
-    const lastRequiredSlotIndex = timeSlots.indexOf(requiredSlots[requiredSlots.length - 1]);
-    if (lastRequiredSlotIndex === -1 || lastRequiredSlotIndex >= timeSlots.length) {
-      isAvailable = false; // Service would extend past business hours
-    } else {
-      // Check if any required slots are already blocked
-      requiredSlots.forEach(requiredSlot => {
-        if (allBlockedSlots.has(requiredSlot)) {
-          isAvailable = false;
-        }
-      });
-    }
-
-    if (!isAvailable) {
-      slot.classList.add('unavailable');
-      if (allBlockedSlots.has(time)) {
-        slot.style.textDecoration = 'line-through';
-        slot.style.backgroundColor = '#fee2e2';
-        slot.style.color = '#991b1b';
-        slot.title = 'This time slot is already booked';
-      } else if (lastRequiredSlotIndex === -1 || lastRequiredSlotIndex >= timeSlots.length) {
-        slot.title = `Service would end after 7:00 PM (needs ${currentDuration} hours)`;
-      } else {
-        slot.title = 'Not enough consecutive time available for selected services';
-      }
-    } else {
-      slot.addEventListener('click', () => selectTime(time, slot));
-      const endTime = requiredSlots[requiredSlots.length - 1];
-      slot.title = `Available - will block ${currentDuration} hour${currentDuration > 1 ? 's' : ''} (${requiredSlots[0]} to ${endTime})`;
-    }
-
-    if (selectedTime === time) {
-      slot.classList.add('selected');
-    }
-
-    timeSlotsContainer.appendChild(slot);
-  });
-
-  // Always show time slot section when date is selected
-  timeSlotGroup.style.display = 'block';
-
-  // Update booking form state
-  if (!selectedTime && timeSlots.length > 0) {
-    // Auto-select first available time if none selected
-    const firstAvailable = timeSlotsContainer.querySelector('.time-slot:not(.unavailable)');
-    if (firstAvailable) {
-      firstAvailable.click();
-    }
-  }
-}
-
-function selectTime(time, slotElement) {
-  // Remove previous selection
-  document.querySelectorAll('.time-slot.selected').forEach(el =>
-    el.classList.remove('selected')
-  );
-
-  // Select new time
-  slotElement.classList.add('selected');
-  selectedTime = time;
-  document.getElementById('bkTime').value = time;
-}
-
-function setupCalendarEvents() {
-  document.getElementById('prevMonth').addEventListener('click', () => {
-    currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-    renderCalendar();
-  });
-
-  document.getElementById('nextMonth').addEventListener('click', () => {
-    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-    renderCalendar();
-  });
-}
-
-function updateBookingForm() {
-  const services = serviceData[currentServiceType].services;
-  const serviceOptions = document.getElementById('serviceOptions');
-
-  if (!serviceOptions) {
-    console.error('Service options container not found');
-    return;
-  }
-
-  serviceOptions.innerHTML = services.map(service => {
-    let priceText, timeText, serviceName;
-
-    // Get display name for service
-    if (service.id === 'ozone-vehicle') {
-      serviceName = 'Ozone';
-    } else if (service.id === 'seat') {
-      serviceName = 'Seat';
-    } else if (service.id === 'seatfloor') {
-      serviceName = 'Seat+Floor';
-    } else if (service.id === 'spot-vehicle') {
-      serviceName = 'Spot';
-    } else if (service.id === 'ozone-room') {
-      serviceName = 'Ozone Room';
-    } else if (service.id === 'ozone-house') {
-      serviceName = 'Full House';
-    } else if (service.id === 'couch') {
-      serviceName = 'Couch/Sofa';
-    } else if (service.id === 'rug') {
-      serviceName = 'Area Rug';
-    } else if (service.id === 'spot-home') {
-      serviceName = 'Spot';
-    } else {
-      serviceName = service.name.replace(' Treatment', '').replace(' Cleaning', '');
-    }
-
-    if (service.price === 'quote') {
-      priceText = 'Quote';
-      timeText = 'Call us';
-    } else if (service.price === 'dynamic') {
-      priceText = '$60/rm';
-      timeText = 'varies';
-    } else {
-      priceText = '$' + service.price;
-      timeText = service.time + ' hour' + (service.time > 1 ? 's' : '');
-    }
-
-    return `
-      <div class="service-opt ${service.category}-service"
-           data-service-id="${service.id}"
-           data-service="${service.name}"
-           data-price="${service.price}"
-           data-time="${service.time}"
-           data-category="${service.category}"
-           onclick="toggleService(this)">
-        <div class="service-checkbox">✓</div>
-        <div class="plus-indicator" style="display:none;">+</div>
-        <div class="svc-name">${service.icon} ${serviceName}</div>
-        <div class="svc-price">${priceText}</div>
-        <div class="svc-time">${timeText}</div>
-      </div>
-    `;
-  }).join('');
-
-  // Update location options based on service type
-  updateLocationOptions();
-}
-
-function updateLocationOptions() {
-  const locationOptions = document.querySelector('.location-options');
-
-  if (currentServiceType === 'home') {
-    // For home services, only show "Come to Me" and auto-select it
-    locationOptions.innerHTML = `
-      <div class="loc-opt active" data-loc="mobile" onclick="selectLocation(this)">📍 Come to My Address</div>
-    `;
-    selectedLoc = 'mobile';
-    document.getElementById('addressGroup').style.display = 'block';
-  } else {
-    // For vehicle services, show both options
-    locationOptions.innerHTML = `
-      <div class="loc-opt active" data-loc="dropoff" onclick="selectLocation(this)">🏭 I'll Drop Off</div>
-      <div class="loc-opt" data-loc="mobile" onclick="selectLocation(this)">📍 Come to Me</div>
-    `;
-    selectedLoc = 'dropoff';
-    document.getElementById('addressGroup').style.display = 'none';
-  }
-}
-
-let selectedRooms = 1; // Default to 1 room
-
-function adjustRoomCount(change) {
-  const input = document.getElementById('roomCount');
-  const currentRooms = parseInt(input.value) || 1;
-  const newRooms = Math.max(1, Math.min(10, currentRooms + change));
-
-  input.value = newRooms;
-  selectedRooms = newRooms;
-
-  // Update button states
-  updateStepperButtons();
-
-  // Calculate and display price
-  updateRoomPricing();
-
-  // Update the full house service if it's selected
-  updateFullHouseService();
-}
-
-function updateStepperButtons() {
-  const minusBtn = document.querySelector('.stepper-btn.minus');
-  const plusBtn = document.querySelector('.stepper-btn.plus');
-  const roomCount = parseInt(document.getElementById('roomCount').value) || 1;
-
-  minusBtn.disabled = roomCount <= 1;
-  plusBtn.disabled = roomCount >= 10;
-}
-
-function updateRoomPricing() {
-  const rooms = selectedRooms;
-  const price = rooms * 60;
-  const totalTime = Math.ceil(rooms / 2); // Roughly 30 min per room, rounded up
-
-  document.getElementById('roomPrice').innerHTML =
-    `${rooms} room${rooms > 1 ? 's' : ''} × $60 = <strong>$${price}</strong>`;
-}
-
-function updateFullHouseService() {
-  const fullHouseService = selectedServices.find(s => s.id === 'ozone-house');
-  if (fullHouseService) {
-    const price = selectedRooms * 60;
-    const totalTime = Math.ceil(selectedRooms / 2);
-
-    fullHouseService.price = price;
-    fullHouseService.time = totalTime;
-    fullHouseService.blockHours = totalTime + 1; // Add 1 hour buffer
-
-    // Update the service option display
-    const serviceEl = document.querySelector('[data-service-id="ozone-house"]');
-    if (serviceEl) {
-      serviceEl.querySelector('.svc-price').textContent = `$${price}`;
-      serviceEl.querySelector('.svc-time').textContent = `${totalTime} hour${totalTime > 1 ? 's' : ''}`;
-    }
-
-    updateBookingTotal();
-
-    if (selectedDate) {
-      showTimeSlots(selectedDate);
-    }
-  }
-}
-
-function initializeRoomSelector() {
-  selectedRooms = 1;
-  const input = document.getElementById('roomCount');
-  input.value = 1;
-
-  // Add event listener for manual input changes
-  input.addEventListener('input', function() {
-    let value = parseInt(this.value) || 1;
-    value = Math.max(1, Math.min(10, value));
-    this.value = value;
-    selectedRooms = value;
-    updateStepperButtons();
-    updateRoomPricing();
-    updateFullHouseService();
-  });
-
-  updateStepperButtons();
-  updateRoomPricing();
-}
+initSlider('slider1','divider1');
+initSlider('slider2','divider2');
 
 /* ── BOOKING ── */
-let selectedServices=[],selectedLoc='dropoff';
+let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
+const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
 
-// Load current prices from localStorage
-function loadCurrentPrices(){
-  // Load prices from localStorage and update serviceData
-  const defaultPrices={
-    'Ozone Treatment':100,
-    'Seat Cleaning':100,
-    'Seat + Floor':180,
-    'Spot Cleaning':70,
-    'Ozone Single Room':80,
-    'Couch/Sofa Cleaning':150,
-    'Spot Cleaning (Home)':60
-  };
-  const prices=JSON.parse(localStorage.getItem('service_prices')||JSON.stringify(defaultPrices));
-
-  // Update serviceData with current prices
-  if (serviceData.vehicle && serviceData.vehicle.services) {
-    serviceData.vehicle.services.forEach(service => {
-      if (service.id === 'ozone-vehicle' && prices['Ozone Treatment']) {
-        service.price = prices['Ozone Treatment'];
-      } else if (service.id === 'seat' && prices['Seat Cleaning']) {
-        service.price = prices['Seat Cleaning'];
-      } else if (service.id === 'seatfloor' && prices['Seat + Floor']) {
-        service.price = prices['Seat + Floor'];
-      } else if (service.id === 'spot-vehicle' && prices['Spot Cleaning']) {
-        service.price = prices['Spot Cleaning'];
-      }
-    });
-  }
-
-  if (serviceData.home && serviceData.home.services) {
-    serviceData.home.services.forEach(service => {
-      if (service.id === 'ozone-room' && prices['Ozone Single Room']) {
-        service.price = prices['Ozone Single Room'];
-      } else if (service.id === 'couch' && prices['Couch/Sofa Cleaning']) {
-        service.price = prices['Couch/Sofa Cleaning'];
-      } else if (service.id === 'spot-home' && prices['Spot Cleaning (Home)']) {
-        service.price = prices['Spot Cleaning (Home)'];
-      }
-    });
-  }
-
-  // Clear initial selections and update total
-  selectedServices=[];
-  updateServiceVisuals();
-  updateBookingTotal();
-}
-
-function toggleService(el){
-  // Don't allow interaction if disabled
-  if(el.classList.contains('disabled')) return;
-
-  const serviceId = el.dataset.serviceId;
-  const serviceName = el.dataset.service;
-  const category = el.dataset.category;
-  let price = el.dataset.price;
-  let time = el.dataset.time;
-
-  // Handle special cases
-  if (price === 'quote') {
-    alert('Please call 0432 066 372 for a custom quote on Area Rug Cleaning.');
-    return;
-  }
-
-  if (serviceId === 'ozone-house') {
-    if (!selectedRooms) {
-      alert('Please select the number of rooms first.');
-      return;
-    }
-    price = selectedRooms * 60;
-    time = Math.ceil(selectedRooms / 2);
-  }
-
-  if(el.classList.contains('selected')){
-    // Remove service
-    el.classList.remove('selected');
-    selectedServices = selectedServices.filter(s => s.id !== serviceId);
-
-    // Hide room selector if removing full house
-    if (serviceId === 'ozone-house') {
-      document.getElementById('roomSelector').style.display = 'none';
-      selectedRooms = 0;
-    }
-  }else{
-    // Check if we're trying to select multiple cleaning services
-    if(category==='cleaning'){
-      const hasOtherCleaning=selectedServices.some(s=>s.category==='cleaning');
-      if(hasOtherCleaning){
-        // Remove existing cleaning service first
-        const cleaningElements=document.querySelectorAll('.cleaning-service.selected');
-        cleaningElements.forEach(cleanEl=>{
-          cleanEl.classList.remove('selected');
-          selectedServices=selectedServices.filter(s=>s.category!=='cleaning');
-        });
-      }
-    }
-
-    // Show room selector for full house ozone
-    if (serviceId === 'ozone-house') {
-      document.getElementById('roomSelector').style.display = 'block';
-      initializeRoomSelector();
-      // Set default values
-      price = selectedRooms * 60; // Default 1 room = $60
-      time = Math.ceil(selectedRooms / 2); // Default 1 hour
-    }
-
-    // Add service
-    el.classList.add('selected');
-
-    const serviceData = getCurrentServiceById(serviceId);
-    selectedServices.push({
-      id: serviceId,
-      name: serviceName,
-      price: parseInt(price),
-      time: parseInt(time),
-      blockHours: getBlockHours(serviceId, time),
-      category: category
-    });
-  }
-
-  updateServiceVisuals();
-  updateBookingTotal();
-
-  // Refresh time slots availability
-  updateTimeSlotAvailability();
-}
-
-function getCurrentServiceById(serviceId) {
-  return serviceData[currentServiceType].services.find(s => s.id === serviceId);
-}
-
-function getBlockHours(serviceId, serviceTime) {
-  const service = getCurrentServiceById(serviceId);
-
-  if (serviceId === 'ozone-house') {
-    return parseInt(serviceTime) + 1; // Service time + 1 hour buffer
-  }
-
-  if (service && typeof service.blockHours === 'number') {
-    return service.blockHours;
-  }
-
-  // Default: service time + 1 hour buffer
-  return parseInt(serviceTime) + 1;
-}
-
-function updateServiceVisuals(){
-  const ozoneSelected=selectedServices.some(s=>s.category==='ozone');
-  const ozoneHelp=document.getElementById('ozoneHelp');
-  const ozoneCard=document.querySelector('.ozone-service');
-
-  // Show/hide ozone help message
-  if(ozoneSelected){
-    ozoneHelp.style.display='block';
-    ozoneCard.classList.add('ozone-selected');
-  }else{
-    ozoneHelp.style.display='none';
-    ozoneCard.classList.remove('ozone-selected');
-  }
-
-  // Update visual indicators - no disabling needed since we handle conflicts automatically
-}
-
-function updateBookingTotal(){
-  if(selectedServices.length===0){
-    document.getElementById('totalPrice').textContent='$0';
-    document.getElementById('totalService').textContent='No services selected';
-    return;
-  }
-
-  let totalPrice=selectedServices.reduce((sum,service)=>sum+service.price,0);
-  let totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
-
-  // Create service names - show combination properly
-  let serviceNames;
-  if(selectedServices.length>1){
-    // Sort to show ozone first if selected
-    const sortedServices=selectedServices.sort((a,b)=>a.category==='ozone'?-1:1);
-    serviceNames=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
-  }else{
-    serviceNames=selectedServices[0].name;
-  }
-
-  if(selectedLoc==='mobile'){
-    if(travelSurcharge===-1){
-      document.getElementById('totalPrice').innerHTML='<span style="font-size:1.2rem">Call Us</span>';
-      document.getElementById('totalService').textContent=serviceNames+' • Distance quote required';
-      return;
-    }else if(travelSurcharge>0){
-      totalPrice+=travelSurcharge;
-    }
-  }
-
-  let serviceText=serviceNames+` • ${totalTime} hour${totalTime>1?'s':''}`;
-  if(selectedLoc==='mobile'&&travelSurcharge>0){
-    serviceText+=` • +$${travelSurcharge} travel`;
-  }
-
-  document.getElementById('totalPrice').textContent='$'+totalPrice;
-  document.getElementById('totalService').textContent=serviceText;
+function selectService(el){
+  document.querySelectorAll('.service-opt').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  selectedService=el.dataset.service;
+  selectedPrice=parseInt(el.dataset.price);
+  document.getElementById('totalPrice').textContent='$'+selectedPrice;
+  document.getElementById('totalService').textContent=selectedService+' · '+(selectedPrice===180?'2 hours':'1 hour');
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
   el.classList.add('active');
   selectedLoc=el.dataset.loc;
   document.getElementById('addressGroup').style.display=selectedLoc==='mobile'?'block':'none';
-  updateBookingTotal();
 }
 function submitBooking(){
-  try{
-    const name=document.getElementById('bkName').value.trim();
-    const phone=document.getElementById('bkPhone').value.trim();
-    const email=document.getElementById('bkEmail').value.trim();
-    const date=document.getElementById('f-date').value || document.getElementById('bkDate').value;
-    const time=document.getElementById('bkTime').value;
-    const issue=document.getElementById('bkIssue').value.trim();
-    const address=document.getElementById('bkAddress').value.trim();
-
-    if(!name||!phone||!email||!issue){
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    if(!date){
-      alert('Please select a date.');
-      return;
-    }
-
-    if(!time){
-      alert('Please select a time slot.');
-      return;
-    }
-
-    if(selectedServices.length===0){
-      alert('Please select at least one service.');
-      return;
-    }
-
-    if(selectedLoc==='mobile'){
-      if(!address){
-        alert('Please enter your address for mobile service.');
-        return;
-      }
-      if(travelSurcharge===-1){
-        alert('Your location is outside our service area. Please call us at 0432 066 372 for a custom quote.');
-        return;
-      }
-    }
-
-    const servicePrice=selectedServices.reduce((sum,service)=>sum+service.price,0);
-    const totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
-    const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?servicePrice+travelSurcharge:servicePrice;
-
-    // Calculate booking duration and blocked slots
-    const bookingDuration = calculateServiceDuration(selectedServices);
-    const blockedSlots = getBlockedTimeSlots(time, bookingDuration);
-
-    // Create service description for booking
-    let serviceDescription;
-    if(selectedServices.length>1){
-      const sortedServices=selectedServices.sort((a,b)=>a.category==='ozone'?-1:1);
-      serviceDescription=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
-    }else{
-      serviceDescription=selectedServices[0].name;
-    }
-
-    const booking={
-      id:Date.now().toString()+Math.random().toString(36).substr(2,5),
-      timestamp:new Date().toISOString(),
-      status:'pending',
-      name,phone,email,date,time,issue,address,
-      services:selectedServices,
-      service:serviceDescription, // For compatibility with email template
-      servicePrice:servicePrice,
-      totalTime:totalTime,
-      bookingDuration:bookingDuration, // Total hours blocked
-      blockedSlots:blockedSlots, // Array of blocked time slots
-      travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
-      totalPrice,
-      location:selectedLoc
-    };
-
-    // Store in localStorage
-    const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-    bookings.push(booking);
-    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-
-    // Refresh calendar data
-    fetchBookingData().then(() => {
-      renderCalendar();
-    });
-
-    // Show success
-    document.getElementById('bookingForm').style.display='none';
-    document.getElementById('bookingSuccess').style.display='block';
-
-  }catch(error){
-    console.error('Booking error:',error);
-    alert('Error: '+error.message);
-  }
+  const name=document.getElementById('bkName').value.trim();
+  const phone=document.getElementById('bkPhone').value.trim();
+  const date=document.getElementById('bkDate').value;
+  if(!name||!phone||!date){alert('Please fill in name, phone, and date.');return}
+  const b={id:Date.now(),name,phone,email:document.getElementById('bkEmail').value.trim(),date,time:document.getElementById('bkTime').value,issue:document.getElementById('bkIssue').value.trim(),address:document.getElementById('bkAddress').value.trim(),service:selectedService,price:selectedPrice,location:selectedLoc,status:'pending',createdAt:new Date().toISOString()};
+  bookings.push(b);localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+  document.getElementById('bookingForm').style.display='none';
+  document.getElementById('bookingSuccess').style.display='block';
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 /* ── ADMIN ── */
-function openAdmin(){
-  renderAdmin();
-  document.getElementById('adminOverlay').classList.add('open');
-}
+function openAdmin(){renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
 function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open')}
-
 function renderAdmin(){
-  try{
-    const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  document.getElementById('adminCount').textContent=data.length;
+  const tb=document.getElementById('adminBody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';return}
+  tb.innerHTML=data.map((b,i)=>`<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">$${b.price}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${b.status}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td></tr>`).join('');
+}
+function confirmBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
+document.querySelector('.nav-logo').addEventListener('dblclick',openAdmin);
 
-    // Sort by timestamp (newest first)
-    if(data.length>0){
-      data.sort((a,b)=>new Date(b.timestamp||b.createdAt||0)-new Date(a.timestamp||a.createdAt||0));
+/* ── CALENDAR SYSTEM ── */
+let calYear, calMonth, selectedDate='', selectedTime='';
+const bookedSlots=JSON.parse(localStorage.getItem('ventra_booked_slots')||'{}');
+const today=new Date();
+calYear=today.getFullYear();
+calMonth=today.getMonth();
+
+const timeOptions=['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++}
+  if(calMonth<0){calMonth=11;calYear--}
+  renderCalendar();
+}
+
+function getBookingsForDate(dateStr){
+  return bookedSlots[dateStr]||[];
+}
+
+function renderCalendar(){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthYear').textContent=months[calMonth]+' '+calYear;
+  
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const startDay=firstDay===0?6:firstDay-1;
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const todayStr=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  
+  let html='';
+  for(let i=0;i<startDay;i++) html+='<div></div>';
+  
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const isPast=dateStr<todayStr||(dateStr===todayStr);
+    const booked=getBookingsForDate(dateStr);
+    const totalSlots=timeOptions.length;
+    const bookedCount=booked.length;
+    
+    let bg='#e6f5ee';let color='var(--dark-text)';let cursor='pointer';let onclick=`selectDay('${dateStr}')`;
+    let border='1.5px solid transparent';
+    
+    if(isPast){bg='#f1f5f9';color='#94a3b8';cursor='default';onclick=''}
+    else if(bookedCount>=totalSlots){bg='#fee2e2';color='#dc2626';cursor='default';onclick=''}
+    else if(bookedCount>0){bg='#fef9c3';color='var(--dark-text)'}
+    
+    if(dateStr===selectedDate) border='2px solid var(--green-mid)';
+    
+    html+=`<div onclick="${onclick}" style="background:${bg};color:${color};cursor:${cursor};border:${border};border-radius:10px;padding:10px 0;font-size:.92rem;font-weight:600;text-align:center;transition:all .2s">${d}</div>`;
+  }
+  document.getElementById('calDays').innerHTML=html;
+}
+
+function selectDay(dateStr){
+  selectedDate=dateStr;
+  document.getElementById('bkDate').value=dateStr;
+  
+  const parts=dateStr.split('-');
+  const dayNum=parseInt(parts[2]);
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('selectedDateLabel').textContent=dayNum+' '+months[parseInt(parts[1])-1]+' '+parts[0];
+  
+  renderCalendar();
+  renderTimeSlots(dateStr);
+  document.getElementById('timeSlotsGroup').style.display='block';
+}
+
+function renderTimeSlots(dateStr){
+  const booked=getBookingsForDate(dateStr);
+  let html='';
+  
+  timeOptions.forEach(t=>{
+    const isBooked=booked.includes(t);
+    if(isBooked){
+      html+=`<div style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;text-decoration:line-through">${t}</div>`;
+    }else{
+      const isSelected=t===selectedTime;
+      const bg=isSelected?'var(--green-mid)':'#e6f5ee';
+      const clr=isSelected?'#fff':'var(--dark-text)';
+      const bdr=isSelected?'1.5px solid var(--green-mid)':'1.5px solid #c6f0d5';
+      html+=`<div onclick="selectTime('${t}')" style="background:${bg};color:${clr};border:${bdr};border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s">${t}</div>`;
     }
-
-    document.getElementById('adminCount').textContent=data.length;
-    const tb=document.getElementById('adminBody');
-
-    if(!data.length){
-      tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr>';
-      return;
-    }
-
-    tb.innerHTML=data.map((b,i)=>{
-      const totalDisplay=b.totalPrice?`$${b.totalPrice}`:(b.travelSurcharge>0?`$${b.price}+$${b.travelSurcharge}`:`$${b.price}`);
-      const statusClass=b.status||'pending';
-
-      // Handle both old single service format and new multiple services format
-      let serviceDisplay;
-      if(b.services && Array.isArray(b.services) && b.services.length>0){
-        if(b.services.length>1){
-          const sortedServices=b.services.sort((a,b)=>a.category==='ozone'?-1:1);
-          serviceDisplay=sortedServices.map(s=>s.name.replace(' Treatment','')).join(' + ');
-        }else{
-          serviceDisplay=b.services[0].name;
-        }
-      }else{
-        serviceDisplay=b.service||'Unknown service';
-      }
-
-      // Show blocked time slots for admin visibility
-      let timeDisplay = b.time || 'No time';
-      if (b.blockedSlots && b.blockedSlots.length > 1) {
-        timeDisplay = `${b.time} (blocks: ${b.blockedSlots.join(', ')})`;
-      } else if (b.bookingDuration && b.bookingDuration > 1) {
-        timeDisplay = `${b.time} (${b.bookingDuration}hrs)`;
-      }
-
-      return `<tr>
-        <td><strong>${b.name||'Unknown'}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'No email'}</span></td>
-        <td>${serviceDisplay}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
-        <td>${b.date||'No date'}<br><span style="font-size:.72rem;color:var(--mid-gray)">${timeDisplay}</span></td>
-        <td>${b.phone||'No phone'}</td>
-        <td><span class="status-badge status-${statusClass}">${statusClass}</span></td>
-        <td>${statusClass==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td>
-      </tr>`;
-    }).join('');
-
-  }catch(error){
-    console.error('Admin panel error:',error);
-    document.getElementById('adminBody').innerHTML='<tr><td colspan="6" style="text-align:center;color:red;padding:36px">Error loading bookings</td></tr>';
-  }
+  });
+  document.getElementById('timeSlots').innerHTML=html;
 }
 
-function confirmBooking(bookingIndex){
-  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-  if(bookings[bookingIndex]){
-    bookings[bookingIndex].status='confirmed';
-    bookings[bookingIndex].updatedAt=new Date().toISOString();
-    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-    renderAdmin();
-  }
-}
-// Admin panel moved to /admin page for security
-
-/* ── DEFAULT DATE ── */
-// Date selection now handled by calendar component
-
-/* ── INITIALIZE TESTIMONIAL CAROUSEL ── */
-initTestimonialCarousel();
-setupTestimonialHover();
-
-/* ── COMPLETE INITIALIZATION ── */
-function initializeServiceTypes() {
-  // Set default service type
-  currentServiceType = 'vehicle';
-
-  // Update UI
-  updateServicesSection();
-  updateBookingForm();
-
-  // Ensure vehicle button is active
-  const vehicleBtn = document.getElementById('vehicleBtn');
-  const homeBtn = document.getElementById('homeBtn');
-  if (vehicleBtn && homeBtn) {
-    vehicleBtn.classList.add('active');
-    homeBtn.classList.remove('active');
-  }
+function selectTime(t){
+  selectedTime=t;
+  document.getElementById('bkTime').value=t;
+  renderTimeSlots(selectedDate);
 }
 
-function initializeBookingSystem() {
-  // Load current prices first
-  loadCurrentPrices();
-
-  // Initialize service types
-  initializeServiceTypes();
-
-  // Initialize calendar and time slots
-  initializeCalendar();
-
-  // Initialize service visuals
-  updateServiceVisuals();
-}
-
-// Initialize with a small delay to ensure DOM is ready
-setTimeout(initializeBookingSystem, 100);
+renderCalendar();
 </script>
 
 </body>
