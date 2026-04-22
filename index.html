@@ -639,6 +639,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
           </div>
         </div>
         <input type="hidden" id="bkDate">
+
+        <!-- Fallback date picker if calendar doesn't work -->
+        <div id="fallbackDatePicker" style="display:none;margin-top:10px">
+          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Or select date directly:</label>
+          <input type="date" id="bkDateFallback" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px">
+        </div>
       </div>
 
       <div class="form-group" id="timeSlotGroup" style="display:none">
@@ -1293,6 +1299,62 @@ function initializeCalendar() {
   fetchBookingData().then(() => {
     renderCalendar();
     setupCalendarEvents();
+    setupFallbackDatePicker();
+
+    // Ensure calendar container is visible
+    const calendarContainer = document.querySelector('.calendar-container');
+    if (calendarContainer) {
+      calendarContainer.style.display = 'block';
+    }
+  });
+}
+
+function setupFallbackDatePicker() {
+  const fallbackInput = document.getElementById('bkDateFallback');
+  if (fallbackInput) {
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    fallbackInput.min = today;
+    fallbackInput.value = today;
+
+    // Handle date selection
+    fallbackInput.addEventListener('change', function() {
+      const selectedDate = this.value;
+      if (selectedDate) {
+        // Update hidden input
+        document.getElementById('bkDate').value = selectedDate;
+
+        // Update global variable
+        window.selectedDate = selectedDate;
+
+        // Show time slots
+        showTimeSlots(selectedDate);
+
+        // Update calendar visual selection if calendar exists
+        updateCalendarSelection(selectedDate);
+      }
+    });
+  }
+
+  // Show fallback as backup option
+  document.getElementById('fallbackDatePicker').style.display = 'block';
+}
+
+function updateCalendarSelection(dateString) {
+  // Remove previous selections
+  document.querySelectorAll('.calendar-day.selected').forEach(el =>
+    el.classList.remove('selected')
+  );
+
+  // Try to find and select the new date
+  document.querySelectorAll('.calendar-day').forEach(dayEl => {
+    const dayText = dayEl.textContent;
+    const currentDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), parseInt(dayText));
+    const dayDateString = currentDate.toISOString().split('T')[0];
+
+    if (dayDateString === dateString && !dayEl.classList.contains('other-month')) {
+      dayEl.classList.add('selected');
+    }
   });
 }
 
@@ -1478,6 +1540,11 @@ function showTimeSlots(dateString) {
   const timeSlotGroup = document.getElementById('timeSlotGroup');
   const timeSlotsContainer = document.getElementById('timeSlots');
 
+  if (!timeSlotGroup || !timeSlotsContainer) {
+    console.error('Time slot elements not found');
+    return;
+  }
+
   // Get all blocked time slots for this date
   const dayBookings = bookingData.filter(booking =>
     booking.date === dateString &&
@@ -1530,6 +1597,8 @@ function showTimeSlots(dateString) {
       slot.classList.add('unavailable');
       if (allBlockedSlots.has(time)) {
         slot.style.textDecoration = 'line-through';
+        slot.style.backgroundColor = '#fee2e2';
+        slot.style.color = '#991b1b';
         slot.title = 'This time slot is already booked';
       } else if (lastRequiredSlotIndex === -1 || lastRequiredSlotIndex >= timeSlots.length) {
         slot.title = `Service would end after 7:00 PM (needs ${currentDuration} hours)`;
@@ -1549,8 +1618,17 @@ function showTimeSlots(dateString) {
     timeSlotsContainer.appendChild(slot);
   });
 
-  // Show time slot section
+  // Always show time slot section when date is selected
   timeSlotGroup.style.display = 'block';
+
+  // Update booking form state
+  if (!selectedTime && timeSlots.length > 0) {
+    // Auto-select first available time if none selected
+    const firstAvailable = timeSlotsContainer.querySelector('.time-slot:not(.unavailable)');
+    if (firstAvailable) {
+      firstAvailable.click();
+    }
+  }
 }
 
 function selectTime(time, slotElement) {
@@ -2134,21 +2212,11 @@ function confirmBooking(bookingIndex){
 /* ── DEFAULT DATE ── */
 // Date selection now handled by calendar component
 
-/* ── LOAD CURRENT PRICES ── */
-loadCurrentPrices();
-
-/* ── INITIALIZE SERVICE VISUALS ── */
-updateServiceVisuals();
-
-/* ── INITIALIZE CALENDAR ── */
-initializeCalendar();
-
 /* ── INITIALIZE TESTIMONIAL CAROUSEL ── */
 initTestimonialCarousel();
 setupTestimonialHover();
 
-/* ── INITIALIZE SERVICE TYPE ── */
-// Ensure proper initialization
+/* ── COMPLETE INITIALIZATION ── */
 function initializeServiceTypes() {
   // Set default service type
   currentServiceType = 'vehicle';
@@ -2166,13 +2234,22 @@ function initializeServiceTypes() {
   }
 }
 
-// Initialize with a small delay to ensure DOM is ready
-setTimeout(() => {
+function initializeBookingSystem() {
   // Load current prices first
   loadCurrentPrices();
-  // Then initialize service types
+
+  // Initialize service types
   initializeServiceTypes();
-}, 100);
+
+  // Initialize calendar and time slots
+  initializeCalendar();
+
+  // Initialize service visuals
+  updateServiceVisuals();
+}
+
+// Initialize with a small delay to ensure DOM is ready
+setTimeout(initializeBookingSystem, 100);
 </script>
 
 </body>
