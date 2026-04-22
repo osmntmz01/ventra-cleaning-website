@@ -139,21 +139,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .testimonial-section .section-title em{color:var(--blue-light)}
 
 /* ═══ TESTIMONIAL CAROUSEL ═══ */
-.testimonial-carousel{position:relative;max-width:1100px;width:100%;margin:0 auto}
-.testimonial-container{overflow:hidden;border-radius:20px;position:relative}
-.testimonial-track{display:flex;transition:transform .5s ease;width:100%}
-.testimonial-slide{min-width:100%;padding:0 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.testimonial-carousel{position:relative;max-width:1100px;width:100%;margin:0 auto;cursor:grab}
+.testimonial-carousel.dragging{cursor:grabbing}
+.testimonial-container{overflow:hidden;border-radius:20px;position:relative;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.testimonial-container::-webkit-scrollbar{display:none}
+.testimonial-container{-ms-overflow-style:none;scrollbar-width:none}
+.testimonial-track{display:flex;width:100%;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+
+.testimonial-slide{min-width:100%;padding:0 20px;display:flex;flex-direction:column;align-items:center;text-align:center;scroll-snap-align:start;scroll-snap-stop:always;flex-shrink:0}
 
 .testimonial-stars{font-size:1.2rem;color:#fbbf24;margin-bottom:20px;letter-spacing:2px}
 .testimonial-quote{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);font-style:italic;max-width:600px;line-height:1.6;margin-bottom:24px;position:relative;color:rgba(255,255,255,.92)}
 .testimonial-quote::before{content:'"';font-size:4rem;color:var(--blue-light);opacity:.2;position:absolute;top:-20px;left:-20px;font-family:Georgia,serif}
 .testimonial-author{color:rgba(255,255,255,.65);font-size:.9rem;font-weight:500}
 .testimonial-author strong{color:rgba(255,255,255,.9);font-weight:600}
-
-.carousel-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:1.8rem;width:50px;height:50px;border-radius:50%;cursor:pointer;transition:all .3s;z-index:10;display:flex;align-items:center;justify-content:center}
-.carousel-nav:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4)}
-.carousel-nav.prev{left:-25px}
-.carousel-nav.next{right:-25px}
 
 .carousel-dots{display:flex;justify-content:center;gap:10px;margin-top:40px}
 .carousel-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
@@ -169,9 +168,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
 /* Mobile adjustments */
 @media(max-width:767px){
-  .carousel-nav{width:40px;height:40px;font-size:1.4rem}
-  .carousel-nav.prev{left:-20px}
-  .carousel-nav.next{right:-20px}
   .testimonial-quote{font-size:1.1rem}
   .testimonial-stars{font-size:1rem}
 }
@@ -482,8 +478,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <h2 class="section-title">Real customers, <em>real results.</em></h2>
 
   <div class="testimonial-carousel">
-    <button class="carousel-nav prev" id="testimonialPrev">‹</button>
-
     <div class="testimonial-container">
       <div class="testimonial-track" id="testimonialTrack">
 
@@ -543,8 +537,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
       </div>
     </div>
-
-    <button class="carousel-nav next" id="testimonialNext">›</button>
   </div>
 
   <div class="carousel-dots" id="testimonialDots"></div>
@@ -891,10 +883,15 @@ let currentTestimonialSlide = 0;
 let testimonialSlides = [];
 let testimonialAutoScroll;
 let testimonialSlidesPerView = 1;
+let isDragging = false;
+let startX = 0;
+let currentX = 0;
+let initialTransform = 0;
 
 function initTestimonialCarousel() {
   testimonialSlides = document.querySelectorAll('.testimonial-slide');
   const track = document.getElementById('testimonialTrack');
+  const carousel = document.querySelector('.testimonial-carousel');
   const dotsContainer = document.getElementById('testimonialDots');
 
   // Calculate slides per view based on screen size
@@ -911,42 +908,19 @@ function initTestimonialCarousel() {
     dotsContainer.appendChild(dot);
   }
 
-  // Navigation buttons
-  document.getElementById('testimonialPrev').addEventListener('click', prevTestimonialSlide);
-  document.getElementById('testimonialNext').addEventListener('click', nextTestimonialSlide);
+  // Desktop drag support
+  track.addEventListener('mousedown', handleDragStart);
+  track.addEventListener('mousemove', handleDragMove);
+  track.addEventListener('mouseup', handleDragEnd);
+  track.addEventListener('mouseleave', handleDragEnd);
 
-  // Touch/swipe support
-  let startX = 0;
-  let isDragging = false;
+  // Mobile touch support
+  track.addEventListener('touchstart', handleTouchStart, {passive: false});
+  track.addEventListener('touchmove', handleTouchMove, {passive: false});
+  track.addEventListener('touchend', handleTouchEnd);
 
-  track.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    stopTestimonialAutoScroll();
-  });
-
-  track.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-  });
-
-  track.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-
-    if (Math.abs(diff) > 50) { // Minimum swipe distance
-      if (diff > 0) {
-        nextTestimonialSlide();
-      } else {
-        prevTestimonialSlide();
-      }
-    }
-
-    startTestimonialAutoScroll();
-  });
+  // Prevent default drag behavior on images
+  track.addEventListener('dragstart', (e) => e.preventDefault());
 
   // Handle window resize
   window.addEventListener('resize', () => {
@@ -957,6 +931,115 @@ function initTestimonialCarousel() {
   // Initial setup
   updateTestimonialSlide();
   startTestimonialAutoScroll();
+}
+
+function handleDragStart(e) {
+  isDragging = true;
+  startX = e.clientX;
+  currentX = startX;
+  initialTransform = getCurrentTransform();
+
+  const carousel = document.querySelector('.testimonial-carousel');
+  carousel.classList.add('dragging');
+
+  stopTestimonialAutoScroll();
+  e.preventDefault();
+}
+
+function handleDragMove(e) {
+  if (!isDragging) return;
+
+  currentX = e.clientX;
+  const diff = currentX - startX;
+  const track = document.getElementById('testimonialTrack');
+
+  // Apply drag with resistance at boundaries
+  const dragAmount = diff * 0.8; // Add some resistance
+  track.style.transform = `translateX(${initialTransform + dragAmount}px)`;
+  track.style.transition = 'none';
+}
+
+function handleDragEnd() {
+  if (!isDragging) return;
+
+  isDragging = false;
+  const carousel = document.querySelector('.testimonial-carousel');
+  carousel.classList.remove('dragging');
+
+  const diff = currentX - startX;
+  const threshold = 80; // Minimum drag distance to trigger slide change
+
+  if (Math.abs(diff) > threshold) {
+    if (diff < 0) {
+      nextTestimonialSlide();
+    } else {
+      prevTestimonialSlide();
+    }
+  } else {
+    // Snap back to current slide
+    updateTestimonialSlide();
+  }
+
+  startTestimonialAutoScroll();
+}
+
+function handleTouchStart(e) {
+  isDragging = true;
+  startX = e.touches[0].clientX;
+  currentX = startX;
+  initialTransform = getCurrentTransform();
+
+  stopTestimonialAutoScroll();
+}
+
+function handleTouchMove(e) {
+  if (!isDragging) return;
+
+  currentX = e.touches[0].clientX;
+  const diff = currentX - startX;
+  const track = document.getElementById('testimonialTrack');
+
+  // Apply drag with momentum
+  const dragAmount = diff * 0.8;
+  track.style.transform = `translateX(${initialTransform + dragAmount}px)`;
+  track.style.transition = 'none';
+
+  // Prevent default scrolling
+  if (Math.abs(diff) > 10) {
+    e.preventDefault();
+  }
+}
+
+function handleTouchEnd() {
+  if (!isDragging) return;
+
+  isDragging = false;
+  const diff = currentX - startX;
+  const threshold = 60; // Minimum swipe distance
+
+  if (Math.abs(diff) > threshold) {
+    if (diff < 0) {
+      nextTestimonialSlide();
+    } else {
+      prevTestimonialSlide();
+    }
+  } else {
+    // Snap back to current slide
+    updateTestimonialSlide();
+  }
+
+  startTestimonialAutoScroll();
+}
+
+function getCurrentTransform() {
+  const track = document.getElementById('testimonialTrack');
+  const style = window.getComputedStyle(track);
+  const matrix = style.transform;
+
+  if (matrix === 'none') return 0;
+
+  const values = matrix.split('(')[1].split(')')[0].split(',');
+  return parseInt(values[4]) || 0;
 }
 
 function updateSlidesPerView() {
@@ -975,6 +1058,8 @@ function updateTestimonialSlide() {
   const slideWidth = 100 / testimonialSlidesPerView;
   const offset = -(currentTestimonialSlide * slideWidth);
 
+  // Smooth momentum animation
+  track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
   track.style.transform = `translateX(${offset}%)`;
 
   // Update dots
