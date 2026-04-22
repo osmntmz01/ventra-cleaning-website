@@ -640,16 +640,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         </div>
         <input type="hidden" id="bkDate">
 
-        <!-- Fallback date picker if calendar doesn't work -->
-        <div id="fallbackDatePicker" style="display:none;margin-top:10px">
-          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Or select date directly:</label>
-          <input type="date" id="bkDateFallback" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px">
+        <!-- Visible date picker -->
+        <div id="fallbackDatePicker" style="margin-top:10px">
+          <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Select Date:</label>
+          <input type="date" id="f-date" style="width:100%;padding:12px;border:1.5px solid var(--light-gray);border-radius:8px">
         </div>
       </div>
 
-      <div class="form-group" id="timeSlotGroup" style="display:none">
-        <label>Available Times</label>
-        <div class="time-slots" id="timeSlots"></div>
+      <div class="form-group" id="timeSlotGroup" style="display:block">
+        <label>Available Times (8:00 AM - 7:00 PM)</label>
+        <div class="time-slots" id="timeSlots">
+          <div class="time-slot" onclick="selectTime('8:00 AM', this)">8:00 AM</div>
+          <div class="time-slot" onclick="selectTime('9:00 AM', this)">9:00 AM</div>
+          <div class="time-slot" onclick="selectTime('10:00 AM', this)">10:00 AM</div>
+          <div class="time-slot" onclick="selectTime('11:00 AM', this)">11:00 AM</div>
+          <div class="time-slot" onclick="selectTime('12:00 PM', this)">12:00 PM</div>
+          <div class="time-slot" onclick="selectTime('1:00 PM', this)">1:00 PM</div>
+          <div class="time-slot" onclick="selectTime('2:00 PM', this)">2:00 PM</div>
+          <div class="time-slot" onclick="selectTime('3:00 PM', this)">3:00 PM</div>
+          <div class="time-slot" onclick="selectTime('4:00 PM', this)">4:00 PM</div>
+          <div class="time-slot" onclick="selectTime('5:00 PM', this)">5:00 PM</div>
+          <div class="time-slot" onclick="selectTime('6:00 PM', this)">6:00 PM</div>
+          <div class="time-slot" onclick="selectTime('7:00 PM', this)">7:00 PM</div>
+        </div>
         <input type="hidden" id="bkTime">
       </div>
       <div class="form-row">
@@ -1310,15 +1323,15 @@ function initializeCalendar() {
 }
 
 function setupFallbackDatePicker() {
-  const fallbackInput = document.getElementById('bkDateFallback');
-  if (fallbackInput) {
+  const dateInput = document.getElementById('f-date');
+  if (dateInput) {
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    fallbackInput.min = today;
-    fallbackInput.value = today;
+    dateInput.min = today;
+    dateInput.value = today;
 
     // Handle date selection
-    fallbackInput.addEventListener('change', function() {
+    dateInput.addEventListener('change', function() {
       const selectedDate = this.value;
       if (selectedDate) {
         // Update hidden input
@@ -1327,17 +1340,86 @@ function setupFallbackDatePicker() {
         // Update global variable
         window.selectedDate = selectedDate;
 
-        // Show time slots
-        showTimeSlots(selectedDate);
-
         // Update calendar visual selection if calendar exists
         updateCalendarSelection(selectedDate);
+
+        // Show updated time slots based on availability
+        updateTimeSlotAvailability();
       }
     });
+
+    // Initialize with today's date
+    const todayValue = today;
+    document.getElementById('bkDate').value = todayValue;
+    window.selectedDate = todayValue;
+    updateTimeSlotAvailability();
+  }
+}
+
+function selectTime(time, element) {
+  if (element.classList.contains('unavailable')) {
+    return; // Don't select unavailable times
   }
 
-  // Show fallback as backup option
-  document.getElementById('fallbackDatePicker').style.display = 'block';
+  // Remove previous selection
+  document.querySelectorAll('.time-slot.selected').forEach(slot =>
+    slot.classList.remove('selected')
+  );
+
+  // Select new time
+  element.classList.add('selected');
+  selectedTime = time;
+  document.getElementById('bkTime').value = time;
+
+  console.log('Selected time:', time);
+}
+
+function updateTimeSlotAvailability() {
+  const selectedDate = document.getElementById('f-date').value;
+  if (!selectedDate) return;
+
+  // Get current service duration
+  const currentDuration = calculateServiceDuration(selectedServices);
+
+  // Get booked slots for the selected date (simplified)
+  const bookedSlots = []; // You can add real booking data here
+
+  // Update each time slot
+  document.querySelectorAll('.time-slot').forEach((slot, index) => {
+    const time = slot.textContent;
+    const hour = parseInt(time.split(':')[0]);
+    const isPM = time.includes('PM');
+    let hour24 = hour;
+
+    if (isPM && hour !== 12) hour24 += 12;
+    if (!isPM && hour === 12) hour24 = 0;
+
+    // Check if this slot would extend past 7 PM (19:00)
+    const endHour = hour24 + currentDuration;
+    const wouldExtendPastClose = endHour > 19;
+
+    // Check if already booked
+    const isBooked = bookedSlots.includes(time);
+
+    // Update visual state
+    slot.classList.remove('unavailable', 'selected');
+
+    if (isBooked) {
+      slot.classList.add('unavailable');
+      slot.style.textDecoration = 'line-through';
+      slot.style.backgroundColor = '#fee2e2';
+      slot.style.color = '#991b1b';
+      slot.title = 'This time slot is already booked';
+    } else if (wouldExtendPastClose) {
+      slot.classList.add('unavailable');
+      slot.title = `Service would end after 7:00 PM (needs ${currentDuration} hours)`;
+    } else {
+      slot.style.textDecoration = 'none';
+      slot.style.backgroundColor = '';
+      slot.style.color = '';
+      slot.title = `Available - service duration: ${currentDuration} hour(s)`;
+    }
+  });
 }
 
 function updateCalendarSelection(dateString) {
@@ -1951,10 +2033,8 @@ function toggleService(el){
   updateServiceVisuals();
   updateBookingTotal();
 
-  // Refresh time slots if a date is already selected
-  if (selectedDate) {
-    showTimeSlots(selectedDate);
-  }
+  // Refresh time slots availability
+  updateTimeSlotAvailability();
 }
 
 function getCurrentServiceById(serviceId) {
@@ -2043,7 +2123,7 @@ function submitBooking(){
     const name=document.getElementById('bkName').value.trim();
     const phone=document.getElementById('bkPhone').value.trim();
     const email=document.getElementById('bkEmail').value.trim();
-    const date=document.getElementById('bkDate').value;
+    const date=document.getElementById('f-date').value || document.getElementById('bkDate').value;
     const time=document.getElementById('bkTime').value;
     const issue=document.getElementById('bkIssue').value.trim();
     const address=document.getElementById('bkAddress').value.trim();
@@ -2054,12 +2134,12 @@ function submitBooking(){
     }
 
     if(!date){
-      alert('Please select a date from the calendar.');
+      alert('Please select a date.');
       return;
     }
 
     if(!time){
-      alert('Please select an available time slot.');
+      alert('Please select a time slot.');
       return;
     }
 
