@@ -1175,8 +1175,22 @@ function selectServiceType(type) {
   currentServiceType = type;
 
   // Update button states
-  document.getElementById('vehicleBtn').classList.toggle('active', type === 'vehicle');
-  document.getElementById('homeBtn').classList.toggle('active', type === 'home');
+  const vehicleBtn = document.getElementById('vehicleBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  if (vehicleBtn && homeBtn) {
+    vehicleBtn.classList.toggle('active', type === 'vehicle');
+    homeBtn.classList.toggle('active', type === 'home');
+  }
+
+  // Clear selected services first
+  selectedServices = [];
+
+  // Hide room selector if switching from home to vehicle
+  const roomSelector = document.getElementById('roomSelector');
+  if (roomSelector && type === 'vehicle') {
+    roomSelector.style.display = 'none';
+    selectedRooms = 0;
+  }
 
   // Update services section
   updateServicesSection();
@@ -1184,8 +1198,7 @@ function selectServiceType(type) {
   // Update booking form
   updateBookingForm();
 
-  // Clear selected services
-  selectedServices = [];
+  // Update visual states
   updateServiceVisuals();
   updateBookingTotal();
 
@@ -1568,8 +1581,36 @@ function updateBookingForm() {
   const services = serviceData[currentServiceType].services;
   const serviceOptions = document.getElementById('serviceOptions');
 
+  if (!serviceOptions) {
+    console.error('Service options container not found');
+    return;
+  }
+
   serviceOptions.innerHTML = services.map(service => {
-    let priceText, timeText;
+    let priceText, timeText, serviceName;
+
+    // Get display name for service
+    if (service.id === 'ozone-vehicle') {
+      serviceName = 'Ozone';
+    } else if (service.id === 'seat') {
+      serviceName = 'Seat';
+    } else if (service.id === 'seatfloor') {
+      serviceName = 'Seat+Floor';
+    } else if (service.id === 'spot-vehicle') {
+      serviceName = 'Spot';
+    } else if (service.id === 'ozone-room') {
+      serviceName = 'Ozone Room';
+    } else if (service.id === 'ozone-house') {
+      serviceName = 'Full House';
+    } else if (service.id === 'couch') {
+      serviceName = 'Couch/Sofa';
+    } else if (service.id === 'rug') {
+      serviceName = 'Area Rug';
+    } else if (service.id === 'spot-home') {
+      serviceName = 'Spot';
+    } else {
+      serviceName = service.name.replace(' Treatment', '').replace(' Cleaning', '');
+    }
 
     if (service.price === 'quote') {
       priceText = 'Quote';
@@ -1592,7 +1633,7 @@ function updateBookingForm() {
            onclick="toggleService(this)">
         <div class="service-checkbox">✓</div>
         <div class="plus-indicator" style="display:none;">+</div>
-        <div class="svc-name">${service.icon} ${service.name.replace(' Treatment', '').replace(' Cleaning', '')}</div>
+        <div class="svc-name">${service.icon} ${serviceName}</div>
         <div class="svc-price">${priceText}</div>
         <div class="svc-time">${timeText}</div>
       </div>
@@ -1712,33 +1753,44 @@ let selectedServices=[],selectedLoc='dropoff';
 
 // Load current prices from localStorage
 function loadCurrentPrices(){
+  // Load prices from localStorage and update serviceData
   const defaultPrices={
     'Ozone Treatment':100,
     'Seat Cleaning':100,
     'Seat + Floor':180,
-    'Spot Cleaning':70
+    'Spot Cleaning':70,
+    'Ozone Single Room':80,
+    'Couch/Sofa Cleaning':150,
+    'Spot Cleaning (Home)':60
   };
   const prices=JSON.parse(localStorage.getItem('service_prices')||JSON.stringify(defaultPrices));
 
-  // Update service options with current prices
-  document.querySelector('[data-service="Ozone Treatment"]').setAttribute('data-price',prices['Ozone Treatment']);
-  document.querySelector('[data-service="Ozone Treatment"] .svc-price').textContent='$'+prices['Ozone Treatment'];
+  // Update serviceData with current prices
+  if (serviceData.vehicle && serviceData.vehicle.services) {
+    serviceData.vehicle.services.forEach(service => {
+      if (service.id === 'ozone-vehicle' && prices['Ozone Treatment']) {
+        service.price = prices['Ozone Treatment'];
+      } else if (service.id === 'seat' && prices['Seat Cleaning']) {
+        service.price = prices['Seat Cleaning'];
+      } else if (service.id === 'seatfloor' && prices['Seat + Floor']) {
+        service.price = prices['Seat + Floor'];
+      } else if (service.id === 'spot-vehicle' && prices['Spot Cleaning']) {
+        service.price = prices['Spot Cleaning'];
+      }
+    });
+  }
 
-  document.querySelector('[data-service="Seat Cleaning"]').setAttribute('data-price',prices['Seat Cleaning']);
-  document.querySelector('[data-service="Seat Cleaning"] .svc-price').textContent='$'+prices['Seat Cleaning'];
-
-  document.querySelector('[data-service="Seat + Floor"]').setAttribute('data-price',prices['Seat + Floor']);
-  document.querySelector('[data-service="Seat + Floor"] .svc-price').textContent='$'+prices['Seat + Floor'];
-
-  document.querySelector('[data-service="Spot Cleaning"]').setAttribute('data-price',prices['Spot Cleaning']);
-  document.querySelector('[data-service="Spot Cleaning"] .svc-price').textContent='$'+prices['Spot Cleaning'];
-
-  // Update main services section prices too
-  const servicePrices=document.querySelectorAll('.service-price');
-  servicePrices[0].innerHTML='<sup>$</sup>'+prices['Ozone Treatment'];
-  servicePrices[1].innerHTML='<sup>$</sup>'+prices['Seat Cleaning'];
-  servicePrices[2].innerHTML='<sup>$</sup>'+prices['Seat + Floor'];
-  servicePrices[3].innerHTML='<sup>$</sup>'+prices['Spot Cleaning'];
+  if (serviceData.home && serviceData.home.services) {
+    serviceData.home.services.forEach(service => {
+      if (service.id === 'ozone-room' && prices['Ozone Single Room']) {
+        service.price = prices['Ozone Single Room'];
+      } else if (service.id === 'couch' && prices['Couch/Sofa Cleaning']) {
+        service.price = prices['Couch/Sofa Cleaning'];
+      } else if (service.id === 'spot-home' && prices['Spot Cleaning (Home)']) {
+        service.price = prices['Spot Cleaning (Home)'];
+      }
+    });
+  }
 
   // Clear initial selections and update total
   selectedServices=[];
@@ -2096,8 +2148,31 @@ initTestimonialCarousel();
 setupTestimonialHover();
 
 /* ── INITIALIZE SERVICE TYPE ── */
-updateServicesSection();
-updateBookingForm();
+// Ensure proper initialization
+function initializeServiceTypes() {
+  // Set default service type
+  currentServiceType = 'vehicle';
+
+  // Update UI
+  updateServicesSection();
+  updateBookingForm();
+
+  // Ensure vehicle button is active
+  const vehicleBtn = document.getElementById('vehicleBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  if (vehicleBtn && homeBtn) {
+    vehicleBtn.classList.add('active');
+    homeBtn.classList.remove('active');
+  }
+}
+
+// Initialize with a small delay to ensure DOM is ready
+setTimeout(() => {
+  // Load current prices first
+  loadCurrentPrices();
+  // Then initialize service types
+  initializeServiceTypes();
+}, 100);
 </script>
 
 </body>
