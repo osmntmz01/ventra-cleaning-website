@@ -298,9 +298,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .time-slot.unavailable[style*="line-through"]{background:#fee2e2;color:#991b1b;border-color:#ef4444}
 
 /* ═══ ROOM SELECTOR ═══ */
-.room-btn{width:40px;height:40px;border:2px solid var(--light-gray);background:var(--off-white);color:var(--dark-text);border-radius:8px;cursor:pointer;font-weight:600;transition:all .3s;display:flex;align-items:center;justify-content:center}
-.room-btn:hover{border-color:var(--green-mid);background:var(--green-pale)}
-.room-btn.selected{background:var(--green-mid);color:var(--white);border-color:var(--green-mid)}
+.room-stepper{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;width:fit-content;margin-left:auto;margin-right:auto}
+.stepper-btn{width:45px;height:45px;border:2px solid var(--green-mid);background:var(--green-mid);color:var(--white);font-size:1.5rem;font-weight:bold;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;line-height:1}
+.stepper-btn.minus{border-radius:8px 0 0 8px}
+.stepper-btn.plus{border-radius:0 8px 8px 0}
+.stepper-btn:hover{background:var(--green-deep);border-color:var(--green-deep);transform:scale(1.05)}
+.stepper-btn:disabled{background:var(--light-gray);border-color:var(--light-gray);color:var(--mid-gray);cursor:not-allowed;transform:none}
+.room-input{width:80px;height:45px;border:2px solid var(--green-mid);border-left:none;border-right:none;background:var(--white);color:var(--dark-text);text-align:center;font-size:1.1rem;font-weight:600;outline:none;-moz-appearance:textfield}
+.room-input::-webkit-outer-spin-button,.room-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.room-price-display{background:var(--green-pale);color:var(--green-deep);padding:12px 16px;border-radius:8px;text-align:center;font-size:.9rem;border:1px solid var(--green-mid)}
 
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;-webkit-user-select:none;user-select:none}
@@ -341,6 +347,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   .service-type-selector{gap:12px}
   .service-type-btn{min-width:140px;padding:12px 16px}
   .service-icon{font-size:1.5rem}
+  .stepper-btn{width:40px;height:40px;font-size:1.2rem}
+  .room-input{width:70px;height:40px;font-size:1rem}
+  .room-price-display{font-size:.85rem;padding:10px 12px}
 }
 </style>
 </head>
@@ -587,18 +596,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
       <!-- Room Selector for Full House Ozone -->
       <div id="roomSelector" style="display:none;margin-bottom:16px">
-        <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px;display:block;font-weight:600">Number of Rooms</label>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button type="button" class="room-btn" data-rooms="1" onclick="selectRooms(1)">1</button>
-          <button type="button" class="room-btn" data-rooms="2" onclick="selectRooms(2)">2</button>
-          <button type="button" class="room-btn" data-rooms="3" onclick="selectRooms(3)">3</button>
-          <button type="button" class="room-btn" data-rooms="4" onclick="selectRooms(4)">4</button>
-          <button type="button" class="room-btn" data-rooms="5" onclick="selectRooms(5)">5</button>
-          <button type="button" class="room-btn" data-rooms="6" onclick="selectRooms(6)">6</button>
-          <button type="button" class="room-btn" data-rooms="7" onclick="selectRooms(7)">7</button>
-          <button type="button" class="room-btn" data-rooms="8" onclick="selectRooms(8)">8</button>
+        <label style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:12px;display:block;font-weight:600">How many rooms?</label>
+
+        <div class="room-stepper">
+          <button type="button" class="stepper-btn minus" onclick="adjustRoomCount(-1)">−</button>
+          <input type="number" id="roomCount" class="room-input" min="1" max="10" value="1" readonly>
+          <button type="button" class="stepper-btn plus" onclick="adjustRoomCount(1)">+</button>
         </div>
-        <div id="roomPrice" style="font-size:.85rem;color:var(--green-mid);margin-top:8px;text-align:center"></div>
+
+        <div id="roomPrice" class="room-price-display">1 room × $60 = <strong>$60</strong></div>
       </div>
 
       <div class="form-group"><label>Describe the Issue</label><textarea id="bkIssue" placeholder="e.g., Heavy cigarette smell in a 2019 Toyota Camry..."></textarea></div>
@@ -1618,34 +1624,87 @@ function updateLocationOptions() {
   }
 }
 
-let selectedRooms = 0;
+let selectedRooms = 1; // Default to 1 room
 
-function selectRooms(rooms) {
-  selectedRooms = rooms;
+function adjustRoomCount(change) {
+  const input = document.getElementById('roomCount');
+  const currentRooms = parseInt(input.value) || 1;
+  const newRooms = Math.max(1, Math.min(10, currentRooms + change));
+
+  input.value = newRooms;
+  selectedRooms = newRooms;
 
   // Update button states
-  document.querySelectorAll('.room-btn').forEach(btn => {
-    btn.classList.toggle('selected', parseInt(btn.dataset.rooms) === rooms);
-  });
+  updateStepperButtons();
 
   // Calculate and display price
+  updateRoomPricing();
+
+  // Update the full house service if it's selected
+  updateFullHouseService();
+}
+
+function updateStepperButtons() {
+  const minusBtn = document.querySelector('.stepper-btn.minus');
+  const plusBtn = document.querySelector('.stepper-btn.plus');
+  const roomCount = parseInt(document.getElementById('roomCount').value) || 1;
+
+  minusBtn.disabled = roomCount <= 1;
+  plusBtn.disabled = roomCount >= 10;
+}
+
+function updateRoomPricing() {
+  const rooms = selectedRooms;
   const price = rooms * 60;
   const totalTime = Math.ceil(rooms / 2); // Roughly 30 min per room, rounded up
 
-  document.getElementById('roomPrice').textContent = `${rooms} room${rooms > 1 ? 's' : ''} = $${price} (approx ${totalTime} hour${totalTime > 1 ? 's' : ''})`;
+  document.getElementById('roomPrice').innerHTML =
+    `${rooms} room${rooms > 1 ? 's' : ''} × $60 = <strong>$${price}</strong>`;
+}
 
-  // Update the full house service if it's selected
+function updateFullHouseService() {
   const fullHouseService = selectedServices.find(s => s.id === 'ozone-house');
   if (fullHouseService) {
+    const price = selectedRooms * 60;
+    const totalTime = Math.ceil(selectedRooms / 2);
+
     fullHouseService.price = price;
     fullHouseService.time = totalTime;
     fullHouseService.blockHours = totalTime + 1; // Add 1 hour buffer
+
+    // Update the service option display
+    const serviceEl = document.querySelector('[data-service-id="ozone-house"]');
+    if (serviceEl) {
+      serviceEl.querySelector('.svc-price').textContent = `$${price}`;
+      serviceEl.querySelector('.svc-time').textContent = `${totalTime} hour${totalTime > 1 ? 's' : ''}`;
+    }
+
     updateBookingTotal();
 
     if (selectedDate) {
       showTimeSlots(selectedDate);
     }
   }
+}
+
+function initializeRoomSelector() {
+  selectedRooms = 1;
+  const input = document.getElementById('roomCount');
+  input.value = 1;
+
+  // Add event listener for manual input changes
+  input.addEventListener('input', function() {
+    let value = parseInt(this.value) || 1;
+    value = Math.max(1, Math.min(10, value));
+    this.value = value;
+    selectedRooms = value;
+    updateStepperButtons();
+    updateRoomPricing();
+    updateFullHouseService();
+  });
+
+  updateStepperButtons();
+  updateRoomPricing();
 }
 
 /* ── BOOKING ── */
@@ -1721,7 +1780,6 @@ function toggleService(el){
     if (serviceId === 'ozone-house') {
       document.getElementById('roomSelector').style.display = 'none';
       selectedRooms = 0;
-      document.querySelectorAll('.room-btn').forEach(btn => btn.classList.remove('selected'));
     }
   }else{
     // Check if we're trying to select multiple cleaning services
@@ -1740,10 +1798,10 @@ function toggleService(el){
     // Show room selector for full house ozone
     if (serviceId === 'ozone-house') {
       document.getElementById('roomSelector').style.display = 'block';
-      if (!selectedRooms) {
-        // Don't add service until rooms are selected
-        return;
-      }
+      initializeRoomSelector();
+      // Set default values
+      price = selectedRooms * 60; // Default 1 room = $60
+      time = Math.ceil(selectedRooms / 2); // Default 1 hour
     }
 
     // Add service
