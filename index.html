@@ -286,6 +286,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .time-slot.selected{background:var(--green-mid);color:var(--white);border-color:var(--green-mid)}
 .time-slot.unavailable{background:var(--light-gray);color:var(--mid-gray);cursor:not-allowed;opacity:.6}
 .time-slot.unavailable:hover{border-color:var(--light-gray);background:var(--light-gray)}
+.time-slot.unavailable[style*="line-through"]{background:#fee2e2;color:#991b1b;border-color:#ef4444}
 
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9;-webkit-user-select:none;user-select:none}
@@ -1117,6 +1118,39 @@ let selectedDate = null;
 let selectedTime = null;
 const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
 
+function calculateServiceDuration(services) {
+  if (!services || services.length === 0) return 2; // Default 2 hours
+
+  const hasOzone = services.some(s => s.category === 'ozone');
+  const cleaningServices = services.filter(s => s.category === 'cleaning');
+
+  let baseDuration = 2; // Default: service + 1hr buffer
+
+  // Check for Seat + Floor combination
+  if (cleaningServices.some(s => s.name === 'Seat + Floor')) {
+    baseDuration = 3; // 2hr service + 1hr buffer
+  }
+
+  // Add 1 hour if combined with Ozone
+  if (hasOzone && cleaningServices.length > 0) {
+    baseDuration += 1;
+  }
+
+  return baseDuration;
+}
+
+function getBlockedTimeSlots(startTime, duration) {
+  const startIndex = timeSlots.indexOf(startTime);
+  if (startIndex === -1) return [startTime];
+
+  const blockedSlots = [];
+  for (let i = 0; i < duration && (startIndex + i) < timeSlots.length; i++) {
+    blockedSlots.push(timeSlots[startIndex + i]);
+  }
+
+  return blockedSlots;
+}
+
 function initializeCalendar() {
   fetchBookingData().then(() => {
     renderCalendar();
@@ -1227,12 +1261,61 @@ function calculateDayAvailability(dateString) {
     return 'available'; // No bookings - green
   }
 
-  // Check how many time slots are taken
-  const bookedTimes = dayBookings.map(b => b.time);
-  const availableSlots = timeSlots.filter(slot => !bookedTimes.includes(slot));
+  // Get all blocked time slots for this day
+  const allBlockedSlots = new Set();
+
+  dayBookings.forEach(booking => {
+    // Use stored blockedSlots if available, otherwise calculate from services
+    let blockedSlots;
+    if (booking.blockedSlots && booking.blockedSlots.length > 0) {
+      blockedSlots = booking.blockedSlots;
+    } else {
+      // Legacy booking - calculate duration from services or use default
+      const duration = booking.services ? calculateServiceDuration(booking.services) : 2;
+      blockedSlots = getBlockedTimeSlots(booking.time, duration);
+    }
+
+    blockedSlots.forEach(slot => allBlockedSlots.add(slot));
+  });
+
+  // Check availability
+  const availableSlots = timeSlots.filter(slot => !allBlockedSlots.has(slot));
 
   if (availableSlots.length === 0) {
     return 'full'; // All slots taken - red
+  }
+
+  // Check if there are enough consecutive slots for new bookings
+  const minSlotsNeeded = 2; // Minimum service duration
+  let hasConsecutiveSlots = false;
+
+  for (let i = 0; i <= availableSlots.length - minSlotsNeeded; i++) {
+    const consecutiveSlots = [];
+    for (let j = 0; j < minSlotsNeeded; j++) {
+      const slotIndex = timeSlots.indexOf(availableSlots[i + j]);
+      if (slotIndex !== -1) {
+        consecutiveSlots.push(slotIndex);
+      }
+    }
+
+    // Check if slots are actually consecutive
+    if (consecutiveSlots.length === minSlotsNeeded) {
+      let isConsecutive = true;
+      for (let k = 1; k < consecutiveSlots.length; k++) {
+        if (consecutiveSlots[k] !== consecutiveSlots[k-1] + 1) {
+          isConsecutive = false;
+          break;
+        }
+      }
+      if (isConsecutive) {
+        hasConsecutiveSlots = true;
+        break;
+      }
+    }
+  }
+
+  if (!hasConsecutiveSlots) {
+    return 'full'; // Not enough consecutive slots
   }
 
   return 'partial'; // Some slots available - white
@@ -1257,26 +1340,63 @@ function showTimeSlots(dateString) {
   const timeSlotGroup = document.getElementById('timeSlotGroup');
   const timeSlotsContainer = document.getElementById('timeSlots');
 
-  // Get booked times for this date
+  // Get all blocked time slots for this date
   const dayBookings = bookingData.filter(booking =>
     booking.date === dateString &&
     (booking.status === 'confirmed' || booking.status === 'pending')
   );
-  const bookedTimes = dayBookings.map(b => b.time);
+
+  const allBlockedSlots = new Set();
+  dayBookings.forEach(booking => {
+    let blockedSlots;
+    if (booking.blockedSlots && booking.blockedSlots.length > 0) {
+      blockedSlots = booking.blockedSlots;
+    } else {
+      // Legacy booking - calculate from services
+      const duration = booking.services ? calculateServiceDuration(booking.services) : 2;
+      blockedSlots = getBlockedTimeSlots(booking.time, duration);
+    }
+    blockedSlots.forEach(slot => allBlockedSlots.add(slot));
+  });
+
+  // Get duration for currently selected services
+  const currentDuration = calculateServiceDuration(selectedServices);
 
   // Clear existing slots
   timeSlotsContainer.innerHTML = '';
 
   // Create time slot elements
-  timeSlots.forEach(time => {
+  timeSlots.forEach((time, index) => {
     const slot = document.createElement('div');
     slot.className = 'time-slot';
     slot.textContent = time;
 
-    if (bookedTimes.includes(time)) {
+    // Check if this slot or any required subsequent slots are blocked
+    let isAvailable = true;
+    const requiredSlots = getBlockedTimeSlots(time, currentDuration);
+
+    // Check if we have enough slots remaining and none are blocked
+    if (index + currentDuration > timeSlots.length) {
+      isAvailable = false; // Not enough time remaining in day
+    } else {
+      requiredSlots.forEach(requiredSlot => {
+        if (allBlockedSlots.has(requiredSlot)) {
+          isAvailable = false;
+        }
+      });
+    }
+
+    if (!isAvailable) {
       slot.classList.add('unavailable');
+      if (allBlockedSlots.has(time)) {
+        slot.style.textDecoration = 'line-through';
+        slot.title = 'This time slot is already booked';
+      } else {
+        slot.title = 'Not enough consecutive time available for selected services';
+      }
     } else {
       slot.addEventListener('click', () => selectTime(time, slot));
+      slot.title = `Available - will block ${currentDuration} hour${currentDuration > 1 ? 's' : ''} (${requiredSlots.join(', ')})`;
     }
 
     if (selectedTime === time) {
@@ -1392,6 +1512,11 @@ function toggleService(el){
 
   updateServiceVisuals();
   updateBookingTotal();
+
+  // Refresh time slots if a date is already selected
+  if (selectedDate) {
+    showTimeSlots(selectedDate);
+  }
 }
 
 function updateServiceVisuals(){
@@ -1501,6 +1626,10 @@ function submitBooking(){
     const totalTime=selectedServices.reduce((sum,service)=>sum+service.time,0);
     const totalPrice=selectedLoc==='mobile'&&travelSurcharge>0?servicePrice+travelSurcharge:servicePrice;
 
+    // Calculate booking duration and blocked slots
+    const bookingDuration = calculateServiceDuration(selectedServices);
+    const blockedSlots = getBlockedTimeSlots(time, bookingDuration);
+
     // Create service description for booking
     let serviceDescription;
     if(selectedServices.length>1){
@@ -1519,6 +1648,8 @@ function submitBooking(){
       service:serviceDescription, // For compatibility with email template
       servicePrice:servicePrice,
       totalTime:totalTime,
+      bookingDuration:bookingDuration, // Total hours blocked
+      blockedSlots:blockedSlots, // Array of blocked time slots
       travelSurcharge:selectedLoc==='mobile'?travelSurcharge:0,
       totalPrice,
       location:selectedLoc
@@ -1586,10 +1717,18 @@ function renderAdmin(){
         serviceDisplay=b.service||'Unknown service';
       }
 
+      // Show blocked time slots for admin visibility
+      let timeDisplay = b.time || 'No time';
+      if (b.blockedSlots && b.blockedSlots.length > 1) {
+        timeDisplay = `${b.time} (blocks: ${b.blockedSlots.join(', ')})`;
+      } else if (b.bookingDuration && b.bookingDuration > 1) {
+        timeDisplay = `${b.time} (${b.bookingDuration}hrs)`;
+      }
+
       return `<tr>
         <td><strong>${b.name||'Unknown'}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'No email'}</span></td>
         <td>${serviceDisplay}<br><span style="font-size:.72rem;color:var(--green-mid)">${totalDisplay}</span></td>
-        <td>${b.date||'No date'}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time||'No time'}</span></td>
+        <td>${b.date||'No date'}<br><span style="font-size:.72rem;color:var(--mid-gray)">${timeDisplay}</span></td>
         <td>${b.phone||'No phone'}</td>
         <td><span class="status-badge status-${statusClass}">${statusClass}</span></td>
         <td>${statusClass==='pending'?`<button class="admin-btn" onclick="confirmBooking(${i})">Confirm</button>`:'✓'}</td>
