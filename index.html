@@ -866,15 +866,9 @@ function renderAdmin(){
     const discountText=b.discount&&b.discount>0?` <span style="color:var(--green-mid)">(-$${b.discount})</span>`:'';
     const surchargeText=b.distanceSurcharge&&b.distanceSurcharge>0?` <span style="color:#856404">(+$${b.distanceSurcharge} travel)</span>`:'';
 
-    const actionButtons = b.status==='pending'
-      ? `<button class="admin-btn" onclick="acceptBooking(${i})">Kabul Et</button><button class="admin-btn reject" onclick="rejectBooking(${i})">Reddet</button>`
-      : getActionText(b.status);
-
-    return `<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${serviceText}<br><span style="font-size:.72rem;">${priceText}${discountText}${surchargeText}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td>${actionButtons}<button class="admin-btn delete" onclick="deleteBooking(${i})">🗑️ Sil</button></td></tr>`;
+    return `<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${serviceText}<br><span style="font-size:.72rem;">${priceText}${discountText}${surchargeText}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td><button class="admin-btn delete" onclick="deleteBooking(${i})">🗑️ Delete</button></td></tr>`;
   }).join('');
 }
-function acceptBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
-function rejectBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='rejected';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
 function deleteBooking(i){
   if(confirm('Bu randevuyu kalıcı olarak silmek istediğinizden emin misiniz?')){
     const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
@@ -889,13 +883,6 @@ function getStatusText(status){
     case 'confirmed': return 'Kabul Edildi';
     case 'rejected': return 'Reddedildi';
     default: return status;
-  }
-}
-function getActionText(status){
-  switch(status){
-    case 'confirmed': return '<span style="color:var(--green-mid);font-weight:600">✓ Kabul Edildi</span>';
-    case 'rejected': return '<span style="color:#dc2626;font-weight:600">✗ Reddedildi</span>';
-    default: return '—';
   }
 }
 
