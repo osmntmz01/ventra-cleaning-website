@@ -117,7 +117,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
 /* ═══ SERVICES ═══ */
 .services-section{background:var(--white);flex-direction:column;padding:100px 40px}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;width:100%}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1100px;width:100%}
 .service-card{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:36px 24px;text-align:center;position:relative;overflow:hidden;transition:all .4s}
 .service-card.popular{border-color:var(--green-mid)}
 .service-card.popular::after{content:'BEST VALUE';position:absolute;top:14px;right:-28px;background:var(--green-mid);color:var(--white);font-size:.6rem;font-weight:700;padding:3px 36px;letter-spacing:1.5px;transform:rotate(45deg)}
@@ -150,7 +150,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(22,107,74,.08)}
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.service-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center}
 .service-opt:hover,.service-opt.active{border-color:var(--green-mid);background:var(--green-pale)}
 .service-opt .svc-name{font-weight:600;font-size:.85rem;margin-bottom:2px;color:var(--dark-text)}
@@ -393,27 +393,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       <div class="service-price"><sup>$</sup>70</div>
       <div class="service-meta">1 hour · single area</div>
     </div>
-    <div class="service-card popular">
-      <div class="svc-icon green">🌿🪑</div>
-      <h3>Ozone + Seat</h3>
-      <p class="desc">Complete odour elimination plus deep seat cleaning. Perfect combo.</p>
-      <div class="service-price"><sup>$</sup>180</div>
-      <div class="service-meta">1.5 hours · save $20</div>
-    </div>
-    <div class="service-card">
-      <div class="svc-icon blue">🌿🎯</div>
-      <h3>Ozone + Spot</h3>
-      <p class="desc">Odour elimination with targeted stain removal. Great for emergencies.</p>
-      <div class="service-price"><sup>$</sup>150</div>
-      <div class="service-meta">1.5 hours · save $20</div>
-    </div>
-    <div class="service-card">
-      <div class="svc-icon green">🌿🚗</div>
-      <h3>Ozone + Full Interior</h3>
-      <p class="desc">Complete transformation — odour elimination, seats, and floor.</p>
-      <div class="service-price"><sup>$</sup>250</div>
-      <div class="service-meta">2.5 hours · save $30</div>
-    </div>
   </div>
 </section>
 
@@ -431,28 +410,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Choose Your Service</label>
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Hizmetlerinizi Seçin (Birden fazla seçebilirsiniz)</label>
       <div class="service-options">
-        <div class="service-opt active" data-service="Ozone Treatment" data-price="100" onclick="selectService(this)">
+        <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
           <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="selectService(this)">
+        <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="toggleService(this)">
           <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
         </div>
-        <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="selectService(this)">
+        <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="toggleService(this)">
           <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
         </div>
-        <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="selectService(this)">
+        <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="toggleService(this)">
           <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
-        </div>
-        <div class="service-opt" data-service="Ozone + Seat" data-price="180" onclick="selectService(this)">
-          <div class="svc-name">🌿🪑 Ozone+Seat</div><div class="svc-price">$180</div><div class="svc-time">1.5 hours</div>
-        </div>
-        <div class="service-opt" data-service="Ozone + Spot" data-price="150" onclick="selectService(this)">
-          <div class="svc-name">🌿🎯 Ozone+Spot</div><div class="svc-price">$150</div><div class="svc-time">1.5 hours</div>
-        </div>
-        <div class="service-opt" data-service="Ozone + Full Interior" data-price="250" onclick="selectService(this)">
-          <div class="svc-name">🌿🚗 Ozone+Full</div><div class="svc-price">$250</div><div class="svc-time">2.5 hours</div>
         </div>
       </div>
 
@@ -623,39 +593,65 @@ initScrollSlider('slider1','divider1');
 initScrollSlider('slider2','divider2');
 
 /* ── BOOKING ── */
-let selectedService='Ozone Treatment',selectedPrice=100,selectedLoc='dropoff';
+let selectedServices=[],selectedLoc='dropoff';
 const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
 
-function selectService(el){
-  document.querySelectorAll('.service-opt').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  selectedService=el.dataset.service;
-  selectedPrice=parseInt(el.dataset.price);
+const serviceData={
+  'Ozone Treatment':{price:100,time:1,emoji:'🌿'},
+  'Seat Cleaning':{price:100,time:1,emoji:'🪑'},
+  'Seat + Floor':{price:180,time:2,emoji:'🚗'},
+  'Spot Cleaning':{price:70,time:1,emoji:'🎯'}
+};
 
-  // Determine service duration based on service type
-  let duration;
-  switch(selectedService){
-    case 'Ozone Treatment':
-    case 'Seat Cleaning':
-    case 'Spot Cleaning':
-      duration = '1 hour';
-      break;
-    case 'Seat + Floor':
-      duration = '2 hours';
-      break;
-    case 'Ozone + Seat':
-    case 'Ozone + Spot':
-      duration = '1.5 hours';
-      break;
-    case 'Ozone + Full Interior':
-      duration = '2.5 hours';
-      break;
-    default:
-      duration = '1 hour';
+function toggleService(el){
+  const serviceName=el.dataset.service;
+  const isSelected=selectedServices.includes(serviceName);
+
+  if(isSelected){
+    selectedServices=selectedServices.filter(s=>s!==serviceName);
+    el.classList.remove('active');
+  }else{
+    selectedServices.push(serviceName);
+    el.classList.add('active');
   }
 
-  document.getElementById('totalPrice').textContent='$'+selectedPrice;
-  document.getElementById('totalService').textContent=selectedService+' · '+duration;
+  updateTotal();
+}
+
+function updateTotal(){
+  if(selectedServices.length===0){
+    document.getElementById('totalPrice').textContent='$0';
+    document.getElementById('totalService').textContent='Hizmet seçiniz';
+    return;
+  }
+
+  let totalPrice=0;
+  let totalTime=0;
+  let serviceList=[];
+
+  selectedServices.forEach(service=>{
+    const data=serviceData[service];
+    totalPrice+=data.price;
+    totalTime+=data.time;
+    serviceList.push(data.emoji+' '+service.replace(' Cleaning','').replace(' Treatment',''));
+  });
+
+  // Apply combination discounts
+  let discount=0;
+  if(selectedServices.length===2){
+    discount=20; // $20 discount for any 2 services
+  }else if(selectedServices.length===3){
+    discount=40; // $40 discount for any 3 services
+  }else if(selectedServices.length>=4){
+    discount=60; // $60 discount for all 4 services
+  }
+
+  const finalPrice=Math.max(totalPrice-discount,totalPrice*0.7); // Min 30% of original price
+
+  document.getElementById('totalPrice').textContent='$'+finalPrice;
+  const timeText=totalTime===1?'1 hour':totalTime+' hours';
+  const discountText=discount>0?' · $'+discount+' tasarruf':'';
+  document.getElementById('totalService').textContent=serviceList.join(' + ')+' · '+timeText+discountText;
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
@@ -667,9 +663,44 @@ function submitBooking(){
   const name=document.getElementById('bkName').value.trim();
   const phone=document.getElementById('bkPhone').value.trim();
   const date=document.getElementById('bkDate').value;
-  if(!name||!phone||!date){alert('Please fill in name, phone, and date.');return}
-  const b={id:Date.now(),name,phone,email:document.getElementById('bkEmail').value.trim(),date,time:document.getElementById('bkTime').value,issue:document.getElementById('bkIssue').value.trim(),address:document.getElementById('bkAddress').value.trim(),service:selectedService,price:selectedPrice,location:selectedLoc,status:'pending',createdAt:new Date().toISOString()};
-  bookings.push(b);localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+
+  if(!name||!phone||!date){alert('Lütfen isim, telefon ve tarih bilgilerini doldurun.');return}
+  if(selectedServices.length===0){alert('Lütfen en az bir hizmet seçin.');return}
+
+  // Calculate final price with discounts
+  let totalPrice=0;
+  selectedServices.forEach(service=>{
+    totalPrice+=serviceData[service].price;
+  });
+
+  let discount=0;
+  if(selectedServices.length===2) discount=20;
+  else if(selectedServices.length===3) discount=40;
+  else if(selectedServices.length>=4) discount=60;
+
+  const finalPrice=Math.max(totalPrice-discount,totalPrice*0.7);
+
+  const b={
+    id:Date.now(),
+    name,
+    phone,
+    email:document.getElementById('bkEmail').value.trim(),
+    date,
+    time:document.getElementById('bkTime').value,
+    issue:document.getElementById('bkIssue').value.trim(),
+    address:document.getElementById('bkAddress').value.trim(),
+    service:selectedServices.join(' + '),
+    services:selectedServices, // Keep array for admin panel
+    price:finalPrice,
+    originalPrice:totalPrice,
+    discount:discount,
+    location:selectedLoc,
+    status:'pending',
+    createdAt:new Date().toISOString()
+  };
+
+  bookings.push(b);
+  localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
   document.getElementById('bookingForm').style.display='none';
   document.getElementById('bookingSuccess').style.display='block';
 }
@@ -683,7 +714,11 @@ function renderAdmin(){
   document.getElementById('adminCount').textContent=data.length;
   const tb=document.getElementById('adminBody');
   if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Henüz randevu yok</td></tr>';return}
-  tb.innerHTML=data.map((b,i)=>`<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${b.service}<br><span style="font-size:.72rem;color:var(--green-mid)">$${b.price}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="acceptBooking(${i})">Kabul Et</button><button class="admin-btn reject" onclick="rejectBooking(${i})">Reddet</button>`:getActionText(b.status)}</td></tr>`).join('');
+  tb.innerHTML=data.map((b,i)=>{
+    const serviceText=b.service;
+    const priceText=b.discount&&b.discount>0?`$${b.price} <span style="text-decoration:line-through;color:var(--mid-gray)">$${b.originalPrice||b.price+b.discount}</span> <span style="color:var(--green-mid)">(${b.discount} tasarruf)</span>`:`$${b.price}`;
+    return `<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${serviceText}<br><span style="font-size:.72rem;">${priceText}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td>${b.status==='pending'?`<button class="admin-btn" onclick="acceptBooking(${i})">Kabul Et</button><button class="admin-btn reject" onclick="rejectBooking(${i})">Reddet</button>`:getActionText(b.status)}</td></tr>`;
+  }).join('');
 }
 function acceptBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='confirmed';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
 function rejectBooking(i){const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');d[i].status='rejected';localStorage.setItem('ventra_bookings',JSON.stringify(d));renderAdmin()}
@@ -839,6 +874,9 @@ function selectTime(t){
 }
 
 renderCalendar();
+
+// Initialize booking form
+updateTotal();
 </script>
 
 </body>
