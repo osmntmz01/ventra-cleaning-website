@@ -429,8 +429,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       </div>
 
       <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Hizmetlerinizi Seçin (Birden fazla seçebilirsiniz)</label>
-      <div class="service-options">
-        <div id="vehicleServices" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="service-options" style="width:100%;display:block;grid-template-columns:none">
+        <div id="vehicleServices" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
           <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
             <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
           </div>
@@ -444,7 +444,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
             <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
           </div>
         </div>
-        <div id="homeServices" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
+        <div id="homeServices" style="display:none;grid-template-columns:1fr 1fr;gap:10px;width:100%">
           <div class="service-opt" data-service="Ozone 1 Room" data-price="80" onclick="toggleService(this)">
             <div class="svc-name">🏠 Ozone – 1 Room</div><div class="svc-price">$80</div><div class="svc-time">1 room</div>
           </div>
