@@ -801,6 +801,8 @@ function toggleService(el){
   }
 
   updateTotal();
+  // Re-render time slots if date selected (duration may have changed)
+  if(selectedDate) renderTimeSlots(selectedDate);
 }
 
 function selectCategory(type){
@@ -1054,22 +1056,64 @@ document.addEventListener('keydown', function(e){
 
 /* ── CALENDAR SYSTEM ── */
 let calYear, calMonth, selectedDate='', selectedTime='';
-const bookedSlots=JSON.parse(localStorage.getItem('ventra_booked_slots')||'{}');
 const today=new Date();
 calYear=today.getFullYear();
 calMonth=today.getMonth();
 
 const timeOptions=['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
 
+// Service durations in hours
+const serviceDurations={
+  'Ozone Treatment':1,
+  'Seat Cleaning':1,
+  'Spot Cleaning':1,
+  'Seat + Floor':2,
+  'Ozone 1 Room':1,
+  'Ozone Whole House':2,
+  'Spot Cleaning Home':1,
+  'Area Rug':1
+};
+
+// Get total duration of currently selected services
+function getSelectedDuration(){
+  let total=0;
+  selectedServices.forEach(s=>{total+=(serviceDurations[s]||1)});
+  return Math.max(total,1);
+}
+
+// Get all blocked slots for a date from bookings (duration-aware)
+function getBlockedSlotsForDate(dateStr){
+  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+  const blocked=new Set();
+  bookings.forEach(b=>{
+    if(b.date!==dateStr||b.status==='rejected') return;
+    const startIdx=timeOptions.indexOf(b.time);
+    if(startIdx===-1) return;
+    // Calculate duration from saved services
+    let dur=1;
+    if(b.services&&Array.isArray(b.services)){
+      dur=b.services.reduce((sum,s)=>{
+        const key=typeof s==='string'?s:(s.name||'');
+        return sum+(serviceDurations[key]||1);
+      },0);
+    } else if(b.service){
+      // fallback: parse from service string
+      const parts=b.service.split(' + ');
+      dur=parts.reduce((sum,s)=>sum+(serviceDurations[s.trim()]||1),0);
+    }
+    dur=Math.max(dur,1);
+    for(let i=0;i<dur;i++){
+      if(startIdx+i<timeOptions.length) blocked.add(timeOptions[startIdx+i]);
+    }
+  });
+  return blocked;
+}
+
 function changeMonth(dir){
   calMonth+=dir;
   if(calMonth>11){calMonth=0;calYear++}
   if(calMonth<0){calMonth=11;calYear--}
   renderCalendar();
-}
-
-function getBookingsForDate(dateStr){
-  return bookedSlots[dateStr]||[];
 }
 
 function renderCalendar(){
@@ -1087,16 +1131,17 @@ function renderCalendar(){
   for(let d=1;d<=daysInMonth;d++){
     const dateStr=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const isPast=dateStr<todayStr||(dateStr===todayStr);
-    const booked=getBookingsForDate(dateStr);
+    const blocked=getBlockedSlotsForDate(dateStr);
     const totalSlots=timeOptions.length;
-    const bookedCount=booked.length;
+    const blockedCount=blocked.size;
     
     let bg='#e6f5ee';let color='var(--dark-text)';let cursor='pointer';let onclick=`selectDay('${dateStr}')`;
     let border='1.5px solid transparent';
     
     if(isPast){bg='#f1f5f9';color='#94a3b8';cursor='default';onclick=''}
-    else if(bookedCount>=totalSlots){bg='#fee2e2';color='#dc2626';cursor='default';onclick=''}
-    else if(bookedCount>0){bg='#fef9c3';color='var(--dark-text)'}
+    else if(blockedCount>=totalSlots){bg='#fee2e2';color='#dc2626';cursor='default';onclick=''} // fully booked → red
+    else if(blockedCount>0){bg='#fef9c3';color='#92400e'} // partially booked → yellow
+    // else: no bookings → green (default)
     
     if(dateStr===selectedDate) border='2px solid var(--green-mid)';
     
@@ -1108,6 +1153,8 @@ function renderCalendar(){
 function selectDay(dateStr){
   selectedDate=dateStr;
   document.getElementById('bkDate').value=dateStr;
+  selectedTime='';
+  document.getElementById('bkTime').value='';
   
   const parts=dateStr.split('-');
   const dayNum=parseInt(parts[2]);
@@ -1120,14 +1167,26 @@ function selectDay(dateStr){
 }
 
 function renderTimeSlots(dateStr){
-  const booked=getBookingsForDate(dateStr);
+  const blocked=getBlockedSlotsForDate(dateStr);
+  const dur=getSelectedDuration();
   let html='';
   
-  timeOptions.forEach(t=>{
-    const isBooked=booked.includes(t);
-    if(isBooked){
+  timeOptions.forEach((t,idx)=>{
+    // A slot is unavailable if it's blocked, OR if booking from here wouldn't fit (consecutive slots not all free)
+    const isBlocked=blocked.has(t);
+    // Check if starting here would overlap any blocked slot within duration
+    let wouldOverlap=false;
+    for(let i=0;i<dur;i++){
+      if(idx+i>=timeOptions.length||blocked.has(timeOptions[idx+i])){wouldOverlap=true;break}
+    }
+    
+    if(isBlocked){
+      // This slot is taken by an existing booking
       html+=`<div style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;text-decoration:line-through">${t}</div>`;
-    }else{
+    } else if(wouldOverlap){
+      // Free but can't start here because duration would overlap a booked slot
+      html+=`<div style="background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;" title="Not enough consecutive time available">${t}</div>`;
+    } else {
       const isSelected=t===selectedTime;
       const bg=isSelected?'var(--green-mid)':'#e6f5ee';
       const clr=isSelected?'#fff':'var(--dark-text)';
