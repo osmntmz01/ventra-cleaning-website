@@ -423,39 +423,47 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Hizmetlerinizi Seçin (Birden fazla seçebilirsiniz)</label>
-      <div class="service-options">
-        <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
-          <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
-        </div>
-        <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="toggleService(this)">
-          <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
-        </div>
-        <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="toggleService(this)">
-          <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
-        </div>
-        <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="toggleService(this)">
-          <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
-        </div>
-        <div class="service-opt" data-service="Ozone 1 Room" data-price="80" onclick="toggleService(this)">
-          <div class="svc-name">🏠 Ozone – 1 Room</div><div class="svc-price">$80</div><div class="svc-time">1 room</div>
-        </div>
-        <div class="service-opt" data-service="Ozone Whole House" data-price="0" onclick="toggleService(this)">
-          <div class="svc-name">🏡 Ozone – Whole House</div><div class="svc-price">From $60/room</div><div class="svc-time">per room</div>
-        </div>
-        <div class="service-opt" data-service="Spot Rug" data-price="0" onclick="toggleService(this)">
-          <div class="svc-name">🧹 Spot Cleaning – Area Rug</div><div class="svc-price">Contact for price</div><div class="svc-time"></div>
-        </div>
+      <div style="display:flex;gap:10px;margin-bottom:20px">
+        <button type="button" id="vehicleCategory" onclick="selectCategory('vehicle')" style="flex:1;padding:16px;background:var(--green-pale);border:2px solid var(--green-mid);color:var(--green-deep);border-radius:12px;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;transition:all .3s">🚗 Vehicle Cleaning</button>
+        <button type="button" id="homeCategory" onclick="selectCategory('home')" style="flex:1;padding:16px;background:var(--off-white);border:2px solid var(--light-gray);color:var(--dark-text);border-radius:12px;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;transition:all .3s">🏠 Home Cleaning</button>
       </div>
 
-      <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-bottom:20px;text-align:center">
-        <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
-        <div style="display:flex;align-items:center;justify-content:center;gap:12px">
-          <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
-          <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
-          <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Hizmetlerinizi Seçin (Birden fazla seçebilirsiniz)</label>
+      <div class="service-options">
+        <div id="vehicleServices">
+          <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
+            <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+          </div>
+          <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="toggleService(this)">
+            <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+          </div>
+          <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="toggleService(this)">
+            <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
+          </div>
+          <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="toggleService(this)">
+            <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
+          </div>
         </div>
-        <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
+        <div id="homeServices" style="display:none">
+          <div class="service-opt" data-service="Ozone 1 Room" data-price="80" onclick="toggleService(this)">
+            <div class="svc-name">🏠 Ozone – 1 Room</div><div class="svc-price">$80</div><div class="svc-time">1 room</div>
+          </div>
+          <div class="service-opt" data-service="Ozone Whole House" data-price="0" onclick="toggleService(this)">
+            <div class="svc-name">🏡 Ozone – Whole House</div><div class="svc-price">From $60/room</div><div class="svc-time">per room</div>
+          </div>
+          <div class="service-opt" data-service="Spot Rug" data-price="0" onclick="toggleService(this)">
+            <div class="svc-name">🧹 Spot Cleaning – Area Rug</div><div class="svc-price">Contact for price</div><div class="svc-time"></div>
+          </div>
+          <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-bottom:20px;text-align:center">
+            <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+              <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+              <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
+              <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+            </div>
+            <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
+          </div>
+        </div>
       </div>
 
       <div id="rugNote" style="display:none;background:#fef3cd;border:2px solid #856404;border-radius:12px;padding:12px;margin-bottom:20px;text-align:center;font-size:.85rem;color:#856404">
@@ -786,6 +794,44 @@ function toggleService(el){
     if(serviceName==='Spot Rug'){
       document.getElementById('rugNote').style.display='block';
     }
+  }
+
+  updateTotal();
+}
+
+function selectCategory(type){
+  // Clear selected services and reset states
+  selectedServices=[];
+  document.querySelectorAll('.service-opt').forEach(el=>el.classList.remove('active'));
+  document.getElementById('roomCounterWrap').style.display='none';
+  document.getElementById('rugNote').style.display='none';
+
+  if(type==='vehicle'){
+    // Show vehicle services, hide home services
+    document.getElementById('vehicleServices').style.display='block';
+    document.getElementById('homeServices').style.display='none';
+    // Update category button styles
+    document.getElementById('vehicleCategory').style.background='var(--green-pale)';
+    document.getElementById('vehicleCategory').style.borderColor='var(--green-mid)';
+    document.getElementById('vehicleCategory').style.color='var(--green-deep)';
+    document.getElementById('homeCategory').style.background='var(--off-white)';
+    document.getElementById('homeCategory').style.borderColor='var(--light-gray)';
+    document.getElementById('homeCategory').style.color='var(--dark-text)';
+    // Update textarea placeholder
+    document.getElementById('bkIssue').placeholder='e.g., Heavy cigarette smell in a 2019 Toyota Camry...';
+  }else{
+    // Show home services, hide vehicle services
+    document.getElementById('vehicleServices').style.display='none';
+    document.getElementById('homeServices').style.display='block';
+    // Update category button styles
+    document.getElementById('homeCategory').style.background='var(--green-pale)';
+    document.getElementById('homeCategory').style.borderColor='var(--green-mid)';
+    document.getElementById('homeCategory').style.color='var(--green-deep)';
+    document.getElementById('vehicleCategory').style.background='var(--off-white)';
+    document.getElementById('vehicleCategory').style.borderColor='var(--light-gray)';
+    document.getElementById('vehicleCategory').style.color='var(--dark-text)';
+    // Update textarea placeholder
+    document.getElementById('bkIssue').placeholder='e.g., Musty smell in 3-bedroom house in Fitzroy...';
   }
 
   updateTotal();
