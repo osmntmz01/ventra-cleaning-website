@@ -437,6 +437,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="toggleService(this)">
           <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
         </div>
+        <div class="service-opt" data-service="Ozone 1 Room" data-price="80" onclick="toggleService(this)">
+          <div class="svc-name">🏠 Ozone – 1 Room</div><div class="svc-price">$80</div><div class="svc-time">1 room</div>
+        </div>
+        <div class="service-opt" data-service="Ozone Whole House" data-price="0" onclick="toggleService(this)">
+          <div class="svc-name">🏡 Ozone – Whole House</div><div class="svc-price">From $60/room</div><div class="svc-time">per room</div>
+        </div>
+        <div class="service-opt" data-service="Spot Rug" data-price="0" onclick="toggleService(this)">
+          <div class="svc-name">🧹 Spot Cleaning – Area Rug</div><div class="svc-price">Contact for price</div><div class="svc-time"></div>
+        </div>
+      </div>
+
+      <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-bottom:20px;text-align:center">
+        <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+          <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+          <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
+          <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+        </div>
+        <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
+      </div>
+
+      <div id="rugNote" style="display:none;background:#fef3cd;border:2px solid #856404;border-radius:12px;padding:12px;margin-bottom:20px;text-align:center;font-size:.85rem;color:#856404">
+        We'll confirm the price when we call you.
       </div>
 
       <div class="form-group"><label>Describe the Issue</label><textarea id="bkIssue" placeholder="e.g., Heavy cigarette smell in a 2019 Toyota Camry..."></textarea></div>
@@ -723,13 +746,17 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
 
 /* ── BOOKING ── */
 let selectedServices=[],selectedLoc='dropoff';
+let roomCount=1;
 const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
 
 const serviceData={
   'Ozone Treatment':{price:100,time:1,emoji:'🌿'},
   'Seat Cleaning':{price:100,time:1,emoji:'🪑'},
   'Seat + Floor':{price:180,time:2,emoji:'🚗'},
-  'Spot Cleaning':{price:70,time:1,emoji:'🎯'}
+  'Spot Cleaning':{price:70,time:1,emoji:'🎯'},
+  'Ozone 1 Room':{price:80,time:1,emoji:'🏠'},
+  'Ozone Whole House':{price:0,time:2,emoji:'🏡'},
+  'Spot Rug':{price:0,time:1,emoji:'🧹'}
 };
 
 function toggleService(el){
@@ -739,12 +766,45 @@ function toggleService(el){
   if(isSelected){
     selectedServices=selectedServices.filter(s=>s!==serviceName);
     el.classList.remove('active');
+    // Hide room counter if Ozone Whole House is deselected
+    if(serviceName==='Ozone Whole House'){
+      document.getElementById('roomCounterWrap').style.display='none';
+    }
+    // Hide rug note if Spot Rug is deselected
+    if(serviceName==='Spot Rug'){
+      document.getElementById('rugNote').style.display='none';
+    }
   }else{
     selectedServices.push(serviceName);
     el.classList.add('active');
+    // Show room counter if Ozone Whole House is selected
+    if(serviceName==='Ozone Whole House'){
+      document.getElementById('roomCounterWrap').style.display='block';
+      serviceData['Ozone Whole House'].price=roomCount*60;
+    }
+    // Show rug note if Spot Rug is selected
+    if(serviceName==='Spot Rug'){
+      document.getElementById('rugNote').style.display='block';
+    }
   }
 
   updateTotal();
+}
+
+function increaseRooms(){
+  roomCount++;
+  document.getElementById('roomCount').textContent=roomCount;
+  serviceData['Ozone Whole House'].price=roomCount*60;
+  updateTotal();
+}
+
+function decreaseRooms(){
+  if(roomCount>1){
+    roomCount--;
+    document.getElementById('roomCount').textContent=roomCount;
+    serviceData['Ozone Whole House'].price=roomCount*60;
+    updateTotal();
+  }
 }
 
 function updateTotal(){
@@ -782,7 +842,8 @@ function updateTotal(){
   const timeText=totalTime===1?'1 hour':totalTime+' hours';
   const discountText=discount>0?' · $'+discount+' tasarruf':'';
   const surchargeText=distanceSurcharge>0?' · +$'+distanceSurcharge+' travel':'';
-  document.getElementById('totalService').textContent=serviceList.join(' + ')+' · '+timeText+discountText+surchargeText;
+  const rugNote=selectedServices.includes('Spot Rug')?' · Contact us for rug price':'';
+  document.getElementById('totalService').textContent=serviceList.join(' + ')+' · '+timeText+discountText+surchargeText+rugNote;
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
