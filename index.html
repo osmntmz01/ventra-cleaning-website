@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ventra Cleaning — Professional Odour Elimination | Melbourne</title>
+<link rel="icon" type="image/png" href="/favicon-512.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/favicon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -809,6 +812,8 @@ function toggleService(el){
   }
 
   updateTotal();
+  // Re-render time slots if date selected (duration may have changed)
+  if(selectedDate) renderTimeSlots(selectedDate);
 }
 
 function selectCategory(type){
@@ -1174,13 +1179,24 @@ function selectDay(dateStr){
 
 function renderTimeSlots(dateStr){
   const blocked=getBlockedSlotsForDate(dateStr);
+  const dur=getSelectedDuration();
   let html='';
   
   timeOptions.forEach((t,idx)=>{
+    // A slot is unavailable if it's blocked, OR if booking from here wouldn't fit (consecutive slots not all free)
     const isBlocked=blocked.has(t);
+    // Check if starting here would overlap any blocked slot within duration
+    let wouldOverlap=false;
+    for(let i=0;i<dur;i++){
+      if(idx+i>=timeOptions.length||blocked.has(timeOptions[idx+i])){wouldOverlap=true;break}
+    }
     
     if(isBlocked){
+      // This slot is taken by an existing booking
       html+=`<div style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;text-decoration:line-through">${t}</div>`;
+    } else if(wouldOverlap){
+      // Free but can't start here because duration would overlap a booked slot
+      html+=`<div style="background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;" title="Not enough consecutive time available">${t}</div>`;
     } else {
       const isSelected=t===selectedTime;
       const bg=isSelected?'var(--green-mid)':'#e6f5ee';
