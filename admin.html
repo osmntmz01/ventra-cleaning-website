@@ -423,7 +423,8 @@ body {
         <h3 style="margin: 0; color: var(--teal); font-size: 1.2rem;">💰 Price Management</h3>
       </div>
       <div style="padding: 20px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);margin-bottom:12px;">🚗 Vehicle Services</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 24px;">
           <div class="price-item">
             <label style="display: block; font-weight: 600; margin-bottom: 5px;">🌿 Ozone Treatment</label>
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -449,12 +450,44 @@ body {
             </div>
           </div>
           <div class="price-item">
-            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🎯 Spot Cleaning</label>
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🎯 Spot Cleaning (Vehicle)</label>
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 1.5rem;">$</span>
               <input type="number" id="price-spot" class="price-input" min="0" step="1">
               <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Spot Cleaning', 'price-spot')">Update</button>
             </div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);margin-bottom:12px;">🏠 Home Services</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🏠 Ozone – 1 Room</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-ozone1room" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Ozone 1 Room', 'price-ozone1room')">Update</button>
+            </div>
+          </div>
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🏡 Ozone – Whole House (per room)</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-ozonehouse" class="price-input" min="0" step="1">
+              <span style="font-size:0.8rem;color:var(--ink3)">/room</span>
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Ozone Whole House Per Room', 'price-ozonehouse')">Update</button>
+            </div>
+          </div>
+          <div class="price-item">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🧹 Spot Cleaning (Home)</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">$</span>
+              <input type="number" id="price-spothome" class="price-input" min="0" step="1">
+              <button class="btn-sm" style="background: var(--teal); color: white;" onclick="updatePrice('Spot Cleaning Home', 'price-spothome')">Update</button>
+            </div>
+          </div>
+          <div class="price-item" style="opacity:0.6;">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">🪄 Area Rug</label>
+            <div style="font-size:0.85rem;color:var(--ink3);padding:8px 0;">Price quoted on call — no fixed price</div>
           </div>
         </div>
       </div>
@@ -533,13 +566,30 @@ function loadBookings() {
   }
 }
 
+// Delete booking
+function deleteBooking(id) {
+  if (!confirm('Are you sure you want to permanently delete this booking?')) return;
+  try {
+    allBookings = allBookings.filter(b => String(b.id) !== String(id));
+    localStorage.setItem('ventra_bookings', JSON.stringify(allBookings));
+    updateStats();
+    renderBookings();
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    alert('Error deleting booking');
+  }
+}
+
 // Load and display current prices
 function loadPrices() {
   const defaultPrices = {
     'Ozone Treatment': 100,
     'Seat Cleaning': 100,
     'Seat + Floor': 180,
-    'Spot Cleaning': 70
+    'Spot Cleaning': 70,
+    'Ozone 1 Room': 80,
+    'Ozone Whole House Per Room': 60,
+    'Spot Cleaning Home': 80
   };
 
   const prices = JSON.parse(localStorage.getItem('service_prices') || JSON.stringify(defaultPrices));
@@ -548,6 +598,9 @@ function loadPrices() {
   document.getElementById('price-seat').value = prices['Seat Cleaning'] || 100;
   document.getElementById('price-seatfloor').value = prices['Seat + Floor'] || 180;
   document.getElementById('price-spot').value = prices['Spot Cleaning'] || 70;
+  document.getElementById('price-ozone1room').value = prices['Ozone 1 Room'] || 80;
+  document.getElementById('price-ozonehouse').value = prices['Ozone Whole House Per Room'] || 60;
+  document.getElementById('price-spothome').value = prices['Spot Cleaning Home'] || 80;
 }
 
 // Update service price
@@ -667,6 +720,10 @@ function renderBookings() {
           <button class="btn-sm" style="background: var(--ink3); color: white;"
                   onclick="updateBookingStatus('${booking.id}', 'pending')">
             Reset
+          </button>
+          <button class="btn-sm" style="background: #7f1d1d; color: white;"
+                  onclick="deleteBooking('${booking.id}')">
+            🗑 Delete
           </button>
         </div>
       </td>
