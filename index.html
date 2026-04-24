@@ -151,7 +151,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.service-opt{padding:14px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center}
+.service-opt{padding:20px 12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;cursor:pointer;transition:all .3s;text-align:center;width:100%;box-sizing:border-box}
 .service-opt:hover,.service-opt.active{border-color:var(--green-mid);background:var(--green-pale)}
 .service-opt .svc-name{font-weight:600;font-size:.85rem;margin-bottom:2px;color:var(--dark-text)}
 .service-opt .svc-price{color:var(--green-deep);font-family:var(--font-display);font-size:1.2rem;font-weight:700}
@@ -428,8 +428,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
         <button type="button" id="homeCategory" onclick="selectCategory('home')" style="flex:1;padding:16px;background:var(--off-white);border:2px solid var(--light-gray);color:var(--dark-text);border-radius:12px;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;transition:all .3s">🏠 Home Cleaning</button>
       </div>
 
-      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Hizmetlerinizi Seçin (Birden fazla seçebilirsiniz)</label>
-      <div class="service-options" style="width:100%;display:block;grid-template-columns:none">
+      <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Select Services (you can choose more than one)</label>
+      <div style="width:100%;margin-bottom:20px">
         <div id="vehicleServices" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
           <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
             <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
@@ -457,15 +457,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
           <div class="service-opt" data-service="Area Rug" data-price="0" onclick="toggleService(this)">
             <div class="svc-name">🪄 Area Rug</div><div class="svc-price">Contact for price</div><div class="svc-time"></div>
           </div>
-          <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-bottom:20px;text-align:center">
-            <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
-            <div style="display:flex;align-items:center;justify-content:center;gap:12px">
-              <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
-              <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
-              <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
-            </div>
-            <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
+        </div>
+        <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-top:10px;text-align:center">
+          <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+            <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+            <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
+            <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
           </div>
+          <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
         </div>
       </div>
 
