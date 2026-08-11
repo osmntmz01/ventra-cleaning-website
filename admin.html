@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel — Ventra Cleaning</title>
+<link rel="icon" type="image/png" href="/ventra-logo.png?v=20260514">
+<link rel="shortcut icon" type="image/png" href="/ventra-logo.png?v=20260514">
+<link rel="apple-touch-icon" href="/ventra-logo.png?v=20260514">
 <style>
 :root {
   --bg: #faf7f2;
@@ -263,9 +266,27 @@ body {
   color: var(--green);
 }
 
+.status-badge.approved {
+  background: rgba(16,185,129,0.15);
+  color: var(--green);
+}
+
 .status-badge.rejected {
   background: rgba(239,68,68,0.15);
   color: var(--red);
+}
+
+.request-type-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(13,138,127,0.14);
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
 }
 
 .action-btns {
@@ -352,6 +373,571 @@ body {
   border: 1px solid rgba(15,15,15,0.05);
 }
 
+/* Admin Views */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin: -18px 0 28px;
+  flex-wrap: wrap;
+}
+
+.admin-tab {
+  background: var(--paper);
+  border: 2px solid rgba(15,15,15,0.1);
+  color: var(--ink2);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.admin-tab.active {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+
+.admin-view { display: none; }
+.admin-view.active { display: block; }
+
+/* Invoice Generator */
+.invoice-shell {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(360px, 1.15fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.invoice-panel {
+  background: var(--paper);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px -15px rgba(15,15,15,0.1);
+  overflow: hidden;
+}
+
+.invoice-panel-header {
+  padding: 20px;
+  border-bottom: 2px solid var(--teal);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.invoice-panel-header h3 {
+  margin: 0;
+  color: var(--teal);
+  font-size: 1.2rem;
+}
+
+.invoice-form {
+  padding: 20px;
+}
+
+.invoice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.invoice-field {
+  margin-bottom: 14px;
+}
+
+.invoice-field.full {
+  grid-column: 1 / -1;
+}
+
+.invoice-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+
+.invoice-field input,
+.invoice-field textarea {
+  width: 100%;
+  padding: 12px 13px;
+  border: 2px solid rgba(15,15,15,0.1);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.25s;
+}
+
+.invoice-field textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.invoice-field input:focus,
+.invoice-field textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+}
+
+.invoice-field input[readonly] {
+  background: #f6f8fb;
+  color: var(--ink2);
+  cursor: not-allowed;
+}
+
+.invoice-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.invoice-action {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.25s, background 0.25s;
+}
+
+.invoice-action:hover {
+  transform: translateY(-1px);
+}
+
+.invoice-action.primary {
+  background: var(--ink);
+  color: white;
+}
+
+.invoice-action.secondary {
+  background: var(--teal-light);
+  color: var(--teal);
+}
+
+.invoice-saved {
+  margin-top: 24px;
+}
+
+.invoice-saved-list {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+}
+
+.invoice-saved-card {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.85fr) minmax(180px, 1.2fr) minmax(95px, 0.55fr) auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(15,15,15,0.08);
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff;
+}
+
+.invoice-saved-number {
+  font-weight: 900;
+  color: var(--teal);
+}
+
+.invoice-saved-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(239,68,68,0.12);
+  color: var(--red);
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.invoice-saved-meta {
+  font-size: 0.82rem;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+
+.invoice-saved-total {
+  font-weight: 900;
+  color: var(--ink);
+  text-align: right;
+}
+
+.invoice-saved-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.invoice-items {
+  border: 1px solid rgba(15,15,15,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.invoice-item-row {
+  display: grid;
+  grid-template-columns: 1.6fr 0.5fr 0.7fr auto;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(15,15,15,0.06);
+  align-items: center;
+}
+
+.invoice-item-row input {
+  width: 100%;
+  padding: 10px 11px;
+  border: 2px solid rgba(15,15,15,0.1);
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 0.88rem;
+}
+
+.invoice-item-row input:focus {
+  outline: none;
+  border-color: var(--teal);
+}
+
+.invoice-item-row:last-child {
+  border-bottom: 0;
+}
+
+.invoice-remove {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.invoice-photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.invoice-photo-card {
+  border: 1px solid rgba(15,15,15,0.08);
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px;
+}
+
+.invoice-photo-card label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--ink3);
+  margin-bottom: 8px;
+}
+
+.invoice-photo-pickers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.invoice-photo-pickers input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+
+.invoice-photo-pick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--teal-light);
+  color: var(--teal);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+}
+
+.invoice-photo-pick.camera {
+  background: #fff1e6;
+  color: var(--accent);
+}
+
+.invoice-photo-card input[type="text"] {
+  width: 100%;
+  padding: 10px 11px;
+  border: 2px solid rgba(15,15,15,0.1);
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 0.88rem;
+}
+
+.invoice-photo-card input[type="text"]:focus {
+  outline: none;
+  border-color: var(--teal);
+}
+
+.invoice-photo-preview {
+  display: none;
+  position: relative;
+  margin: 10px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg);
+  aspect-ratio: 4 / 3;
+}
+
+.invoice-photo-preview.has-photo {
+  display: block;
+}
+
+.invoice-photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.invoice-photo-remove {
+  margin-top: 10px;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.invoice-preview-wrap {
+  padding: 18px;
+  background: #eceff3;
+  overflow: auto;
+}
+
+.invoice-preview {
+  width: 794px;
+  min-height: 1123px;
+  margin: 0 auto;
+  background: white;
+  color: #152033;
+  box-shadow: 0 16px 38px rgba(15,15,15,0.12);
+  padding: 52px;
+  font-family: Inter, -apple-system, sans-serif;
+}
+
+.invoice-preview-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 24px;
+  border-bottom: 4px solid #08224a;
+}
+
+.invoice-preview-brand {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.invoice-preview-brand img {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+}
+
+.invoice-preview-brand h2 {
+  margin: 0;
+  font-family: Fraunces, serif;
+  font-size: 2rem;
+  line-height: 1;
+  color: #08224a;
+}
+
+.invoice-preview-brand p,
+.invoice-preview-meta p,
+.invoice-preview-company p,
+.invoice-preview-bill p,
+.invoice-preview-notes p {
+  margin: 2px 0;
+  color: #5d6674;
+  font-size: 0.86rem;
+  white-space: pre-line;
+}
+
+.invoice-preview-meta {
+  min-width: 220px;
+  background: #f8fbff;
+  border: 1px solid #dbe6f2;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.invoice-preview-meta h1 {
+  color: #e66f1f;
+  font-size: 1.7rem;
+  margin: 0 0 10px;
+  letter-spacing: 0.04em;
+}
+
+.invoice-preview-section {
+  margin-top: 30px;
+}
+
+.invoice-preview-section h3 {
+  margin: 0 0 9px;
+  color: #08224a;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+}
+
+.invoice-preview-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.invoice-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.invoice-preview-table th {
+  background: #08224a;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.invoice-preview-table td {
+  border-bottom: 1px solid #dbe6f2;
+  padding: 13px 12px;
+  font-size: 0.9rem;
+  vertical-align: top;
+}
+
+.invoice-preview-table th:nth-child(2),
+.invoice-preview-table th:nth-child(3),
+.invoice-preview-table th:nth-child(4),
+.invoice-preview-table td:nth-child(2),
+.invoice-preview-table td:nth-child(3),
+.invoice-preview-table td:nth-child(4) {
+  text-align: right;
+}
+
+.invoice-preview-totals {
+  width: 330px;
+  margin-left: auto;
+  margin-top: 18px;
+}
+
+.invoice-total-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e8edf2;
+  font-size: 0.92rem;
+}
+
+.invoice-total-row.net {
+  border-bottom: 0;
+  margin-top: 6px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: #08224a;
+  color: white;
+  font-weight: 900;
+  font-size: 1.08rem;
+}
+
+.invoice-preview-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid #dbe6f2;
+}
+
+.reviews-admin-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-review-card {
+  background: var(--paper);
+  border-radius: 16px;
+  border: 1px solid rgba(15,15,15,0.08);
+  padding: 18px;
+  box-shadow: 0 12px 24px -16px rgba(15,15,15,0.18);
+}
+
+.admin-review-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.admin-review-name {
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.admin-review-meta {
+  color: var(--ink3);
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+
+.admin-review-stars {
+  color: var(--accent);
+  font-weight: 900;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.admin-review-text {
+  color: var(--ink2);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.admin-review-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 768px) {
   .container { padding: 20px 10px; }
   .admin-header { flex-direction: column; gap: 20px; align-items: flex-start; }
@@ -359,10 +945,25 @@ body {
   .bookings-table { font-size: 0.8rem; }
   .bookings-table th, .bookings-table td { padding: 12px 8px; }
   .action-btns { flex-direction: column; }
+  .invoice-shell { grid-template-columns: 1fr; }
+  .invoice-grid { grid-template-columns: 1fr; }
+  .invoice-item-row { grid-template-columns: 1fr; }
+  .invoice-photo-grid { grid-template-columns: 1fr; }
+  .invoice-photo-pickers { grid-template-columns: 1fr 1fr; }
+  .invoice-saved-card { grid-template-columns: 1fr; align-items: stretch; }
+  .invoice-saved-total { text-align: left; }
+  .invoice-saved-actions { justify-content: flex-start; }
+  .invoice-preview-wrap { padding: 10px; }
+  .invoice-preview { width: 100%; min-height: auto; padding: 24px; }
+  .invoice-preview-top,
+  .invoice-preview-parties,
+  .invoice-preview-footer { grid-template-columns: 1fr; }
+  .invoice-preview-totals { width: 100%; }
 }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -397,6 +998,15 @@ body {
       </div>
     </div>
 
+    <div class="admin-tabs">
+      <button class="admin-tab active" id="bookingsTab" onclick="switchAdminView('bookings')">Bookings</button>
+      <button class="admin-tab" id="invoiceTab" onclick="switchAdminView('invoice')">Invoice Generator</button>
+      <button class="admin-tab" id="quoteTab" onclick="switchAdminView('quote')">Estimated Quote</button>
+      <button class="admin-tab" id="reviewsTab" onclick="switchAdminView('reviews')">Reviews</button>
+    </div>
+
+    <div class="admin-view active" id="bookingsView">
+
     <!-- Stats -->
     <div class="stats" id="statsContainer">
       <div class="stat-card">
@@ -409,7 +1019,7 @@ body {
       </div>
       <div class="stat-card confirmed">
         <div class="stat-number" id="confirmedCount">0</div>
-        <div class="stat-label">Confirmed</div>
+        <div class="stat-label">Approved</div>
       </div>
       <div class="stat-card rejected">
         <div class="stat-number" id="rejectedCount">0</div>
@@ -497,7 +1107,7 @@ body {
     <div class="filters">
       <button class="filter-btn active" onclick="filterBookings('all')">All</button>
       <button class="filter-btn" onclick="filterBookings('pending')">Pending</button>
-      <button class="filter-btn" onclick="filterBookings('confirmed')">Confirmed</button>
+      <button class="filter-btn" onclick="filterBookings('approved')">Approved</button>
       <button class="filter-btn" onclick="filterBookings('rejected')">Rejected</button>
     </div>
 
@@ -521,12 +1131,683 @@ body {
         No bookings found.
       </div>
     </div>
+    </div>
+
+    <div class="admin-view" id="invoiceView">
+      <div class="invoice-shell">
+        <div class="invoice-panel">
+          <div class="invoice-panel-header">
+            <h3>Invoice Generator</h3>
+            <button class="invoice-action secondary" type="button" onclick="resetInvoiceForm()">Reset</button>
+          </div>
+          <div class="invoice-form">
+            <div class="invoice-grid">
+              <div class="invoice-field">
+                <label>Invoice number</label>
+                <input id="invoiceNumber" type="text" value="26001" readonly>
+              </div>
+              <div class="invoice-field">
+                <label>Invoice date</label>
+                <input id="invoiceDate" type="date">
+              </div>
+              <div class="invoice-field">
+                <label>Due date</label>
+                <input id="invoiceDueDate" type="date">
+              </div>
+              <div class="invoice-field">
+                <label>Customer full name</label>
+                <input id="invoiceCustomerName" type="text" placeholder="Customer name">
+              </div>
+              <div class="invoice-field">
+                <label>Customer email</label>
+                <input id="invoiceCustomerEmail" type="email" placeholder="customer@email.com">
+              </div>
+              <div class="invoice-field">
+                <label>Customer phone</label>
+                <input id="invoiceCustomerPhone" type="tel" placeholder="04XX XXX XXX">
+              </div>
+              <div class="invoice-field full">
+                <label>Billing address</label>
+                <textarea id="invoiceBillingAddress" placeholder="Billing address"></textarea>
+              </div>
+            </div>
+
+            <div class="invoice-field full">
+              <label>Service items</label>
+              <div class="invoice-items" id="invoiceItems"></div>
+              <button class="invoice-action secondary" type="button" onclick="addInvoiceItem()">Add item</button>
+            </div>
+
+            <div class="invoice-grid">
+              <div class="invoice-field">
+                <label>Transportation fee</label>
+                <input id="invoiceTransport" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field">
+                <label>GST</label>
+                <input id="invoiceGst" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field">
+                <label>Discount optional</label>
+                <input id="invoiceDiscount" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field">
+                <label>Payment details</label>
+                <textarea id="invoicePaymentDetails" placeholder="Optional payment details"></textarea>
+                <input id="invoiceIncludeBankDetails" type="hidden" value="0">
+                <button class="invoice-action secondary" id="invoiceBankDetailsBtn" type="button" onclick="toggleInvoiceBankDetails()">Add bank details</button>
+              </div>
+              <div class="invoice-field full">
+                <label>Notes</label>
+                <textarea id="invoiceNotes" placeholder="Thank you for choosing Ventra Cleaning."></textarea>
+              </div>
+            </div>
+
+            <div class="invoice-field full">
+              <label>Service photos</label>
+              <div class="invoice-photo-grid">
+                <div class="invoice-photo-card">
+                  <label>Photo 1 upload</label>
+                  <div class="invoice-photo-pickers">
+                    <label class="invoice-photo-pick" for="invoicePhotoGallery0">Choose from gallery</label>
+                    <input id="invoicePhotoGallery0" type="file" accept="image/*" onchange="handleInvoicePhoto(0, this.files[0])">
+                    <label class="invoice-photo-pick camera" for="invoicePhotoCamera0">Take photo</label>
+                    <input id="invoicePhotoCamera0" type="file" accept="image/*" capture="environment" onchange="handleInvoicePhoto(0, this.files[0])">
+                  </div>
+                  <div class="invoice-photo-preview" id="invoicePhotoPreview0"><img alt="Photo 1 preview"></div>
+                  <input type="text" id="invoicePhotoCaption0" placeholder="Photo 1 caption" oninput="updateInvoicePhotoCaption(0, this.value)">
+                  <button class="invoice-photo-remove" type="button" onclick="removeInvoicePhoto(0)">Remove photo</button>
+                </div>
+                <div class="invoice-photo-card">
+                  <label>Photo 2 upload</label>
+                  <div class="invoice-photo-pickers">
+                    <label class="invoice-photo-pick" for="invoicePhotoGallery1">Choose from gallery</label>
+                    <input id="invoicePhotoGallery1" type="file" accept="image/*" onchange="handleInvoicePhoto(1, this.files[0])">
+                    <label class="invoice-photo-pick camera" for="invoicePhotoCamera1">Take photo</label>
+                    <input id="invoicePhotoCamera1" type="file" accept="image/*" capture="environment" onchange="handleInvoicePhoto(1, this.files[0])">
+                  </div>
+                  <div class="invoice-photo-preview" id="invoicePhotoPreview1"><img alt="Photo 2 preview"></div>
+                  <input type="text" id="invoicePhotoCaption1" placeholder="Photo 2 caption" oninput="updateInvoicePhotoCaption(1, this.value)">
+                  <button class="invoice-photo-remove" type="button" onclick="removeInvoicePhoto(1)">Remove photo</button>
+                </div>
+                <div class="invoice-photo-card">
+                  <label>Photo 3 upload</label>
+                  <div class="invoice-photo-pickers">
+                    <label class="invoice-photo-pick" for="invoicePhotoGallery2">Choose from gallery</label>
+                    <input id="invoicePhotoGallery2" type="file" accept="image/*" onchange="handleInvoicePhoto(2, this.files[0])">
+                    <label class="invoice-photo-pick camera" for="invoicePhotoCamera2">Take photo</label>
+                    <input id="invoicePhotoCamera2" type="file" accept="image/*" capture="environment" onchange="handleInvoicePhoto(2, this.files[0])">
+                  </div>
+                  <div class="invoice-photo-preview" id="invoicePhotoPreview2"><img alt="Photo 3 preview"></div>
+                  <input type="text" id="invoicePhotoCaption2" placeholder="Photo 3 caption" oninput="updateInvoicePhotoCaption(2, this.value)">
+                  <button class="invoice-photo-remove" type="button" onclick="removeInvoicePhoto(2)">Remove photo</button>
+                </div>
+                <div class="invoice-photo-card">
+                  <label>Photo 4 upload</label>
+                  <div class="invoice-photo-pickers">
+                    <label class="invoice-photo-pick" for="invoicePhotoGallery3">Choose from gallery</label>
+                    <input id="invoicePhotoGallery3" type="file" accept="image/*" onchange="handleInvoicePhoto(3, this.files[0])">
+                    <label class="invoice-photo-pick camera" for="invoicePhotoCamera3">Take photo</label>
+                    <input id="invoicePhotoCamera3" type="file" accept="image/*" capture="environment" onchange="handleInvoicePhoto(3, this.files[0])">
+                  </div>
+                  <div class="invoice-photo-preview" id="invoicePhotoPreview3"><img alt="Photo 4 preview"></div>
+                  <input type="text" id="invoicePhotoCaption3" placeholder="Photo 4 caption" oninput="updateInvoicePhotoCaption(3, this.value)">
+                  <button class="invoice-photo-remove" type="button" onclick="removeInvoicePhoto(3)">Remove photo</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="invoice-actions">
+              <button class="invoice-action primary" type="button" onclick="downloadInvoicePdf()">Download PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="invoice-panel">
+          <div class="invoice-panel-header">
+            <h3>Live Preview</h3>
+          </div>
+          <div class="invoice-preview-wrap">
+            <div class="invoice-preview" id="invoicePreview"></div>
+          </div>
+        </div>
+      </div>
+      <div class="invoice-panel invoice-saved">
+        <div class="invoice-panel-header">
+          <h3>Saved Invoices</h3>
+          <button class="invoice-action secondary" type="button" onclick="loadSavedDocuments()">Refresh</button>
+        </div>
+        <div class="invoice-saved-list" id="savedInvoicesList"></div>
+        <div id="noSavedInvoices" class="no-bookings" style="display:none;">No saved invoices yet.</div>
+      </div>
+    </div>
+
+    <div class="admin-view" id="quoteView">
+      <div class="invoice-shell">
+        <div class="invoice-panel">
+          <div class="invoice-panel-header">
+            <h3>Estimated Quote</h3>
+            <button class="invoice-action secondary" type="button" onclick="resetQuoteForm()">Reset</button>
+          </div>
+          <div class="invoice-form">
+            <div class="invoice-grid">
+              <div class="invoice-field">
+                <label>Quote number</label>
+                <input id="quoteNumber" type="text" value="VQ-1" readonly>
+              </div>
+              <div class="invoice-field">
+                <label>Quote date</label>
+                <input id="quoteDate" type="date">
+              </div>
+              <div class="invoice-field">
+                <label>Valid until</label>
+                <input id="quoteValidUntil" type="date">
+              </div>
+              <div class="invoice-field">
+                <label>Customer full name</label>
+                <input id="quoteCustomerName" type="text" placeholder="Customer name">
+              </div>
+              <div class="invoice-field">
+                <label>Customer email</label>
+                <input id="quoteCustomerEmail" type="email" placeholder="customer@email.com">
+              </div>
+              <div class="invoice-field">
+                <label>Customer phone</label>
+                <input id="quoteCustomerPhone" type="tel" placeholder="04XX XXX XXX">
+              </div>
+              <div class="invoice-field full">
+                <label>Service address</label>
+                <textarea id="quoteServiceAddress" placeholder="Service address"></textarea>
+              </div>
+              <div class="invoice-field">
+                <label>Service type</label>
+                <input id="quoteServiceType" type="text" placeholder="Ozone treatment, carpet cleaning...">
+              </div>
+              <div class="invoice-field full">
+                <label>Job description</label>
+                <textarea id="quoteJobDescription" placeholder="Describe the estimated work"></textarea>
+              </div>
+            </div>
+
+            <div class="invoice-field full">
+              <label>Estimated service items</label>
+              <div class="invoice-items" id="quoteItems"></div>
+              <button class="invoice-action secondary" type="button" onclick="addQuoteItem()">Add item</button>
+            </div>
+
+            <div class="invoice-grid">
+              <div class="invoice-field">
+                <label>Transportation fee</label>
+                <input id="quoteTransport" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field">
+                <label>GST</label>
+                <input id="quoteGst" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field">
+                <label>Discount optional</label>
+                <input id="quoteDiscount" type="number" min="0" step="0.01" value="0">
+              </div>
+              <div class="invoice-field full">
+                <label>Notes</label>
+                <textarea id="quoteNotes" placeholder="Additional quote notes"></textarea>
+              </div>
+              <div class="invoice-field full">
+                <label>Terms / disclaimer</label>
+                <textarea id="quoteTerms">This is an estimated quote only. Final pricing may vary depending on site conditions, contamination level, access, parking, and any additional treatment required.</textarea>
+              </div>
+              <div class="invoice-field full">
+                <label>Payment or acceptance details optional</label>
+                <textarea id="quoteAcceptanceDetails" placeholder="How the customer can accept this quote"></textarea>
+              </div>
+            </div>
+
+            <div class="invoice-field full">
+              <label>Property plan / site photo</label>
+              <div class="invoice-photo-card">
+                <div class="invoice-photo-pickers">
+                  <label class="invoice-photo-pick" for="quoteImageGallery">Choose from gallery</label>
+                  <input id="quoteImageGallery" type="file" accept="image/*" onchange="handleQuoteImage(this.files[0])">
+                  <label class="invoice-photo-pick camera" for="quoteImageCamera">Take photo</label>
+                  <input id="quoteImageCamera" type="file" accept="image/*" capture="environment" onchange="handleQuoteImage(this.files[0])">
+                </div>
+                <div class="invoice-photo-preview" id="quoteImagePreview"><img alt="Quote image preview"></div>
+                <button class="invoice-photo-remove" type="button" onclick="removeQuoteImage()">Remove image</button>
+              </div>
+            </div>
+
+            <div class="invoice-actions">
+              <button class="invoice-action primary" type="button" onclick="downloadQuotePdf()">Download PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="invoice-panel">
+          <div class="invoice-panel-header">
+            <h3>Live Preview</h3>
+          </div>
+          <div class="invoice-preview-wrap">
+            <div class="invoice-preview" id="quotePreview"></div>
+          </div>
+        </div>
+      </div>
+      <div class="invoice-panel invoice-saved">
+        <div class="invoice-panel-header">
+          <h3>Saved Estimated Quotes</h3>
+          <button class="invoice-action secondary" type="button" onclick="loadSavedDocuments()">Refresh</button>
+        </div>
+        <div class="invoice-saved-list" id="savedQuotesList"></div>
+        <div id="noSavedQuotes" class="no-bookings" style="display:none;">No saved estimated quotes yet.</div>
+      </div>
+    </div>
+
+    <div class="admin-view" id="reviewsView">
+      <div class="bookings-container">
+        <div style="padding: 20px; border-bottom: 2px solid var(--teal); display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+          <h3 style="margin: 0; color: var(--teal); font-size: 1.2rem;">Customer Reviews</h3>
+          <button class="logout-btn" onclick="loadAdminReviews()" style="background: var(--green); color: white; border-color: var(--green);">Refresh Reviews</button>
+        </div>
+        <div class="filters" style="padding: 20px 20px 0; margin-bottom: 18px;">
+          <button class="filter-btn active" onclick="filterAdminReviews('all')">All</button>
+          <button class="filter-btn" onclick="filterAdminReviews('pending')">Pending</button>
+          <button class="filter-btn" onclick="filterAdminReviews('approved')">Approved</button>
+          <button class="filter-btn" onclick="filterAdminReviews('rejected')">Rejected</button>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <div class="reviews-admin-list" id="adminReviewsList"></div>
+          <div id="noAdminReviews" class="no-bookings" style="display:none;">No reviews found.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
 let allBookings = [];
 let currentFilter = 'all';
+let allReviews = [];
+let currentReviewFilter = 'all';
+let savedInvoices = [];
+let savedQuotes = [];
+let activeInvoiceId = '';
+let activeQuoteId = '';
+let quoteItems = [];
+let quoteImage = '';
+const documentStorageKey = 'ventra_admin_documents';
+const invoiceBankDetails = 'Account Name: Osman TEMIZYUREK\nBSB: 063-014\nAccount Number: 11353694';
+const defaultPrices = {
+  'Ozone Treatment': 100,
+  'Seat Cleaning': 100,
+  'Seat + Floor': 180,
+  'Spot Cleaning': 70,
+  'Ozone 1 Room': 80,
+  'Ozone Whole House Per Room': 60,
+  'Spot Cleaning Home': 80
+};
+let invoiceItems = [];
+let invoicePhotos = Array.from({ length: 4 }, () => ({ dataUrl: '', caption: '' }));
+const companyInfo = {
+  name: 'Ventra Cleaning',
+  subtitle: 'Ozone Cleaning',
+  address: '8-10 Chomley Street, Prahran VIC 3181',
+  phone: '0432066372',
+  email: 'osmntmz@hotmail.com',
+  abn: '89135767014'
+};
+
+function switchAdminView(view) {
+  document.getElementById('bookingsView').classList.toggle('active', view === 'bookings');
+  document.getElementById('invoiceView').classList.toggle('active', view === 'invoice');
+  document.getElementById('quoteView').classList.toggle('active', view === 'quote');
+  document.getElementById('reviewsView').classList.toggle('active', view === 'reviews');
+  document.getElementById('bookingsTab').classList.toggle('active', view === 'bookings');
+  document.getElementById('invoiceTab').classList.toggle('active', view === 'invoice');
+  document.getElementById('quoteTab').classList.toggle('active', view === 'quote');
+  document.getElementById('reviewsTab').classList.toggle('active', view === 'reviews');
+  document.querySelector('.admin-title').textContent = view === 'invoice'
+    ? 'Invoice Generator'
+    : (view === 'quote' ? 'Estimated Quote' : (view === 'reviews' ? 'Customer Reviews' : 'Booking Management'));
+  if (view === 'reviews') loadAdminReviews();
+  if (view === 'invoice' || view === 'quote') loadSavedDocuments();
+}
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function addDaysISO(days) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function money(value) {
+  const amount = Number(value || 0);
+  return amount < 0 ? '-$' + Math.abs(amount).toFixed(2) : '$' + amount.toFixed(2);
+}
+
+function numberValue(id) {
+  return Number(document.getElementById(id)?.value || 0) || 0;
+}
+
+function getLocalDocumentStore() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(documentStorageKey) || '{}');
+    return {
+      invoices: Array.isArray(stored.invoices) ? stored.invoices : [],
+      quotes: Array.isArray(stored.quotes) ? stored.quotes : [],
+      counters: {
+        invoice: Number(stored.counters?.invoice || 0) || 0,
+        quote: Number(stored.counters?.quote || 0) || 0
+      }
+    };
+  } catch {
+    return { invoices: [], quotes: [], counters: { invoice: 0, quote: 0 } };
+  }
+}
+
+function setLocalDocumentStore(store) {
+  localStorage.setItem(documentStorageKey, JSON.stringify({
+    invoices: Array.isArray(store.invoices) ? store.invoices : [],
+    quotes: Array.isArray(store.quotes) ? store.quotes : [],
+    counters: {
+      invoice: Number(store.counters?.invoice || 0) || 0,
+      quote: Number(store.counters?.quote || 0) || 0
+    }
+  }));
+}
+
+function getNumericSuffix(value) {
+  const match = String(value || '').match(/(\d+)(?!.*\d)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function getNextDocumentNumber(type, counters = {}) {
+  const collection = type === 'invoice' ? savedInvoices : savedQuotes;
+  const currentCounter = Number(counters[type] || 0) || 0;
+  const maxExisting = collection.reduce((max, document) => Math.max(max, getNumericSuffix(document.number)), 0);
+  const minimumCounter = type === 'invoice' ? 26000 : 0;
+  const next = Math.max(minimumCounter, currentCounter, maxExisting) + 1;
+  return type === 'invoice' ? String(next) : `VQ-${next}`;
+}
+
+function refreshNextDocumentNumbers(counters = {}) {
+  if (!activeInvoiceId) document.getElementById('invoiceNumber').value = getNextDocumentNumber('invoice', counters);
+  if (!activeQuoteId) document.getElementById('quoteNumber').value = getNextDocumentNumber('quote', counters);
+}
+
+function escapeJsString(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r?\n/g, ' ');
+}
+
+function getSavedDocument(type, id) {
+  const collection = type === 'invoice' ? savedInvoices : savedQuotes;
+  return collection.find(document => String(document.id) === String(id));
+}
+
+async function loadSavedDocuments() {
+  try {
+    const response = await fetch('/api/documents', { cache: 'no-store' });
+    if (!response.ok) {
+      let errorMessage = 'Document API unavailable';
+      try {
+        const data = await response.json();
+        errorMessage = data.error || errorMessage;
+      } catch (parseError) {}
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    const documents = Array.isArray(data.documents) ? data.documents : [];
+    savedInvoices = documents.filter(document => document.type === 'invoice');
+    savedQuotes = documents.filter(document => document.type === 'quote');
+    setLocalDocumentStore({ invoices: savedInvoices, quotes: savedQuotes, counters: data.counters || {} });
+    renderSavedDocuments('invoice');
+    renderSavedDocuments('quote');
+    refreshNextDocumentNumbers(data.counters || {});
+  } catch (error) {
+    console.error('Error loading saved documents:', error);
+    const store = getLocalDocumentStore();
+    savedInvoices = store.invoices;
+    savedQuotes = store.quotes;
+    renderSavedDocuments('invoice');
+    renderSavedDocuments('quote');
+    refreshNextDocumentNumbers(store.counters);
+  }
+}
+
+function renderSavedDocuments(type) {
+  const documents = type === 'invoice' ? savedInvoices : savedQuotes;
+  const list = document.getElementById(type === 'invoice' ? 'savedInvoicesList' : 'savedQuotesList');
+  const empty = document.getElementById(type === 'invoice' ? 'noSavedInvoices' : 'noSavedQuotes');
+  if (!list || !empty) return;
+
+  const sorted = [...documents].sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+  if (sorted.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = sorted.map(savedDocument => {
+    const data = savedDocument.data || {};
+    const customerName = savedDocument.customerName || data.customerName || 'Customer';
+    const date = savedDocument.documentDate || data.invoiceDate || data.quoteDate || '';
+    const isCancelled = savedDocument.status === 'cancelled' || data.status === 'cancelled';
+    const cancelButton = type === 'invoice' && !isCancelled
+      ? `<button class="btn-sm" style="background: var(--yellow); color: white;" onclick="cancelSavedInvoice('${escapeJsString(savedDocument.id)}')">Cancel</button>`
+      : '';
+    return `
+      <div class="invoice-saved-card">
+        <div>
+          <div class="invoice-saved-number">${escapeHtml(savedDocument.number)}</div>
+          <div class="invoice-saved-meta">${escapeHtml(formatDate(date))}</div>
+          ${isCancelled ? '<span class="invoice-saved-status">Cancelled</span>' : ''}
+        </div>
+        <div>
+          <strong>${escapeHtml(customerName)}</strong>
+          <div class="invoice-saved-meta">${escapeHtml(savedDocument.customerPhone || data.customerPhone || '')}</div>
+          <div class="invoice-saved-meta">Saved: ${escapeHtml(formatDateTime(savedDocument.timestamp))}</div>
+        </div>
+        <div class="invoice-saved-total">${money(savedDocument.total || data.total || 0)}</div>
+        <div class="invoice-saved-actions">
+          <button class="btn-sm" style="background: var(--teal); color: white;" onclick="loadSavedDocument('${type}', '${escapeJsString(savedDocument.id)}')">Load</button>
+          <button class="btn-sm btn-confirm" onclick="downloadSavedDocument('${type}', '${escapeJsString(savedDocument.id)}')">PDF</button>
+          ${cancelButton}
+          <button class="btn-sm" style="background: #7f1d1d; color: white;" onclick="deleteSavedDocument('${type}', '${escapeJsString(savedDocument.id)}')">Delete</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function saveDocumentLocal(type, data, id = '') {
+  const store = getLocalDocumentStore();
+  const collectionName = type === 'invoice' ? 'invoices' : 'quotes';
+  const collection = store[collectionName];
+  const existing = id ? collection.find(document => String(document.id) === String(id)) : null;
+  let number = existing?.number;
+
+  if (!number) {
+    const maxExisting = collection.reduce((max, document) => Math.max(max, getNumericSuffix(document.number)), 0);
+    const minimumCounter = type === 'invoice' ? 26000 : 0;
+    const next = Math.max(minimumCounter, Number(store.counters[type] || 0) || 0, maxExisting) + 1;
+    store.counters[type] = next;
+    number = type === 'invoice' ? String(next) : `VQ-${next}`;
+  }
+
+  if (type === 'invoice') data.invoiceNumber = number;
+  if (type === 'quote') data.quoteNumber = number;
+
+  const now = new Date().toISOString();
+  const savedDocument = {
+    id: existing?.id || `${Date.now()}${Math.random().toString(36).slice(2, 8)}`,
+    type,
+    number,
+    status: data.status || existing?.status || 'active',
+    cancelledAt: data.status === 'cancelled' ? (data.cancelledAt || existing?.cancelledAt || now) : '',
+    timestamp: existing?.timestamp || now,
+    updatedAt: now,
+    documentDate: type === 'invoice' ? data.invoiceDate : data.quoteDate,
+    customerName: data.customerName || '',
+    customerEmail: data.customerEmail || '',
+    customerPhone: data.customerPhone || '',
+    total: Number(data.total || 0),
+    data
+  };
+
+  if (existing) {
+    const index = collection.findIndex(item => String(item.id) === String(id));
+    collection[index] = savedDocument;
+  } else {
+    collection.push(savedDocument);
+  }
+
+  setLocalDocumentStore(store);
+  savedInvoices = store.invoices;
+  savedQuotes = store.quotes;
+  renderSavedDocuments(type);
+  refreshNextDocumentNumbers(store.counters);
+  return savedDocument;
+}
+
+async function saveDocument(type) {
+  const data = type === 'invoice' ? getInvoiceData() : getQuoteData();
+  const id = type === 'invoice' ? activeInvoiceId : activeQuoteId;
+  const existingDocument = id ? getSavedDocument(type, id) : null;
+  if (type === 'invoice' && existingDocument?.status === 'cancelled') {
+    data.status = 'cancelled';
+    data.cancelledAt = existingDocument.cancelledAt || existingDocument.data?.cancelledAt || new Date().toISOString();
+  }
+
+  try {
+    const response = await fetch('/api/documents', {
+      method: id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, id, data })
+    });
+
+    if (!response.ok) {
+      let errorMessage = 'Document save failed';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch (parseError) {}
+      throw new Error(errorMessage);
+    }
+
+    const result = await response.json();
+    const savedDocument = result.document;
+    if (type === 'invoice') {
+      activeInvoiceId = savedDocument.id;
+      document.getElementById('invoiceNumber').value = savedDocument.number;
+    } else {
+      activeQuoteId = savedDocument.id;
+      document.getElementById('quoteNumber').value = savedDocument.number;
+    }
+    await loadSavedDocuments();
+    if (result.persistent === false) {
+      alert('Saved in this browser, but backend persistent storage is not configured.');
+    }
+    return savedDocument;
+  } catch (error) {
+    console.error('Error saving document:', error);
+    alert('Could not save to backend. This document will be saved in this browser only.');
+    const savedDocument = saveDocumentLocal(type, data, id);
+    if (type === 'invoice') {
+      activeInvoiceId = savedDocument.id;
+      document.getElementById('invoiceNumber').value = savedDocument.number;
+    } else {
+      activeQuoteId = savedDocument.id;
+      document.getElementById('quoteNumber').value = savedDocument.number;
+    }
+    return savedDocument;
+  }
+}
+
+function loadSavedDocument(type, id) {
+  const savedDocument = getSavedDocument(type, id);
+  if (!savedDocument?.data) return;
+
+  if (type === 'invoice') {
+    activeInvoiceId = savedDocument.id;
+    fillInvoiceForm(savedDocument.data);
+    switchAdminView('invoice');
+  } else {
+    activeQuoteId = savedDocument.id;
+    fillQuoteForm(savedDocument.data);
+    switchAdminView('quote');
+  }
+}
+
+async function downloadSavedDocument(type, id) {
+  const savedDocument = getSavedDocument(type, id);
+  if (!savedDocument?.data) return;
+  if (type === 'invoice') {
+    await generateInvoicePdf(savedDocument.data);
+  } else {
+    await generateQuotePdf(savedDocument.data);
+  }
+}
+
+async function cancelSavedInvoice(id) {
+  const savedDocument = getSavedDocument('invoice', id);
+  if (!savedDocument?.data) return;
+  if (savedDocument.status === 'cancelled' || savedDocument.data.status === 'cancelled') {
+    await generateInvoicePdf(savedDocument.data);
+    return;
+  }
+  if (!confirm('Are you sure you want to cancel this invoice?')) return;
+
+  const cancelledData = {
+    ...savedDocument.data,
+    status: 'cancelled',
+    cancelledAt: new Date().toISOString()
+  };
+
+  try {
+    const response = await fetch('/api/documents', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'invoice', id, data: cancelledData })
+    });
+
+    if (!response.ok) throw new Error('Invoice cancel failed');
+    const result = await response.json();
+    await loadSavedDocuments();
+    await generateInvoicePdf(result.document.data);
+  } catch (error) {
+    console.error('Error cancelling invoice:', error);
+    const localDocument = saveDocumentLocal('invoice', cancelledData, id);
+    if (activeInvoiceId === id) fillInvoiceForm(localDocument.data);
+    await generateInvoicePdf(localDocument.data);
+  }
+}
+
+async function deleteSavedDocument(type, id) {
+  if (!confirm('Are you sure you want to permanently delete this saved document?')) return;
+  try {
+    const response = await fetch(`/api/documents?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Document delete failed');
+    await loadSavedDocuments();
+  } catch (error) {
+    console.error('Error deleting saved document:', error);
+    const store = getLocalDocumentStore();
+    const collectionName = type === 'invoice' ? 'invoices' : 'quotes';
+    store[collectionName] = store[collectionName].filter(document => String(document.id) !== String(id));
+    setLocalDocumentStore(store);
+    savedInvoices = store.invoices;
+    savedQuotes = store.quotes;
+    renderSavedDocuments(type);
+  }
+
+  if (type === 'invoice' && activeInvoiceId === id) resetInvoiceForm();
+  if (type === 'quote' && activeQuoteId === id) resetQuoteForm();
+}
 
 // Login functionality
 function login() {
@@ -537,6 +1818,7 @@ function login() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'block';
     loadBookings();
+    loadSavedDocuments();
   } else {
     const errorDiv = document.getElementById('loginError');
     errorDiv.textContent = 'Invalid username or password';
@@ -552,24 +1834,1255 @@ function logout() {
   document.getElementById('loginError').style.display = 'none';
 }
 
-// Load bookings from localStorage
-function loadBookings() {
+function getServiceName(service) {
+  return typeof service === 'string' ? service : (service.name || 'Unknown');
+}
+
+function getServicePrice(service) {
+  return typeof service === 'string' ? null : service.price;
+}
+
+function isFreeInspectionBooking(booking) {
+  const serviceText = Array.isArray(booking.services)
+    ? booking.services.map(getServiceName).join(' + ')
+    : (booking.serviceName || booking.service || '');
+  return booking.bookingType === 'free_inspection' || /free inspection/i.test(serviceText);
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function normalizeStatus(status) {
+  return status === 'confirmed' ? 'approved' : (status || 'pending');
+}
+
+function getStars(rating) {
+  return '★'.repeat(Math.max(1, Math.min(5, Number(rating) || 5)));
+}
+
+async function loadAdminReviews() {
   try {
+    const response = await fetch('/api/reviews', { cache: 'no-store' });
+    if (!response.ok) {
+      let errorMessage = 'Reviews API unavailable';
+      try {
+        const data = await response.json();
+        errorMessage = data.error || errorMessage;
+      } catch (parseError) {}
+      throw new Error(errorMessage);
+    }
+    const data = await response.json();
+    allReviews = data.reviews || [];
+    renderAdminReviews();
+  } catch (error) {
+    console.error('Error loading reviews:', error);
+    if (error.message === 'Review storage is not configured') {
+      alert('Review storage is not configured. Add the KV/Upstash environment variables in Vercel.');
+    } else {
+      alert('Could not load reviews.');
+    }
+    allReviews = [];
+    renderAdminReviews();
+  }
+}
+
+function filterAdminReviews(status) {
+  currentReviewFilter = status;
+  document.querySelectorAll('#reviewsView .filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  renderAdminReviews();
+}
+
+function renderAdminReviews() {
+  const list = document.getElementById('adminReviewsList');
+  const empty = document.getElementById('noAdminReviews');
+  if (!list || !empty) return;
+
+  let reviews = allReviews;
+  if (currentReviewFilter !== 'all') {
+    reviews = allReviews.filter(review => review.status === currentReviewFilter);
+  }
+
+  if (reviews.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = reviews.map(review => `
+    <div class="admin-review-card">
+      <div class="admin-review-top">
+        <div>
+          <div class="admin-review-name">${escapeHtml(review.name)}</div>
+          <div class="admin-review-meta">${escapeHtml(review.suburb)} • ${formatDateTime(review.timestamp)}</div>
+        </div>
+        <div class="admin-review-stars">${getStars(review.rating)}</div>
+      </div>
+      <p class="admin-review-text">${escapeHtml(review.text)}</p>
+      <div style="margin-bottom:12px">
+        <span class="status-badge ${review.status || 'pending'}">${review.status || 'pending'}</span>
+      </div>
+      <div class="admin-review-actions">
+        <button class="btn-sm btn-confirm" onclick="updateReviewStatus('${review.id}', 'approved')">Approve</button>
+        <button class="btn-sm btn-reject" onclick="updateReviewStatus('${review.id}', 'rejected')">Reject</button>
+        <button class="btn-sm" style="background: var(--ink3); color: white;" onclick="updateReviewStatus('${review.id}', 'pending')">Reset</button>
+        <button class="btn-sm" style="background: #7f1d1d; color: white;" onclick="deleteReview('${review.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function updateReviewStatus(id, status) {
+  try {
+    const response = await fetch(`/api/reviews?id=${encodeURIComponent(id)}&status=${encodeURIComponent(status)}`, { method: 'PATCH' });
+    if (!response.ok) throw new Error('Review update failed');
+    const review = allReviews.find(item => String(item.id) === String(id));
+    if (review) {
+      review.status = status;
+      review.updatedAt = new Date().toISOString();
+    }
+    renderAdminReviews();
+  } catch (error) {
+    console.error('Error updating review:', error);
+    alert('Could not update review status.');
+  }
+}
+
+async function deleteReview(id) {
+  if (!confirm('Are you sure you want to permanently delete this review?')) return;
+  try {
+    const response = await fetch(`/api/reviews?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Review delete failed');
+    allReviews = allReviews.filter(item => String(item.id) !== String(id));
+    renderAdminReviews();
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    alert('Could not delete review.');
+  }
+}
+
+function initInvoiceGenerator() {
+  document.getElementById('invoiceNumber').value = getNextDocumentNumber('invoice');
+  document.getElementById('invoiceDate').value = todayISO();
+  document.getElementById('invoiceDueDate').value = addDaysISO(7);
+  updateInvoiceBankDetailsState(false);
+  invoiceItems = [{ description: 'Ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  renderInvoiceItems();
+  document.querySelectorAll('#invoiceView input, #invoiceView textarea').forEach(input => {
+    input.addEventListener('input', renderInvoicePreview);
+  });
+  renderInvoicePreview();
+}
+
+function resetInvoiceForm() {
+  activeInvoiceId = '';
+  document.getElementById('invoiceNumber').value = getNextDocumentNumber('invoice');
+  document.getElementById('invoiceDate').value = todayISO();
+  document.getElementById('invoiceDueDate').value = addDaysISO(7);
+  document.getElementById('invoiceCustomerName').value = '';
+  document.getElementById('invoiceCustomerEmail').value = '';
+  document.getElementById('invoiceCustomerPhone').value = '';
+  document.getElementById('invoiceBillingAddress').value = '';
+  document.getElementById('invoiceTransport').value = '0';
+  document.getElementById('invoiceGst').value = '0';
+  document.getElementById('invoiceDiscount').value = '0';
+  document.getElementById('invoicePaymentDetails').value = '';
+  updateInvoiceBankDetailsState(false);
+  document.getElementById('invoiceNotes').value = 'Thank you for choosing Ventra Cleaning.';
+  invoiceItems = [{ description: 'Ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  invoicePhotos = Array.from({ length: 4 }, () => ({ dataUrl: '', caption: '' }));
+  for (let i = 0; i < 4; i++) {
+    const caption = document.getElementById(`invoicePhotoCaption${i}`);
+    const preview = document.getElementById(`invoicePhotoPreview${i}`);
+    const card = document.querySelectorAll('.invoice-photo-card')[i];
+    if (caption) caption.value = '';
+    if (card) card.querySelectorAll('input[type="file"]').forEach(input => { input.value = ''; });
+    if (preview) {
+      preview.classList.remove('has-photo');
+      preview.querySelector('img').src = '';
+    }
+  }
+  renderInvoiceItems();
+}
+
+function updateInvoiceBankDetailsState(includeBankDetails) {
+  const include = Boolean(includeBankDetails);
+  const input = document.getElementById('invoiceIncludeBankDetails');
+  const textarea = document.getElementById('invoicePaymentDetails');
+  const button = document.getElementById('invoiceBankDetailsBtn');
+  if (input) input.value = include ? '1' : '0';
+  if (textarea) textarea.value = include ? invoiceBankDetails : '';
+  if (button) button.textContent = include ? 'Remove bank details' : 'Add bank details';
+  renderInvoicePreview();
+}
+
+function toggleInvoiceBankDetails() {
+  updateInvoiceBankDetailsState(document.getElementById('invoiceIncludeBankDetails')?.value !== '1');
+}
+
+function fillInvoiceForm(data) {
+  document.getElementById('invoiceNumber').value = data.invoiceNumber || getNextDocumentNumber('invoice');
+  document.getElementById('invoiceDate').value = data.invoiceDate || todayISO();
+  document.getElementById('invoiceDueDate').value = data.dueDate || addDaysISO(7);
+  document.getElementById('invoiceCustomerName').value = data.customerName || '';
+  document.getElementById('invoiceCustomerEmail').value = data.customerEmail || '';
+  document.getElementById('invoiceCustomerPhone').value = data.customerPhone || '';
+  document.getElementById('invoiceBillingAddress').value = data.billingAddress || '';
+  document.getElementById('invoiceTransport').value = Number(data.transportation || 0);
+  document.getElementById('invoiceGst').value = Number(data.gst || 0);
+  document.getElementById('invoiceDiscount').value = Number(data.discount || 0);
+  updateInvoiceBankDetailsState(Boolean(data.includeBankDetails));
+  if (!data.includeBankDetails) document.getElementById('invoicePaymentDetails').value = data.paymentDetails || '';
+  document.getElementById('invoiceNotes').value = data.notes || '';
+  invoiceItems = Array.isArray(data.items) && data.items.length
+    ? data.items.map(item => ({
+        description: item.description || '',
+        quantity: Number(item.quantity || 0),
+        unitPrice: Number(item.unitPrice || 0)
+      }))
+    : [{ description: 'Ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  invoicePhotos = Array.from({ length: 4 }, (_, index) => {
+    const photo = Array.isArray(data.photos) ? data.photos[index] : null;
+    return { dataUrl: photo?.dataUrl || '', caption: photo?.caption || '' };
+  });
+  for (let i = 0; i < 4; i++) {
+    const caption = document.getElementById(`invoicePhotoCaption${i}`);
+    const preview = document.getElementById(`invoicePhotoPreview${i}`);
+    const card = document.querySelectorAll('.invoice-photo-card')[i];
+    if (caption) caption.value = invoicePhotos[i].caption || '';
+    if (card) card.querySelectorAll('input[type="file"]').forEach(input => { input.value = ''; });
+    if (preview) {
+      preview.querySelector('img').src = invoicePhotos[i].dataUrl || '';
+      preview.classList.toggle('has-photo', Boolean(invoicePhotos[i].dataUrl));
+    }
+  }
+  renderInvoiceItems();
+  renderInvoicePreview();
+}
+
+function createInvoiceFromBooking(id) {
+  const booking = allBookings.find(item => String(item.id) === String(id));
+  if (!booking) {
+    alert('Booking not found.');
+    return;
+  }
+
+  const serviceNames = Array.isArray(booking.services) && booking.services.length
+    ? booking.services.map(getServiceName)
+    : [booking.serviceName || booking.service || 'Cleaning service'];
+  const serviceDescription = serviceNames.join(' + ');
+  const servicePrice = Number(booking.servicePrice || booking.originalPrice || booking.price || booking.totalPrice || 0);
+  const travelFee = Number(booking.travelSurcharge || booking.distanceSurcharge || 0);
+  const bookingDate = booking.date && !Number.isNaN(new Date(booking.date).getTime()) ? booking.date : todayISO();
+  const issueNote = booking.issue ? `Booking notes: ${booking.issue}` : 'Thank you for choosing Ventra Cleaning.';
+  const invoiceData = {
+    invoiceNumber: getNextDocumentNumber('invoice'),
+    invoiceDate: bookingDate,
+    dueDate: bookingDate,
+    customerName: booking.name || '',
+    customerEmail: booking.email || '',
+    customerPhone: booking.phone || '',
+    billingAddress: booking.address || '',
+    paymentDetails: '',
+    includeBankDetails: false,
+    notes: issueNote,
+    items: [
+      {
+        description: serviceDescription,
+        quantity: 1,
+        unitPrice: servicePrice,
+        amount: servicePrice
+      }
+    ],
+    subtotal: servicePrice,
+    transportation: travelFee,
+    gst: 0,
+    discount: Number(booking.discount || 0),
+    total: Number(booking.totalPrice || booking.price || servicePrice + travelFee),
+    photos: []
+  };
+
+  activeInvoiceId = '';
+  fillInvoiceForm(invoiceData);
+  switchAdminView('invoice');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resizeImageFile(file, maxSize = 1400, quality = 0.78) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve('');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+        const width = Math.max(1, Math.round(img.width * scale));
+        const height = Math.max(1, Math.round(img.height * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleInvoicePhoto(index, file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  try {
+    const dataUrl = await resizeImageFile(file);
+    invoicePhotos[index].dataUrl = dataUrl;
+    const preview = document.getElementById(`invoicePhotoPreview${index}`);
+    preview.querySelector('img').src = dataUrl;
+    preview.classList.add('has-photo');
+  } catch (error) {
+    console.error('Photo processing failed:', error);
+    alert('This photo could not be loaded. Please try a different image.');
+  }
+}
+
+function updateInvoicePhotoCaption(index, value) {
+  invoicePhotos[index].caption = value;
+}
+
+function removeInvoicePhoto(index) {
+  invoicePhotos[index] = { dataUrl: '', caption: invoicePhotos[index]?.caption || '' };
+  const preview = document.getElementById(`invoicePhotoPreview${index}`);
+  const card = document.querySelectorAll('.invoice-photo-card')[index];
+  if (card) card.querySelectorAll('input[type="file"]').forEach(input => { input.value = ''; });
+  if (preview) {
+    preview.classList.remove('has-photo');
+    preview.querySelector('img').src = '';
+  }
+}
+
+function initQuoteGenerator() {
+  document.getElementById('quoteNumber').value = getNextDocumentNumber('quote');
+  document.getElementById('quoteDate').value = todayISO();
+  document.getElementById('quoteValidUntil').value = addDaysISO(14);
+  quoteItems = [{ description: 'Estimated ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  renderQuoteItems();
+  document.querySelectorAll('#quoteView input, #quoteView textarea').forEach(input => {
+    input.addEventListener('input', renderQuotePreview);
+  });
+  renderQuotePreview();
+}
+
+function resetQuoteForm() {
+  activeQuoteId = '';
+  document.getElementById('quoteNumber').value = getNextDocumentNumber('quote');
+  document.getElementById('quoteDate').value = todayISO();
+  document.getElementById('quoteValidUntil').value = addDaysISO(14);
+  document.getElementById('quoteCustomerName').value = '';
+  document.getElementById('quoteCustomerEmail').value = '';
+  document.getElementById('quoteCustomerPhone').value = '';
+  document.getElementById('quoteServiceAddress').value = '';
+  document.getElementById('quoteServiceType').value = '';
+  document.getElementById('quoteJobDescription').value = '';
+  document.getElementById('quoteTransport').value = '0';
+  document.getElementById('quoteGst').value = '0';
+  document.getElementById('quoteDiscount').value = '0';
+  document.getElementById('quoteNotes').value = '';
+  document.getElementById('quoteTerms').value = 'This is an estimated quote only. Final pricing may vary depending on site conditions, contamination level, access, parking, and any additional treatment required.';
+  document.getElementById('quoteAcceptanceDetails').value = '';
+  quoteItems = [{ description: 'Estimated ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  removeQuoteImage();
+  renderQuoteItems();
+}
+
+function fillQuoteForm(data) {
+  document.getElementById('quoteNumber').value = data.quoteNumber || getNextDocumentNumber('quote');
+  document.getElementById('quoteDate').value = data.quoteDate || todayISO();
+  document.getElementById('quoteValidUntil').value = data.validUntil || addDaysISO(14);
+  document.getElementById('quoteCustomerName').value = data.customerName || '';
+  document.getElementById('quoteCustomerEmail').value = data.customerEmail || '';
+  document.getElementById('quoteCustomerPhone').value = data.customerPhone || '';
+  document.getElementById('quoteServiceAddress').value = data.serviceAddress || '';
+  document.getElementById('quoteServiceType').value = data.serviceType || '';
+  document.getElementById('quoteJobDescription').value = data.jobDescription || '';
+  document.getElementById('quoteTransport').value = Number(data.transportation || 0);
+  document.getElementById('quoteGst').value = Number(data.gst || 0);
+  document.getElementById('quoteDiscount').value = Number(data.discount || 0);
+  document.getElementById('quoteNotes').value = data.notes || '';
+  document.getElementById('quoteTerms').value = data.terms || '';
+  document.getElementById('quoteAcceptanceDetails').value = data.acceptanceDetails || '';
+  quoteItems = Array.isArray(data.items) && data.items.length
+    ? data.items.map(item => ({
+        description: item.description || '',
+        quantity: Number(item.quantity || 0),
+        unitPrice: Number(item.unitPrice || 0)
+      }))
+    : [{ description: 'Estimated ozone cleaning service', quantity: 1, unitPrice: 0 }];
+  quoteImage = data.image || '';
+  const preview = document.getElementById('quoteImagePreview');
+  if (preview) {
+    preview.querySelector('img').src = quoteImage;
+    preview.classList.toggle('has-photo', Boolean(quoteImage));
+  }
+  ['quoteImageGallery', 'quoteImageCamera'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.value = '';
+  });
+  renderQuoteItems();
+  renderQuotePreview();
+}
+
+function addQuoteItem() {
+  quoteItems.push({ description: '', quantity: 1, unitPrice: 0 });
+  renderQuoteItems();
+}
+
+function removeQuoteItem(index) {
+  quoteItems.splice(index, 1);
+  if (quoteItems.length === 0) {
+    quoteItems.push({ description: '', quantity: 1, unitPrice: 0 });
+  }
+  renderQuoteItems();
+}
+
+function updateQuoteItem(index, field, value) {
+  if (!quoteItems[index]) return;
+  quoteItems[index][field] = field === 'description' ? value : Number(value || 0);
+  renderQuotePreview();
+}
+
+function renderQuoteItems() {
+  const container = document.getElementById('quoteItems');
+  container.innerHTML = quoteItems.map((item, index) => `
+    <div class="invoice-item-row">
+      <input type="text" value="${escapeHtml(item.description)}" placeholder="Estimated item description" oninput="updateQuoteItem(${index}, 'description', this.value)">
+      <input type="number" min="0" step="0.01" value="${Number(item.quantity || 0)}" placeholder="Qty" oninput="updateQuoteItem(${index}, 'quantity', this.value)">
+      <input type="number" min="0" step="0.01" value="${Number(item.unitPrice || 0)}" placeholder="Unit price" oninput="updateQuoteItem(${index}, 'unitPrice', this.value)">
+      <button class="invoice-remove" type="button" onclick="removeQuoteItem(${index})">x</button>
+    </div>
+  `).join('');
+  renderQuotePreview();
+}
+
+async function handleQuoteImage(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  try {
+    quoteImage = await resizeImageFile(file, 1800, 0.8);
+    const preview = document.getElementById('quoteImagePreview');
+    preview.querySelector('img').src = quoteImage;
+    preview.classList.add('has-photo');
+  } catch (error) {
+    console.error('Quote image processing failed:', error);
+    alert('This image could not be loaded. Please try a different image.');
+  }
+}
+
+function removeQuoteImage() {
+  quoteImage = '';
+  ['quoteImageGallery', 'quoteImageCamera'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.value = '';
+  });
+  const preview = document.getElementById('quoteImagePreview');
+  if (preview) {
+    preview.classList.remove('has-photo');
+    preview.querySelector('img').src = '';
+  }
+}
+
+function getQuoteData() {
+  const items = quoteItems.map(item => {
+    const quantity = Number(item.quantity || 0);
+    const unitPrice = Number(item.unitPrice || 0);
+    return {
+      description: item.description || 'Estimated service',
+      quantity,
+      unitPrice,
+      amount: quantity * unitPrice
+    };
+  });
+  const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+  const transportation = numberValue('quoteTransport');
+  const gst = numberValue('quoteGst');
+  const discount = numberValue('quoteDiscount');
+  const total = subtotal + transportation + gst - discount;
+
+  return {
+    quoteNumber: document.getElementById('quoteNumber').value.trim() || 'VQ-QUOTE',
+    quoteDate: document.getElementById('quoteDate').value,
+    validUntil: document.getElementById('quoteValidUntil').value,
+    customerName: document.getElementById('quoteCustomerName').value.trim(),
+    customerEmail: document.getElementById('quoteCustomerEmail').value.trim(),
+    customerPhone: document.getElementById('quoteCustomerPhone').value.trim(),
+    serviceAddress: document.getElementById('quoteServiceAddress').value.trim(),
+    serviceType: document.getElementById('quoteServiceType').value.trim(),
+    jobDescription: document.getElementById('quoteJobDescription').value.trim(),
+    notes: document.getElementById('quoteNotes').value.trim(),
+    terms: document.getElementById('quoteTerms').value.trim(),
+    acceptanceDetails: document.getElementById('quoteAcceptanceDetails').value.trim(),
+    image: quoteImage,
+    items,
+    subtotal,
+    transportation,
+    gst,
+    discount,
+    total
+  };
+}
+
+function renderQuotePreview() {
+  const data = getQuoteData();
+  const preview = document.getElementById('quotePreview');
+  preview.innerHTML = `
+    <div class="invoice-preview-top">
+      <div class="invoice-preview-brand">
+        <img src="/ventra-logo.png" alt="Ventra Cleaning">
+        <div>
+          <h2>${companyInfo.name}</h2>
+          <p>${companyInfo.subtitle}</p>
+        </div>
+      </div>
+      <div class="invoice-preview-meta">
+        <h1>ESTIMATED QUOTE</h1>
+        <p><strong>Quote:</strong> ${escapeHtml(data.quoteNumber)}</p>
+        <p><strong>Date:</strong> ${escapeHtml(data.quoteDate)}</p>
+        <p><strong>Valid until:</strong> ${escapeHtml(data.validUntil)}</p>
+      </div>
+    </div>
+
+    <div class="invoice-preview-section invoice-preview-parties">
+      <div class="invoice-preview-company">
+        <h3>From</h3>
+        <p><strong>${companyInfo.name}</strong></p>
+        <p>${companyInfo.address}</p>
+        <p>Phone: ${companyInfo.phone}</p>
+        <p>Email: ${companyInfo.email}</p>
+        <p>ABN: ${companyInfo.abn}</p>
+      </div>
+      <div class="invoice-preview-bill">
+        <h3>Customer</h3>
+        <p><strong>${escapeHtml(data.customerName || 'Customer name')}</strong></p>
+        <p>${escapeHtml(data.customerEmail || 'Customer email')}</p>
+        <p>${escapeHtml(data.customerPhone || 'Customer phone')}</p>
+        <p>${escapeHtml(data.serviceAddress || 'Service address')}</p>
+      </div>
+    </div>
+
+    <div class="invoice-preview-section">
+      <h3>Job Details</h3>
+      <p style="color:#5d6674;font-size:.9rem;margin:0 0 5px"><strong>Service type:</strong> ${escapeHtml(data.serviceType || 'Service type')}</p>
+      <p style="color:#5d6674;font-size:.9rem;margin:0">${escapeHtml(data.jobDescription || 'Job description')}</p>
+    </div>
+
+    <div class="invoice-preview-section">
+      <h3>Estimated Service Items</h3>
+      <table class="invoice-preview-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.items.map(item => `
+            <tr>
+              <td>${escapeHtml(item.description)}</td>
+              <td>${item.quantity}</td>
+              <td>${money(item.unitPrice)}</td>
+              <td>${money(item.amount)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="invoice-preview-totals">
+        <div class="invoice-total-row"><span>Subtotal</span><strong>${money(data.subtotal)}</strong></div>
+        <div class="invoice-total-row"><span>Transportation fee</span><strong>${money(data.transportation)}</strong></div>
+        <div class="invoice-total-row"><span>GST</span><strong>${money(data.gst)}</strong></div>
+        <div class="invoice-total-row"><span>Discount</span><strong>-${money(data.discount)}</strong></div>
+        <div class="invoice-total-row net"><span>Estimated Total</span><strong>${money(data.total)}</strong></div>
+      </div>
+    </div>
+
+    <div class="invoice-preview-footer">
+      <div class="invoice-preview-notes">
+        <h3>Notes</h3>
+        <p>${escapeHtml(data.notes || 'Notes')}</p>
+      </div>
+      <div class="invoice-preview-notes">
+        <h3>Terms / Disclaimer</h3>
+        <p>${escapeHtml(data.terms)}</p>
+      </div>
+    </div>
+  `;
+}
+
+function addInvoiceItem() {
+  invoiceItems.push({ description: '', quantity: 1, unitPrice: 0 });
+  renderInvoiceItems();
+}
+
+function removeInvoiceItem(index) {
+  invoiceItems.splice(index, 1);
+  if (invoiceItems.length === 0) {
+    invoiceItems.push({ description: '', quantity: 1, unitPrice: 0 });
+  }
+  renderInvoiceItems();
+}
+
+function updateInvoiceItem(index, field, value) {
+  if (!invoiceItems[index]) return;
+  invoiceItems[index][field] = field === 'description' ? value : Number(value || 0);
+  renderInvoicePreview();
+}
+
+function renderInvoiceItems() {
+  const container = document.getElementById('invoiceItems');
+  container.innerHTML = invoiceItems.map((item, index) => `
+    <div class="invoice-item-row">
+      <input type="text" value="${escapeHtml(item.description)}" placeholder="Service description" oninput="updateInvoiceItem(${index}, 'description', this.value)">
+      <input type="number" min="0" step="0.01" value="${Number(item.quantity || 0)}" placeholder="Qty" oninput="updateInvoiceItem(${index}, 'quantity', this.value)">
+      <input type="number" min="0" step="0.01" value="${Number(item.unitPrice || 0)}" placeholder="Unit price" oninput="updateInvoiceItem(${index}, 'unitPrice', this.value)">
+      <button class="invoice-remove" type="button" onclick="removeInvoiceItem(${index})">x</button>
+    </div>
+  `).join('');
+  renderInvoicePreview();
+}
+
+function getInvoiceData() {
+  const items = invoiceItems.map(item => {
+    const quantity = Number(item.quantity || 0);
+    const unitPrice = Number(item.unitPrice || 0);
+    return {
+      description: item.description || 'Service',
+      quantity,
+      unitPrice,
+      amount: quantity * unitPrice
+    };
+  });
+  const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+  const transportation = numberValue('invoiceTransport');
+  const gst = numberValue('invoiceGst');
+  const discount = numberValue('invoiceDiscount');
+  const total = subtotal + transportation + gst - discount;
+
+  return {
+    invoiceNumber: document.getElementById('invoiceNumber').value.trim() || '26001',
+    invoiceDate: document.getElementById('invoiceDate').value,
+    dueDate: document.getElementById('invoiceDueDate').value,
+    customerName: document.getElementById('invoiceCustomerName').value.trim(),
+    customerEmail: document.getElementById('invoiceCustomerEmail').value.trim(),
+    customerPhone: document.getElementById('invoiceCustomerPhone').value.trim(),
+    billingAddress: document.getElementById('invoiceBillingAddress').value.trim(),
+    includeBankDetails: document.getElementById('invoiceIncludeBankDetails')?.value === '1',
+    paymentDetails: document.getElementById('invoiceIncludeBankDetails')?.value === '1'
+      ? invoiceBankDetails
+      : document.getElementById('invoicePaymentDetails').value.trim(),
+    notes: document.getElementById('invoiceNotes').value.trim(),
+    items,
+    subtotal,
+    transportation,
+    gst,
+    discount,
+    total,
+    photos: invoicePhotos.filter(photo => photo.dataUrl)
+  };
+}
+
+function renderInvoicePreview() {
+  const data = getInvoiceData();
+  const preview = document.getElementById('invoicePreview');
+  preview.innerHTML = `
+    <div class="invoice-preview-top">
+      <div class="invoice-preview-brand">
+        <img src="/ventra-logo.png" alt="Ventra Cleaning">
+        <div>
+          <h2>${companyInfo.name}</h2>
+          <p>${companyInfo.subtitle}</p>
+        </div>
+      </div>
+      <div class="invoice-preview-meta">
+        <h1>INVOICE</h1>
+        <p><strong>Invoice:</strong> ${escapeHtml(data.invoiceNumber)}</p>
+        <p><strong>Date:</strong> ${escapeHtml(data.invoiceDate)}</p>
+        <p><strong>Due:</strong> ${escapeHtml(data.dueDate)}</p>
+      </div>
+    </div>
+
+    <div class="invoice-preview-section invoice-preview-parties">
+      <div class="invoice-preview-company">
+        <h3>From</h3>
+        <p><strong>${companyInfo.name}</strong></p>
+        <p>${companyInfo.address}</p>
+        <p>Phone: ${companyInfo.phone}</p>
+        <p>Email: ${companyInfo.email}</p>
+        <p>ABN: ${companyInfo.abn}</p>
+      </div>
+      <div class="invoice-preview-bill">
+        <h3>Bill To</h3>
+        <p><strong>${escapeHtml(data.customerName || 'Customer name')}</strong></p>
+        <p>${escapeHtml(data.customerEmail || 'Customer email')}</p>
+        <p>${escapeHtml(data.customerPhone || 'Customer phone')}</p>
+        <p>${escapeHtml(data.billingAddress || 'Billing address')}</p>
+      </div>
+    </div>
+
+    <div class="invoice-preview-section">
+      <h3>Services</h3>
+      <table class="invoice-preview-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.items.map(item => `
+            <tr>
+              <td>${escapeHtml(item.description)}</td>
+              <td>${item.quantity}</td>
+              <td>${money(item.unitPrice)}</td>
+              <td>${money(item.amount)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="invoice-preview-totals">
+        <div class="invoice-total-row"><span>Subtotal</span><strong>${money(data.subtotal)}</strong></div>
+        <div class="invoice-total-row"><span>Transportation fee</span><strong>${money(data.transportation)}</strong></div>
+        <div class="invoice-total-row"><span>GST</span><strong>${money(data.gst)}</strong></div>
+        <div class="invoice-total-row"><span>Discount</span><strong>-${money(data.discount)}</strong></div>
+        <div class="invoice-total-row net"><span>Total net</span><strong>${money(data.total)}</strong></div>
+      </div>
+    </div>
+
+    <div class="invoice-preview-footer">
+      ${data.paymentDetails ? `<div class="invoice-preview-notes">
+        <h3>Payment Details</h3>
+        <p>${escapeHtml(data.paymentDetails)}</p>
+      </div>` : ''}
+      <div class="invoice-preview-notes">
+        <h3>Notes</h3>
+        <p>${escapeHtml(data.notes || 'Notes')}</p>
+      </div>
+    </div>
+  `;
+}
+
+function getLogoDataUrl() {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve(null);
+    img.src = '/ventra-logo.png';
+  });
+}
+
+function addPdfText(doc, text, x, y, options = {}) {
+  const size = options.size || 10;
+  const color = options.color || [35, 45, 60];
+  const style = options.style || 'normal';
+  doc.setFont('helvetica', style);
+  doc.setFontSize(size);
+  doc.setTextColor(...color);
+  doc.text(String(text || ''), x, y, options.align ? { align: options.align } : undefined);
+}
+
+function addCancelledWatermark(doc) {
+  const pageCount = doc.getNumberOfPages();
+  for (let page = 1; page <= pageCount; page++) {
+    doc.setPage(page);
+    try {
+      if (doc.GState) doc.setGState(new doc.GState({ opacity: 0.16 }));
+    } catch (error) {}
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(54);
+    doc.setTextColor(185, 28, 28);
+    doc.text('CANCELLED', 105, 154, { align: 'center', angle: -35 });
+    try {
+      if (doc.GState) doc.setGState(new doc.GState({ opacity: 1 }));
+    } catch (error) {}
+  }
+}
+
+function getFittedImageRect(doc, dataUrl, x, y, maxW, maxH) {
+  const props = doc.getImageProperties(dataUrl);
+  const ratio = Math.min(maxW / props.width, maxH / props.height);
+  const width = props.width * ratio;
+  const height = props.height * ratio;
+  return {
+    x: x + (maxW - width) / 2,
+    y: y + (maxH - height) / 2,
+    width,
+    height
+  };
+}
+
+function addServicePhotosPage(doc, data, logoData) {
+  if (!Array.isArray(data.photos) || !data.photos.length) return;
+
+  const pageWidth = 210;
+  const margin = 16;
+  const blue = [8, 34, 74];
+  const orange = [230, 111, 31];
+  const muted = [92, 102, 116];
+
+  doc.addPage();
+  let y = 18;
+
+  if (logoData) {
+    doc.addImage(logoData, 'PNG', margin, y - 3, 18, 18);
+  }
+  addPdfText(doc, 'Service Photos', margin + 24, y + 4, { size: 18, color: blue, style: 'bold' });
+  addPdfText(doc, 'Photo documentation for this service', margin + 24, y + 11, { size: 9.5, color: muted });
+  addPdfText(doc, data.invoiceNumber, pageWidth - margin, y + 6, { size: 9, color: orange, style: 'bold', align: 'right' });
+
+  y += 27;
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(1);
+  doc.line(margin, y, pageWidth - margin, y);
+
+  const gap = 10;
+  const cellW = (pageWidth - margin * 2 - gap) / 2;
+  const cellH = 100;
+  const imageH = 78;
+  const startY = y + 14;
+
+  data.photos.slice(0, 4).forEach((photo, index) => {
+    const col = index % 2;
+    const row = Math.floor(index / 2);
+    const cellX = margin + col * (cellW + gap);
+    const cellY = startY + row * (cellH + 12);
+
+    doc.setFillColor(248, 251, 255);
+    doc.setDrawColor(219, 230, 242);
+    doc.roundedRect(cellX, cellY, cellW, cellH, 3, 3, 'FD');
+
+    const imageBoxX = cellX + 4;
+    const imageBoxY = cellY + 4;
+    const imageBoxW = cellW - 8;
+    const rect = getFittedImageRect(doc, photo.dataUrl, imageBoxX, imageBoxY, imageBoxW, imageH);
+    doc.addImage(photo.dataUrl, 'JPEG', rect.x, rect.y, rect.width, rect.height);
+
+    doc.setDrawColor(219, 230, 242);
+    doc.roundedRect(imageBoxX, imageBoxY, imageBoxW, imageH, 2.5, 2.5, 'S');
+
+    if (photo.caption) {
+      const caption = doc.splitTextToSize(photo.caption, cellW - 10).slice(0, 2).join('\n');
+      addPdfText(doc, caption, cellX + 5, cellY + imageH + 12, { size: 8.5, color: muted });
+    }
+  });
+
+  const footerY = 280;
+  doc.setDrawColor(219, 230, 242);
+  doc.line(margin, footerY - 8, pageWidth - margin, footerY - 8);
+  addPdfText(doc, `Invoice No: ${data.invoiceNumber}`, margin, footerY, { size: 8.5, color: muted });
+  addPdfText(doc, `Customer: ${data.customerName || 'Customer'}`, pageWidth / 2, footerY, { size: 8.5, color: muted, align: 'center' });
+  addPdfText(doc, `Date: ${data.invoiceDate}`, pageWidth - margin, footerY, { size: 8.5, color: muted, align: 'right' });
+}
+
+function addQuoteImagePage(doc, data, logoData) {
+  if (!data.image) return;
+
+  const pageWidth = 210;
+  const margin = 16;
+  const blue = [8, 34, 74];
+  const orange = [230, 111, 31];
+  const muted = [92, 102, 116];
+
+  doc.addPage();
+  let y = 18;
+
+  if (logoData) {
+    doc.addImage(logoData, 'PNG', margin, y - 3, 18, 18);
+  }
+  addPdfText(doc, 'Property Plan / Site Photo', margin + 24, y + 4, { size: 18, color: blue, style: 'bold' });
+  addPdfText(doc, 'Reference image for this estimated quote', margin + 24, y + 11, { size: 9.5, color: muted });
+  addPdfText(doc, data.quoteNumber, pageWidth - margin, y + 6, { size: 9, color: orange, style: 'bold', align: 'right' });
+
+  y += 27;
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(1);
+  doc.line(margin, y, pageWidth - margin, y);
+
+  const imageBoxX = margin;
+  const imageBoxY = y + 12;
+  const imageBoxW = pageWidth - margin * 2;
+  const imageBoxH = 220;
+  doc.setFillColor(248, 251, 255);
+  doc.setDrawColor(219, 230, 242);
+  doc.roundedRect(imageBoxX, imageBoxY, imageBoxW, imageBoxH, 3, 3, 'FD');
+
+  const rect = getFittedImageRect(doc, data.image, imageBoxX + 4, imageBoxY + 4, imageBoxW - 8, imageBoxH - 8);
+  doc.addImage(data.image, 'JPEG', rect.x, rect.y, rect.width, rect.height);
+
+  const footerY = 280;
+  doc.setDrawColor(219, 230, 242);
+  doc.line(margin, footerY - 8, pageWidth - margin, footerY - 8);
+  addPdfText(doc, `Quote No: ${data.quoteNumber}`, margin, footerY, { size: 8.5, color: muted });
+  addPdfText(doc, `Customer: ${data.customerName || 'Customer'}`, pageWidth / 2, footerY, { size: 8.5, color: muted, align: 'center' });
+  addPdfText(doc, `Date: ${data.quoteDate}`, pageWidth - margin, footerY, { size: 8.5, color: muted, align: 'right' });
+}
+
+async function downloadQuotePdf() {
+  const wasExisting = Boolean(activeQuoteId);
+  const savedDocument = await saveDocument('quote');
+  if (!savedDocument) return;
+  await generateQuotePdf(savedDocument.data);
+  if (!wasExisting) resetQuoteForm();
+}
+
+async function generateQuotePdf(data) {
+  if (!window.jspdf?.jsPDF) {
+    alert('PDF library could not be loaded. Please refresh the page and try again.');
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const logoData = await getLogoDataUrl();
+  const pageWidth = 210;
+  const pageHeight = 297;
+  const margin = 16;
+  const blue = [8, 34, 74];
+  const orange = [230, 111, 31];
+  const muted = [92, 102, 116];
+  let y = 18;
+
+  if (logoData) {
+    doc.addImage(logoData, 'PNG', margin, y - 4, 26, 26);
+  }
+  addPdfText(doc, companyInfo.name, margin + 31, y + 6, { size: 22, color: blue, style: 'bold' });
+  addPdfText(doc, companyInfo.subtitle, margin + 31, y + 13, { size: 10, color: muted });
+
+  addPdfText(doc, 'ESTIMATED QUOTE', pageWidth - margin, y + 4, { size: 18, color: orange, style: 'bold', align: 'right' });
+  addPdfText(doc, `Quote: ${data.quoteNumber}`, pageWidth - margin, y + 13, { size: 9, color: muted, align: 'right' });
+  addPdfText(doc, `Date: ${data.quoteDate}`, pageWidth - margin, y + 19, { size: 9, color: muted, align: 'right' });
+  addPdfText(doc, `Valid until: ${data.validUntil}`, pageWidth - margin, y + 25, { size: 9, color: muted, align: 'right' });
+
+  y += 36;
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(1.2);
+  doc.line(margin, y, pageWidth - margin, y);
+
+  y += 14;
+  addPdfText(doc, 'FROM', margin, y, { size: 9, color: blue, style: 'bold' });
+  addPdfText(doc, 'CUSTOMER', 112, y, { size: 9, color: blue, style: 'bold' });
+  y += 7;
+
+  addPdfText(doc, companyInfo.name, margin, y, { size: 11, style: 'bold' });
+  addPdfText(doc, data.customerName || 'Customer name', 112, y, { size: 11, style: 'bold' });
+  y += 6;
+  [
+    companyInfo.address,
+    `Phone: ${companyInfo.phone}`,
+    `Email: ${companyInfo.email}`,
+    `ABN: ${companyInfo.abn}`
+  ].forEach((line, index) => addPdfText(doc, line, margin, y + index * 5, { size: 9, color: muted }));
+
+  [
+    data.customerEmail || 'Customer email',
+    data.customerPhone || 'Customer phone',
+    data.serviceAddress || 'Service address'
+  ].forEach((line, index) => {
+    const wrapped = doc.splitTextToSize(line, 78);
+    addPdfText(doc, wrapped.join('\n'), 112, y + index * 6, { size: 9, color: muted });
+  });
+
+  y += 34;
+  addPdfText(doc, 'JOB DETAILS', margin, y, { size: 9, color: blue, style: 'bold' });
+  y += 6;
+  addPdfText(doc, `Service type: ${data.serviceType || 'Service type'}`, margin, y, { size: 9, color: muted });
+  y += 6;
+  const jobLines = doc.splitTextToSize(data.jobDescription || 'Job description', pageWidth - margin * 2);
+  addPdfText(doc, jobLines.join('\n'), margin, y, { size: 9, color: muted });
+  y += Math.max(10, jobLines.length * 5 + 6);
+
+  addPdfText(doc, 'ESTIMATED SERVICE ITEMS', margin, y, { size: 9, color: blue, style: 'bold' });
+  y += 6;
+
+  doc.setFillColor(...blue);
+  doc.rect(margin, y, pageWidth - margin * 2, 10, 'F');
+  addPdfText(doc, 'Description', margin + 3, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold' });
+  addPdfText(doc, 'Qty', 128, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  addPdfText(doc, 'Unit Price', 158, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  addPdfText(doc, 'Amount', pageWidth - margin - 3, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  y += 10;
+
+  data.items.forEach((item) => {
+    const descriptionLines = doc.splitTextToSize(item.description, 92);
+    const rowHeight = Math.max(10, descriptionLines.length * 5 + 5);
+
+    if (y + rowHeight > pageHeight - 88) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setDrawColor(219, 230, 242);
+    doc.line(margin, y + rowHeight, pageWidth - margin, y + rowHeight);
+    addPdfText(doc, descriptionLines.join('\n'), margin + 3, y + 6, { size: 9 });
+    addPdfText(doc, item.quantity, 128, y + 6, { size: 9, align: 'right' });
+    addPdfText(doc, money(item.unitPrice), 158, y + 6, { size: 9, align: 'right' });
+    addPdfText(doc, money(item.amount), pageWidth - margin - 3, y + 6, { size: 9, align: 'right' });
+    y += rowHeight;
+  });
+
+  y += 8;
+  const totalsX = 118;
+  const totalsWidth = pageWidth - margin - totalsX;
+  [
+    ['Subtotal', data.subtotal],
+    ['Transportation fee', data.transportation],
+    ['GST', data.gst],
+    ['Discount', -data.discount]
+  ].forEach(([label, value]) => {
+    addPdfText(doc, label, totalsX, y, { size: 9, color: muted });
+    addPdfText(doc, money(value), totalsX + totalsWidth, y, { size: 9, align: 'right' });
+    y += 7;
+  });
+
+  doc.setFillColor(...blue);
+  doc.roundedRect(totalsX - 2, y - 4, totalsWidth + 4, 12, 2, 2, 'F');
+  addPdfText(doc, 'Estimated Total', totalsX, y + 4, { size: 11, color: [255, 255, 255], style: 'bold' });
+  addPdfText(doc, money(data.total), totalsX + totalsWidth, y + 4, { size: 11, color: [255, 255, 255], style: 'bold', align: 'right' });
+  y += 20;
+
+  if (y > pageHeight - 76) {
+    doc.addPage();
+    y = 20;
+  }
+
+  doc.setDrawColor(219, 230, 242);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 9;
+  addPdfText(doc, 'NOTES', margin, y, { size: 9, color: blue, style: 'bold' });
+  addPdfText(doc, 'TERMS / DISCLAIMER', 112, y, { size: 9, color: blue, style: 'bold' });
+  y += 7;
+  addPdfText(doc, doc.splitTextToSize(data.notes || 'Notes', 80).join('\n'), margin, y, { size: 9, color: muted });
+  addPdfText(doc, doc.splitTextToSize(data.terms, 80).join('\n'), 112, y, { size: 9, color: muted });
+
+  const acceptanceY = Math.min(268, y + 34);
+  addPdfText(doc, 'ACCEPTANCE DETAILS', margin, acceptanceY, { size: 9, color: blue, style: 'bold' });
+  addPdfText(doc, doc.splitTextToSize(data.acceptanceDetails || 'Acceptance details to be confirmed with Ventra Cleaning.', pageWidth - margin * 2).join('\n'), margin, acceptanceY + 7, { size: 9, color: muted });
+
+  addQuoteImagePage(doc, data, logoData);
+
+  const safeQuoteNumber = data.quoteNumber.replace(/[^a-z0-9-]/gi, '-');
+  doc.save(`Ventra-Cleaning-Quote-${safeQuoteNumber}.pdf`);
+}
+
+async function downloadInvoicePdf() {
+  const wasExisting = Boolean(activeInvoiceId);
+  const savedDocument = await saveDocument('invoice');
+  if (!savedDocument) return;
+  await generateInvoicePdf(savedDocument.data);
+  if (!wasExisting) resetInvoiceForm();
+}
+
+async function generateInvoicePdf(data) {
+  if (!window.jspdf?.jsPDF) {
+    alert('PDF library could not be loaded. Please refresh the page and try again.');
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const logoData = await getLogoDataUrl();
+  const pageWidth = 210;
+  const pageHeight = 297;
+  const margin = 16;
+  const blue = [8, 34, 74];
+  const orange = [230, 111, 31];
+  const muted = [92, 102, 116];
+  let y = 18;
+
+  if (logoData) {
+    doc.addImage(logoData, 'PNG', margin, y - 4, 26, 26);
+  }
+  addPdfText(doc, companyInfo.name, margin + 31, y + 6, { size: 22, color: blue, style: 'bold' });
+  addPdfText(doc, companyInfo.subtitle, margin + 31, y + 13, { size: 10, color: muted });
+
+  addPdfText(doc, 'INVOICE', pageWidth - margin, y + 4, { size: 22, color: orange, style: 'bold', align: 'right' });
+  addPdfText(doc, `Invoice: ${data.invoiceNumber}`, pageWidth - margin, y + 13, { size: 9, color: muted, align: 'right' });
+  addPdfText(doc, `Date: ${data.invoiceDate}`, pageWidth - margin, y + 19, { size: 9, color: muted, align: 'right' });
+  addPdfText(doc, `Due: ${data.dueDate}`, pageWidth - margin, y + 25, { size: 9, color: muted, align: 'right' });
+
+  y += 36;
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(1.2);
+  doc.line(margin, y, pageWidth - margin, y);
+
+  y += 14;
+  addPdfText(doc, 'FROM', margin, y, { size: 9, color: blue, style: 'bold' });
+  addPdfText(doc, 'BILL TO', 112, y, { size: 9, color: blue, style: 'bold' });
+  y += 7;
+
+  addPdfText(doc, companyInfo.name, margin, y, { size: 11, style: 'bold' });
+  addPdfText(doc, data.customerName || 'Customer name', 112, y, { size: 11, style: 'bold' });
+  y += 6;
+  [
+    companyInfo.address,
+    `Phone: ${companyInfo.phone}`,
+    `Email: ${companyInfo.email}`,
+    `ABN: ${companyInfo.abn}`
+  ].forEach((line, index) => addPdfText(doc, line, margin, y + index * 5, { size: 9, color: muted }));
+
+  [
+    data.customerEmail || 'Customer email',
+    data.customerPhone || 'Customer phone',
+    data.billingAddress || 'Billing address'
+  ].forEach((line, index) => {
+    const wrapped = doc.splitTextToSize(line, 78);
+    addPdfText(doc, wrapped.join('\n'), 112, y + index * 6, { size: 9, color: muted });
+  });
+
+  y += 34;
+  addPdfText(doc, 'SERVICES', margin, y, { size: 9, color: blue, style: 'bold' });
+  y += 6;
+
+  doc.setFillColor(...blue);
+  doc.rect(margin, y, pageWidth - margin * 2, 10, 'F');
+  addPdfText(doc, 'Description', margin + 3, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold' });
+  addPdfText(doc, 'Qty', 128, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  addPdfText(doc, 'Unit Price', 158, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  addPdfText(doc, 'Amount', pageWidth - margin - 3, y + 6.5, { size: 8, color: [255, 255, 255], style: 'bold', align: 'right' });
+  y += 10;
+
+  data.items.forEach((item) => {
+    const descriptionLines = doc.splitTextToSize(item.description, 92);
+    const rowHeight = Math.max(10, descriptionLines.length * 5 + 5);
+
+    if (y + rowHeight > pageHeight - 70) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setDrawColor(219, 230, 242);
+    doc.line(margin, y + rowHeight, pageWidth - margin, y + rowHeight);
+    addPdfText(doc, descriptionLines.join('\n'), margin + 3, y + 6, { size: 9 });
+    addPdfText(doc, item.quantity, 128, y + 6, { size: 9, align: 'right' });
+    addPdfText(doc, money(item.unitPrice), 158, y + 6, { size: 9, align: 'right' });
+    addPdfText(doc, money(item.amount), pageWidth - margin - 3, y + 6, { size: 9, align: 'right' });
+    y += rowHeight;
+  });
+
+  y += 8;
+  const totalsX = 118;
+  const totalsWidth = pageWidth - margin - totalsX;
+  [
+    ['Subtotal', data.subtotal],
+    ['Transportation fee', data.transportation],
+    ['GST', data.gst],
+    ['Discount', -data.discount]
+  ].forEach(([label, value]) => {
+    addPdfText(doc, label, totalsX, y, { size: 9, color: muted });
+    addPdfText(doc, money(value), totalsX + totalsWidth, y, { size: 9, align: 'right' });
+    y += 7;
+  });
+
+  doc.setFillColor(...blue);
+  doc.roundedRect(totalsX - 2, y - 4, totalsWidth + 4, 12, 2, 2, 'F');
+  addPdfText(doc, 'Total net', totalsX, y + 4, { size: 11, color: [255, 255, 255], style: 'bold' });
+  addPdfText(doc, money(data.total), totalsX + totalsWidth, y + 4, { size: 11, color: [255, 255, 255], style: 'bold', align: 'right' });
+  y += 22;
+
+  if (y > pageHeight - 55) {
+    doc.addPage();
+    y = 20;
+  }
+
+  doc.setDrawColor(219, 230, 242);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 10;
+  if (data.paymentDetails) {
+    addPdfText(doc, 'PAYMENT DETAILS', margin, y, { size: 9, color: blue, style: 'bold' });
+    addPdfText(doc, 'NOTES', 112, y, { size: 9, color: blue, style: 'bold' });
+    y += 7;
+    addPdfText(doc, doc.splitTextToSize(data.paymentDetails, 80).join('\n'), margin, y, { size: 9, color: muted });
+    addPdfText(doc, doc.splitTextToSize(data.notes || 'Notes', 80).join('\n'), 112, y, { size: 9, color: muted });
+  } else {
+    addPdfText(doc, 'NOTES', margin, y, { size: 9, color: blue, style: 'bold' });
+    y += 7;
+    addPdfText(doc, doc.splitTextToSize(data.notes || 'Notes', pageWidth - margin * 2).join('\n'), margin, y, { size: 9, color: muted });
+  }
+
+  addServicePhotosPage(doc, data, logoData);
+
+  if (data.status === 'cancelled') {
+    addCancelledWatermark(doc);
+  }
+
+  const safeInvoiceNumber = data.invoiceNumber.replace(/[^a-z0-9-]/gi, '-');
+  doc.save(`Ventra-Cleaning-Invoice-${safeInvoiceNumber}.pdf`);
+}
+
+// Load bookings from backend
+async function loadBookings() {
+  try {
+    const response = await fetch('/api/bookings', { cache: 'no-store' });
+    if (!response.ok) {
+      let errorMessage = 'Booking API unavailable';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch (parseError) {}
+      throw new Error(errorMessage);
+    }
+    const data = await response.json();
+    allBookings = Array.isArray(data) ? data : (data.bookings || []);
+    localStorage.setItem('ventra_bookings', JSON.stringify(allBookings));
+    updateStats();
+    renderBookings();
+    loadPrices();
+  } catch (error) {
+    console.error('Error loading bookings from backend:', error);
+    if (error.message === 'Booking storage is not configured') {
+      alert('Booking storage is not configured. Add the KV/Upstash environment variables in Vercel.');
+      allBookings = [];
+      updateStats();
+      renderBookings();
+      loadPrices();
+      return;
+    }
     const bookingsData = localStorage.getItem('ventra_bookings');
     allBookings = bookingsData ? JSON.parse(bookingsData) : [];
     updateStats();
     renderBookings();
     loadPrices();
-  } catch (error) {
-    console.error('Error loading bookings from localStorage:', error);
-    allBookings = [];
   }
 }
 
 // Delete booking
-function deleteBooking(id) {
+async function deleteBooking(id) {
   if (!confirm('Are you sure you want to permanently delete this booking?')) return;
   try {
+    const response = await fetch(`/api/bookings?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Booking API delete failed');
     allBookings = allBookings.filter(b => String(b.id) !== String(id));
     localStorage.setItem('ventra_bookings', JSON.stringify(allBookings));
     updateStats();
@@ -581,18 +3094,17 @@ function deleteBooking(id) {
 }
 
 // Load and display current prices
-function loadPrices() {
-  const defaultPrices = {
-    'Ozone Treatment': 100,
-    'Seat Cleaning': 100,
-    'Seat + Floor': 180,
-    'Spot Cleaning': 70,
-    'Ozone 1 Room': 80,
-    'Ozone Whole House Per Room': 60,
-    'Spot Cleaning Home': 80
-  };
-
-  const prices = JSON.parse(localStorage.getItem('service_prices') || JSON.stringify(defaultPrices));
+async function loadPrices() {
+  let prices = defaultPrices;
+  try {
+    const response = await fetch('/api/prices', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Price API unavailable');
+    const data = await response.json();
+    prices = { ...defaultPrices, ...(data.prices || {}) };
+  } catch (error) {
+    console.error('Error loading service prices:', error);
+    alert('Could not load backend prices. Showing default prices.');
+  }
 
   document.getElementById('price-ozone').value = prices['Ozone Treatment'] || 100;
   document.getElementById('price-seat').value = prices['Seat Cleaning'] || 100;
@@ -604,7 +3116,7 @@ function loadPrices() {
 }
 
 // Update service price
-function updatePrice(serviceName, inputId) {
+async function updatePrice(serviceName, inputId) {
   const newPrice = parseInt(document.getElementById(inputId).value);
 
   if (!newPrice || newPrice < 0) {
@@ -612,18 +3124,45 @@ function updatePrice(serviceName, inputId) {
     return;
   }
 
-  const prices = JSON.parse(localStorage.getItem('service_prices') || '{}');
+  let prices = defaultPrices;
+  try {
+    const currentResponse = await fetch('/api/prices', { cache: 'no-store' });
+    if (currentResponse.ok) {
+      const currentData = await currentResponse.json();
+      prices = { ...defaultPrices, ...(currentData.prices || {}) };
+    }
+  } catch (error) {
+    console.warn('Using default prices before update:', error);
+  }
+
   prices[serviceName] = newPrice;
   localStorage.setItem('service_prices', JSON.stringify(prices));
 
-  alert(`${serviceName} price updated to $${newPrice}`);
+  try {
+    const response = await fetch('/api/prices', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prices })
+    });
+
+    if (!response.ok) throw new Error('Price API update failed');
+
+    const data = await response.json();
+    prices = { ...defaultPrices, ...(data.prices || prices) };
+    loadPrices();
+    const persistenceNote = data.persistent === false ? ' Backend persistent storage is not configured, so this update is saved for this browser only.' : ' The website will use this backend price.';
+    alert(`${serviceName} price updated to $${newPrice}.${persistenceNote}`);
+  } catch (error) {
+    console.error('Error updating service price:', error);
+    alert('Saved in this browser, but could not update the backend price. Please check the Vercel KV/Redis configuration.');
+  }
 }
 
 // Update stats
 function updateStats() {
   const total = allBookings.length;
   const pending = allBookings.filter(b => b.status === 'pending').length;
-  const confirmed = allBookings.filter(b => b.status === 'confirmed').length;
+  const confirmed = allBookings.filter(b => b.status === 'approved' || b.status === 'confirmed').length;
   const rejected = allBookings.filter(b => b.status === 'rejected').length;
 
   document.getElementById('totalBookings').textContent = total;
@@ -652,7 +3191,7 @@ function renderBookings() {
 
   let filteredBookings = allBookings;
   if (currentFilter !== 'all') {
-    filteredBookings = allBookings.filter(b => b.status === currentFilter);
+    filteredBookings = allBookings.filter(b => normalizeStatus(b.status) === currentFilter);
   }
 
   // Sort by timestamp (newest first)
@@ -666,38 +3205,68 @@ function renderBookings() {
 
   noBookingsDiv.style.display = 'none';
 
-  tbody.innerHTML = filteredBookings.map(booking => `
+  tbody.innerHTML = filteredBookings.map(booking => {
+    const status = normalizeStatus(booking.status);
+    const freeInspection = isFreeInspectionBooking(booking);
+    const serviceText = freeInspection ? 'Free Inspection' : (booking.services ? booking.services.map(getServiceName).join(' + ') : booking.service || 'Unknown');
+    const bookingTotal = freeInspection ? 0 : (booking.totalPrice || booking.price || 0);
+    return `
     <tr>
       <td>
         <div><strong>${formatDate(booking.date)}</strong></div>
-        <div style="font-size: 0.8rem; color: var(--ink3);">${booking.time}</div>
+        <div style="font-size: 0.8rem; color: var(--ink3);">${escapeHtml(booking.time)}</div>
+        ${booking.source === 'chatbot' ? '<div style="font-size:0.7rem;color:var(--teal);font-weight:700;margin-top:4px;">CHATBOT REQUEST</div>' : ''}
       </td>
       <td>
-        <div><strong>${booking.name}</strong></div>
-        <div style="font-size: 0.8rem; color: var(--ink3);">${booking.phone}</div>
-        <div style="font-size: 0.8rem; color: var(--ink3);">${booking.email}</div>
+        <div><strong>${escapeHtml(booking.name)}</strong></div>
+        <div style="font-size: 0.8rem; color: var(--ink3);">${escapeHtml(booking.phone)}</div>
+        <div style="font-size: 0.8rem; color: var(--ink3);">${escapeHtml(booking.email || '')}</div>
       </td>
       <td>
-        <div><strong>${booking.services ? booking.services.map(s => s.name).join(' + ') : booking.service || 'Unknown'}</strong></div>
-        <div style="font-size: 0.8rem; color: var(--ink3);">$${booking.totalPrice || booking.price || 0} AUD</div>
+        <div><strong>${escapeHtml(serviceText)}</strong></div>
+        ${freeInspection ? '<span class="request-type-badge">Free Inspection</span>' : ''}
+        <div style="font-size: 0.8rem; color: var(--ink3);">${freeInspection ? 'No upfront cost' : `$${bookingTotal} AUD`}</div>
         ${booking.totalTime ? `<div style="font-size: 0.7rem; color: var(--ink3);">${booking.totalTime} hour${booking.totalTime > 1 ? 's' : ''}</div>` : ''}
       </td>
       <td class="booking-details">
-        ${booking.services ?
+        ${freeInspection ?
+          `<div class="detail-row">
+            <span class="detail-label">Booking type:</span> Free Inspection
+          </div>` : ''
+        }
+        ${freeInspection && booking.inspectionType ?
+          `<div class="detail-row">
+            <span class="detail-label">Inspection type:</span> ${escapeHtml(booking.inspectionType)}
+          </div>` : ''
+        }
+        ${freeInspection && booking.mainIssue ?
+          `<div class="detail-row">
+            <span class="detail-label">Main issue:</span> ${escapeHtml(booking.mainIssue)}
+          </div>` : ''
+        }
+        ${booking.services && !freeInspection ?
           `<div class="detail-row">
             <span class="detail-label">Services:</span><br>
-            ${booking.services.map(s => `• ${s.name} ($${s.price})`).join('<br>')}
+            ${booking.services.map(s => {
+              const price = getServicePrice(s);
+              return `• ${escapeHtml(getServiceName(s))}${price === null ? '' : ` ($${price})`}`;
+            }).join('<br>')}
           </div>` : ''
         }
         <div class="detail-row">
-          <span class="detail-label">Location:</span> ${booking.address || 'Drop-off'}
+          <span class="detail-label">Location:</span> ${escapeHtml(booking.address || 'Drop-off')}
         </div>
         <div class="detail-row">
-          <span class="detail-label">Issue:</span> ${booking.issue}
+          <span class="detail-label">Issue:</span> ${escapeHtml(booking.issue || '')}
         </div>
-        ${booking.travelSurcharge > 0 ?
+        ${booking.alreadyCleaned ?
           `<div class="detail-row">
-            <span class="detail-label">Travel:</span> +$${booking.travelSurcharge}
+            <span class="detail-label">Already cleaned:</span> ${escapeHtml(booking.alreadyCleaned)}
+          </div>` : ''
+        }
+        ${(booking.travelSurcharge || booking.distanceSurcharge) > 0 ?
+          `<div class="detail-row">
+            <span class="detail-label">Travel:</span> +$${booking.travelSurcharge || booking.distanceSurcharge}
           </div>` : ''
         }
         <div class="detail-row" style="font-size: 0.8rem; color: var(--ink3);">
@@ -705,13 +3274,17 @@ function renderBookings() {
         </div>
       </td>
       <td>
-        <span class="status-badge ${booking.status}">${booking.status}</span>
+        <span class="status-badge ${status}">${status}</span>
       </td>
       <td>
         <div class="action-btns">
+          <button class="btn-sm" style="background: var(--teal); color: white;"
+                  onclick="createInvoiceFromBooking('${booking.id}')">
+            Create Invoice
+          </button>
           <button class="btn-sm btn-confirm"
-                  onclick="updateBookingStatus('${booking.id}', 'confirmed')">
-            Confirm
+                  onclick="updateBookingStatus('${booking.id}', 'approved')">
+            Approve
           </button>
           <button class="btn-sm btn-reject"
                   onclick="updateBookingStatus('${booking.id}', 'rejected')">
@@ -728,12 +3301,15 @@ function renderBookings() {
         </div>
       </td>
     </tr>
-  `).join('');
+  `}).join('');
 }
 
 // Update booking status
-function updateBookingStatus(id, status) {
+async function updateBookingStatus(id, status) {
   try {
+    const response = await fetch(`/api/bookings?id=${encodeURIComponent(id)}&status=${encodeURIComponent(status)}`, { method: 'PATCH' });
+    if (!response.ok) throw new Error('Booking API update failed');
+
     // Update in memory (convert both IDs to string for comparison)
     const booking = allBookings.find(b => String(b.id) === String(id));
 
@@ -758,7 +3334,9 @@ function updateBookingStatus(id, status) {
 
 // Helper functions
 function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-AU', {
+  const date = new Date(dateStr);
+  if (!dateStr || Number.isNaN(date.getTime())) return escapeHtml(dateStr || '');
+  return date.toLocaleDateString('en-AU', {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
@@ -767,7 +3345,9 @@ function formatDate(dateStr) {
 }
 
 function formatDateTime(dateStr) {
-  return new Date(dateStr).toLocaleString('en-AU', {
+  const date = new Date(dateStr);
+  if (!dateStr || Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString('en-AU', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -784,6 +3364,9 @@ document.getElementById('username').addEventListener('keypress', function(e) {
 document.getElementById('password').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') login();
 });
+
+initInvoiceGenerator();
+initQuoteGenerator();
 </script>
 
 </body>

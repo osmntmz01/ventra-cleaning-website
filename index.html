@@ -3,29 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ventra Cleaning — Professional Odour Elimination | Melbourne</title>
-<link rel="icon" type="image/png" href="/favicon-512.png">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="apple-touch-icon" href="/favicon-512.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<title>Ventra Cleaning | Professional Odour Elimination Melbourne</title>
+<link rel="icon" type="image/png" href="/ventra-logo.png?v=20260514">
+<link rel="shortcut icon" type="image/png" href="/ventra-logo.png?v=20260514">
+<link rel="apple-touch-icon" href="/ventra-logo.png?v=20260514">
+<link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Rye&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
   --white:#ffffff;
-  --off-white:#f7f9fb;
-  --light-gray:#e8edf2;
-  --mid-gray:#94a3b8;
-  --dark-text:#1a2332;
-  --green-deep:#0d3b2e;
-  --green-mid:#166b4a;
-  --green-light:#22a06b;
-  --green-pale:#e6f5ee;
-  --blue-deep:#1a365d;
-  --blue-mid:#2b6cb0;
-  --blue-light:#4299e1;
-  --blue-pale:#ebf4ff;
-  --accent:#22a06b;
-  --font-display:'Lora',Georgia,serif;
+  --off-white:#f8fbff;
+  --light-gray:#dbe6f2;
+  --mid-gray:#7a8aa0;
+  --dark-text:#162338;
+  --green-deep:#0b2f5b;
+  --green-mid:#e66f1f;
+  --green-light:#ff9a3d;
+  --green-pale:#fff1e6;
+  --blue-deep:#08224a;
+  --blue-mid:#1769b3;
+  --blue-light:#5db7f0;
+  --blue-pale:#eaf5ff;
+  --accent:#e66f1f;
+  --brand-red:#c8332d;
+  --sand:#d8a05a;
+  --font-display:'Bree Serif','Lora',Georgia,serif;
   --font-body:'DM Sans',-apple-system,sans-serif;
   --shadow-sm:0 1px 3px rgba(0,0,0,.06);
   --shadow-md:0 8px 30px rgba(0,0,0,.08);
@@ -35,14 +37,25 @@ html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--white);color:var(--dark-text);-webkit-font-smoothing:antialiased}
 
 /* ═══ NAV ═══ */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--light-gray);transition:all .4s}
-.nav-logo{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--green-deep)}
-.nav-logo span{color:var(--green-mid);font-weight:400}
-.nav-links{display:flex;gap:32px;align-items:center}
-.nav-links a{color:var(--dark-text);text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:.3px;transition:color .3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;min-height:98px;padding:10px 36px;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(22px);border-bottom:1px solid var(--light-gray);box-shadow:0 8px 30px rgba(8,34,74,.06);transition:all .4s}
+.nav-toggle{display:none;width:44px;height:44px;border:1px solid var(--light-gray);border-radius:10px;background:var(--white);color:var(--blue-deep);align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)}
+.nav-toggle span{width:20px;height:2px;background:currentColor;position:relative;display:block;border-radius:2px}
+.nav-toggle span::before,.nav-toggle span::after{content:'';position:absolute;left:0;width:20px;height:2px;background:currentColor;border-radius:2px;transition:transform .25s,top .25s}
+.nav-toggle span::before{top:-7px}
+.nav-toggle span::after{top:7px}
+nav.menu-open .nav-toggle span{background:transparent}
+nav.menu-open .nav-toggle span::before{top:0;transform:rotate(45deg)}
+nav.menu-open .nav-toggle span::after{top:0;transform:rotate(-45deg)}
+.nav-brand{grid-column:1;display:flex;align-items:center;justify-content:flex-start;text-decoration:none;line-height:1}
+.brand-logo-frame{width:172px;height:172px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;overflow:visible;flex-shrink:0;margin-block:-24px -56px;transform:translateY(16px)}
+.brand-logo-frame img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-logo-frame.logo-missing::before{content:'VC';font-family:var(--font-display);font-size:1.35rem;color:var(--blue-deep)}
+.brand-logo-frame.logo-missing img{display:none}
+.nav-links{grid-column:2;display:flex;gap:22px;align-items:center;justify-self:center}
+.nav-links a{color:var(--dark-text);text-decoration:none;font-size:.8rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;transition:color .3s}
 .nav-links a:hover{color:var(--green-mid)}
-.nav-phone{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:700;font-size:.9rem;text-decoration:none;padding:10px 24px;background:var(--green-deep);border-radius:8px;transition:all .3s}
-.nav-phone:hover{background:var(--green-mid)}
+.nav-phone{grid-column:3;justify-self:end;display:flex;align-items:center;gap:8px;color:var(--white);font-weight:800;font-size:.9rem;text-decoration:none;padding:12px 22px;background:var(--blue-deep);border-radius:8px;transition:all .3s;box-shadow:0 8px 20px rgba(8,34,74,.16)}
+.nav-phone:hover{background:var(--green-mid);box-shadow:0 8px 20px rgba(230,111,31,.24)}
 .nav-phone svg{flex-shrink:0}
 
 /* ═══ SECTIONS ═══ */
@@ -51,10 +64,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 /* ═══ PAGE DOTS ═══ */
 .page-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:10px}
 .page-dot{width:10px;height:10px;border-radius:50%;background:var(--light-gray);cursor:pointer;transition:all .3s;border:2px solid transparent}
-.page-dot.active{background:var(--green-mid);border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(22,107,74,.2)}
+.page-dot.active{background:var(--green-mid);border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(230,111,31,.2)}
 
 /* ═══ HERO ═══ */
-.hero{background:linear-gradient(135deg,var(--green-deep) 0%,#0a4f38 40%,var(--blue-deep) 100%);color:var(--white);flex-direction:column;text-align:center;padding:120px 40px}
+.hero{background:linear-gradient(135deg,var(--blue-deep) 0%,#123f73 48%,var(--green-mid) 100%);color:var(--white);flex-direction:column;text-align:center;padding:190px 40px 120px}
 .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:100px;font-size:.8rem;color:rgba(255,255,255,.9);margin-bottom:32px;letter-spacing:1px;text-transform:uppercase;opacity:0;animation:fadeUp .8s .3s forwards}
 .hero-badge .dot{width:6px;height:6px;background:var(--green-light);border-radius:50%;animation:pulse 2s infinite}
@@ -64,7 +77,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .hero-sub{font-size:clamp(1rem,1.8vw,1.2rem);color:rgba(255,255,255,.75);max-width:540px;margin-top:20px;line-height:1.7;opacity:0;animation:fadeUp .8s .7s forwards}
 .hero-ctas{display:flex;gap:14px;margin-top:36px;opacity:0;animation:fadeUp .8s .9s forwards}
 .btn-primary{padding:15px 36px;background:var(--green-light);color:var(--white);font-weight:700;font-size:.95rem;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:all .3s}
-.btn-primary:hover{background:#28b878;transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,160,107,.35)}
+.btn-primary:hover{background:#ff8a21;transform:translateY(-2px);box-shadow:0 8px 24px rgba(230,111,31,.35)}
 .btn-outline-w{padding:15px 36px;background:transparent;color:var(--white);font-weight:600;font-size:.95rem;border:1px solid rgba(255,255,255,.3);border-radius:8px;cursor:pointer;text-decoration:none;transition:all .3s}
 .btn-outline-w:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
 .hero-stats{display:flex;gap:56px;margin-top:64px;opacity:0;animation:fadeUp .8s 1.1s forwards}
@@ -88,12 +101,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .ba-card:hover img{transform:scale(1.04)}
 .ba-tag{position:absolute;top:20px;left:20px;padding:8px 18px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;z-index:2}
 .ba-tag.before{background:rgba(220,38,38,.9);color:var(--white)}
-.ba-tag.after{background:rgba(34,160,107,.9);color:var(--white)}
+.ba-tag.after{background:rgba(230,111,31,.92);color:var(--white)}
 .ba-card .ba-desc{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:var(--white);font-size:.9rem;font-weight:500}
 
 /* stagger animation */
-.ba-grid,.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
-.ba-grid.visible,.odour-card.visible,.step-item.visible,.service-card.visible,.faq-item.visible,.testimonial-quote.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
+.ba-grid,.pet-urine-card,.pet-urine-point,.reset-card,.odour-card,.step-item,.safety-notice,.service-card,.faq-item,.testimonial-quote,.gallery-pair{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+.ba-grid.visible,.pet-urine-card.visible,.pet-urine-point.visible,.reset-card.visible,.odour-card.visible,.step-item.visible,.safety-notice.visible,.service-card.visible,.faq-item.visible,.testimonial-quote.visible,.gallery-pair.visible{opacity:1;transform:translateY(0)}
+
+/* ═══ PET URINE NOTICE ═══ */
+.pet-urine-section{background:var(--off-white);padding:92px 40px;min-height:auto}
+.pet-urine-card{max-width:1040px;width:100%;background:var(--white);border:2px solid var(--light-gray);border-left:6px solid var(--green-mid);border-radius:18px;padding:40px;box-shadow:var(--shadow-md);display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+.pet-urine-copy .section-label{margin-bottom:14px}
+.pet-urine-copy h2{font-family:var(--font-display);font-size:clamp(1.8rem,3.4vw,2.65rem);line-height:1.18;color:var(--blue-deep);margin-bottom:16px}
+.pet-urine-copy p{color:var(--mid-gray);font-size:1rem;line-height:1.72;margin-bottom:24px}
+.pet-urine-copy .btn-primary{display:inline-flex;align-items:center;justify-content:center}
+.pet-urine-points{display:grid;gap:12px}
+.pet-urine-point{background:var(--off-white);border:1px solid var(--light-gray);border-radius:14px;padding:18px 18px 18px 46px;position:relative;color:var(--dark-text);font-size:.92rem;line-height:1.55;font-weight:600}
+.pet-urine-point::before{content:'!';position:absolute;left:18px;top:18px;width:18px;height:18px;border-radius:50%;background:var(--green-pale);color:var(--green-mid);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:900}
+
+/* ═══ RESET SECTION ═══ */
+.reset-section{background:var(--white);flex-direction:column;padding:100px 40px;text-align:center}
+.reset-section .section-title{max-width:780px}
+.reset-copy{max-width:760px;color:var(--mid-gray);font-size:1rem;line-height:1.75;margin:-16px auto 34px}
+.reset-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:920px;width:100%;margin-bottom:32px}
+.reset-card{background:var(--off-white);border:2px solid var(--light-gray);border-radius:16px;padding:34px 30px;text-align:left;transition:all .4s}
+.reset-card:hover{border-color:var(--blue-mid);transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.reset-card h3{font-family:var(--font-display);font-size:1.25rem;color:var(--blue-deep);margin-bottom:10px}
+.reset-card p{color:var(--mid-gray);font-size:.9rem;line-height:1.65}
+.reset-section .btn-primary{display:inline-flex;align-items:center;justify-content:center}
 
 /* ═══ ODOURS ═══ */
 .odours{background:var(--green-deep);color:var(--white);flex-direction:column;padding:100px 40px}
@@ -117,6 +152,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .step-item h3{font-family:var(--font-display);font-size:1.1rem;margin-bottom:8px;color:var(--dark-text)}
 .step-item p{color:var(--mid-gray);line-height:1.6;font-size:.88rem}
 .step-arrow{position:absolute;right:-16px;top:50%;transform:translateY(-50%);color:var(--green-mid);font-size:1.2rem;z-index:2}
+
+/* ═══ SAFETY NOTICE ═══ */
+.safety-section{background:var(--white);padding:70px 40px;flex-direction:column}
+.safety-notice{max-width:940px;width:100%;background:var(--off-white);border:2px solid var(--light-gray);border-left:6px solid var(--green-mid);border-radius:16px;padding:34px 36px;box-shadow:var(--shadow-sm)}
+.safety-notice .section-label{margin-bottom:12px}
+.safety-notice h2{font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.35rem);color:var(--blue-deep);margin-bottom:12px;line-height:1.15}
+.safety-notice p{color:var(--mid-gray);font-size:.98rem;line-height:1.65;max-width:780px;margin-bottom:18px}
+.safety-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px;margin:0 0 22px;padding:0;list-style:none}
+.safety-list li{color:var(--dark-text);font-size:.9rem;font-weight:700;line-height:1.45;display:flex;gap:9px;align-items:flex-start}
+.safety-list li::before{content:'✓';color:var(--green-mid);font-weight:900;flex-shrink:0}
+.safety-notice .btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:13px 24px}
 
 /* ═══ SERVICES ═══ */
 .services-section{background:var(--white);flex-direction:column;padding:100px 40px}
@@ -142,15 +188,60 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .testimonial-quote::before{content:'"';font-size:7rem;color:var(--blue-light);opacity:.15;position:absolute;top:-50px;left:-15px;font-family:Georgia,serif}
 .testimonial-author{color:rgba(255,255,255,.55);font-size:.88rem}
 .testimonial-author strong{color:rgba(255,255,255,.85);font-weight:600}
+.reviews-carousel{max-width:1120px;width:100%;position:relative;padding:0 54px}
+.reviews-grid{display:flex;gap:16px;width:100%;text-align:left;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scroll-padding:0;padding:4px 2px 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.reviews-grid::-webkit-scrollbar{display:none}
+.review-card{flex:0 0 calc((100% - 32px)/3);min-height:236px;scroll-snap-align:start;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.055));border:1px solid rgba(216,160,90,.42);border-radius:10px;padding:22px;box-shadow:0 12px 34px rgba(0,0,0,.08);opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+.review-card.visible{opacity:1;transform:translateY(0)}
+.review-rating{display:flex;align-items:center;justify-content:center;margin:0 0 15px;color:var(--sand);font-family:'Rye',var(--font-display);font-weight:900;font-size:1.22rem;line-height:1}
+.review-stars{letter-spacing:3px;color:var(--sand);text-shadow:0 1px 0 rgba(0,0,0,.28),0 0 14px rgba(216,160,90,.16)}
+.review-text{color:rgba(255,255,255,.84);font-size:.92rem;line-height:1.6;margin-bottom:15px}
+.review-author{color:rgba(255,255,255,.55);font-size:.82rem}
+.review-author strong{color:rgba(255,255,255,.82)}
+.review-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:1px solid rgba(216,160,90,.5);border-radius:50%;background:rgba(255,255,255,.08);color:var(--sand);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.35rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.12);transition:background .2s,border-color .2s,color .2s}
+.review-nav:hover{background:rgba(216,160,90,.16);border-color:var(--sand);color:var(--green-light)}
+.review-nav.prev{left:0}
+.review-nav.next{right:0}
+.review-add-wrap{margin-bottom:22px}
+.review-add-btn{border:1px solid rgba(216,160,90,.55);border-radius:999px;background:rgba(255,255,255,.08);color:var(--sand);padding:11px 18px;font-family:var(--font-body);font-size:.88rem;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.1);transition:background .2s,color .2s,border-color .2s}
+.review-add-btn:hover{background:rgba(216,160,90,.16);color:var(--green-light);border-color:var(--sand)}
+.review-form-panel{display:none;max-width:680px;width:100%;margin:0 auto 26px;background:rgba(255,255,255,.08);border:1px solid rgba(216,160,90,.38);border-radius:14px;padding:22px;text-align:left}
+.review-form-panel.open{display:block}
+.review-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.review-form-field{margin-bottom:12px}
+.review-form-field.full{grid-column:1/-1}
+.review-form-field label{display:block;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.62);margin-bottom:6px}
+.review-form-field input,.review-form-field textarea{width:100%;border:1.5px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.94);color:var(--dark-text);font-family:var(--font-body);font-size:16px;padding:11px 12px;outline:none}
+.review-form-field textarea{min-height:86px;resize:vertical}
+.review-rating-picker{display:flex;gap:7px;align-items:center}
+.review-star-btn{border:0;background:transparent;color:rgba(216,160,90,.45);font-family:'Rye',var(--font-display);font-size:1.45rem;line-height:1;cursor:pointer;padding:0 1px;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.review-star-btn.active{color:var(--sand)}
+.review-form-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.review-submit-btn{border:0;border-radius:10px;background:var(--green-light);color:var(--white);padding:12px 18px;font-weight:900;font-family:var(--font-body);cursor:pointer}
+.review-cancel-btn{border:1px solid rgba(255,255,255,.22);border-radius:10px;background:transparent;color:rgba(255,255,255,.75);padding:11px 16px;font-weight:800;font-family:var(--font-body);cursor:pointer}
+.review-form-note{font-size:.78rem;color:rgba(255,255,255,.56);margin-top:10px}
 
 /* ═══ BOOKING ═══ */
+.free-inspection-section{background:var(--white);padding:72px 40px;min-height:auto;scroll-snap-align:start}
+.free-inspection-card{width:min(1040px,100%);background:linear-gradient(135deg,var(--blue-deep),#123f73);border-radius:20px;padding:34px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;color:var(--white);box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.12)}
+.free-inspection-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0}
+.free-inspection-copy h2{font-family:var(--font-display);font-size:clamp(1.4rem,2.6vw,2.2rem);margin-bottom:8px;color:var(--white);letter-spacing:0}
+.free-inspection-copy p{color:rgba(255,255,255,.76);font-size:.96rem;line-height:1.6;max-width:680px}
+.free-inspection-card .btn-primary{white-space:nowrap;background:var(--green-light)}
+.free-inspection-card .btn-primary:hover{background:var(--white);color:var(--blue-deep)}
 .booking-section{background:var(--off-white);flex-direction:column;padding:100px 40px}
 .booking-container{max-width:600px;width:100%;background:var(--white);border-radius:20px;padding:48px 40px;box-shadow:var(--shadow-lg);border:1px solid var(--light-gray)}
 .booking-container .section-title{margin-bottom:36px}
+.free-inspection-choice{width:100%;padding:18px 18px;margin-bottom:16px;border:2px solid var(--light-gray);border-radius:14px;background:var(--white);display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.free-inspection-choice:hover,.free-inspection-choice.active{border-color:var(--green-mid);background:var(--green-pale);box-shadow:0 12px 26px rgba(230,111,31,.12)}
+.free-inspection-choice-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.free-inspection-choice strong{display:block;color:var(--dark-text);font-size:.98rem;margin-bottom:3px}
+.free-inspection-choice span{display:block;color:var(--mid-gray);font-size:.8rem;line-height:1.4}
+.free-inspection-note{display:none;background:var(--blue-pale);border:1.5px solid #c7e5fb;border-radius:12px;padding:13px 14px;margin-bottom:18px;color:var(--blue-deep);font-size:.84rem;line-height:1.5}
 .form-group{margin-bottom:18px}
 .form-group label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:6px;font-weight:600}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:var(--off-white);border:1.5px solid var(--light-gray);border-radius:10px;color:var(--dark-text);font-family:var(--font-body);font-size:.92rem;transition:border-color .3s;outline:none}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(22,107,74,.08)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(230,111,31,.1)}
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
@@ -163,10 +254,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .loc-opt{flex:1;padding:12px;background:var(--off-white);border:2px solid var(--light-gray);border-radius:10px;text-align:center;cursor:pointer;transition:all .3s;font-size:.83rem;font-weight:600;color:var(--dark-text)}
 .loc-opt:hover,.loc-opt.active{border-color:var(--green-mid);background:var(--green-pale);color:var(--green-deep)}
 .booking-total{background:var(--green-deep);border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;justify-content:space-between;align-items:center;color:var(--white)}
+.booking-total.free-mode{background:var(--blue-deep)}
 .booking-total .total-label{font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6)}
 .booking-total .total-price{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--green-light)}
 .btn-book{width:100%;padding:16px;background:var(--green-mid);color:var(--white);font-weight:700;font-size:1rem;border:none;border-radius:10px;cursor:pointer;transition:all .3s;letter-spacing:.3px}
-.btn-book:hover{background:var(--green-deep);box-shadow:0 8px 24px rgba(13,59,46,.3)}
+.btn-book:hover{background:var(--blue-deep);box-shadow:0 8px 24px rgba(8,34,74,.25)}
 .booking-note{text-align:center;margin-top:14px;font-size:.78rem;color:var(--mid-gray)}
 .booking-success{display:none;text-align:center;padding:50px 20px}
 .booking-success h3{font-family:var(--font-display);font-size:1.6rem;margin:16px 0 10px;color:var(--green-deep)}
@@ -192,28 +284,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .footer-hours{color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:36px}
 .footer-bottom{font-size:.78rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.1);padding-top:20px;width:100%;max-width:500px}
 
-/* ═══ ADMIN ═══ */
-.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:9999;overflow-y:auto;padding:40px}
-.admin-overlay.open{display:block}
-.admin-panel{max-width:900px;margin:0 auto;background:var(--white);border-radius:20px;padding:40px;position:relative;box-shadow:var(--shadow-lg)}
-.admin-panel h2{font-family:var(--font-display);font-size:1.5rem;margin-bottom:20px;color:var(--green-deep)}
-.admin-close{position:absolute;top:16px;right:24px;font-size:1.8rem;color:var(--mid-gray);cursor:pointer;background:none;border:none;transition:color .3s}
-.admin-close:hover{color:var(--dark-text)}
-.admin-table{width:100%;border-collapse:collapse;margin-top:16px}
-.admin-table th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--light-gray);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--mid-gray)}
-.admin-table td{padding:10px 12px;border-bottom:1px solid var(--light-gray);font-size:.87rem}
-.admin-table tr:hover td{background:var(--green-pale)}
-.status-badge{padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:700;display:inline-block}
-.status-pending{background:#fef3cd;color:#856404}
-.status-confirmed{background:var(--green-pale);color:var(--green-deep)}
-.status-rejected{background:#fee2e2;color:#dc2626}
-.admin-btn{padding:6px 16px;background:var(--green-mid);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.8rem;transition:background .3s;margin-right:4px}
-.admin-btn:hover{background:var(--green-deep)}
-.admin-btn.reject{background:#dc2626}
-.admin-btn.reject:hover{background:#b91c1c}
-.admin-btn.delete{background:#dc2626;margin-left:4px}
-.admin-btn.delete:hover{background:#b91c1c}
-
 /* ═══ ADDRESS AUTOCOMPLETE ═══ */
 .address-autocomplete{position:relative}
 .address-suggestions{position:absolute;top:100%;left:0;right:0;background:var(--white);border:1.5px solid var(--light-gray);border-top:none;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;z-index:100;display:none}
@@ -225,6 +295,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .address-info.warning{background:#fef3cd;color:#856404;display:block}
 .address-info.error{background:#fee2e2;color:#dc2626;display:block}
 
+/* ═══ CHATBOT ═══ */
+.chatbot-launch{position:fixed;right:22px;bottom:22px;z-index:1200;min-width:218px;height:66px;border:0;border-radius:999px;background:var(--blue-deep);color:var(--white);display:flex;align-items:center;justify-content:flex-start;gap:11px;padding:8px 17px 8px 8px;cursor:pointer;box-shadow:0 16px 42px rgba(8,34,74,.28);transition:transform .25s,box-shadow .25s,background .25s}
+.chatbot-launch:hover{transform:translateY(-2px);background:var(--green-mid);box-shadow:0 18px 46px rgba(230,111,31,.28)}
+.chatbot-launch.hidden{display:none}
+.chatbot-launch img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:var(--white);flex-shrink:0}
+.chatbot-launch-copy{display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.15;min-width:0}
+.chatbot-launch-title{font-size:.86rem;font-weight:900;white-space:nowrap}
+.chatbot-launch-sub{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.72);margin-top:3px;white-space:nowrap}
+.chatbot-panel{position:fixed;right:22px;bottom:22px;z-index:1201;width:min(390px,calc(100vw - 28px));height:min(650px,calc(100vh - 44px));background:var(--white);border:1px solid var(--light-gray);border-radius:18px;box-shadow:0 24px 70px rgba(8,34,74,.22);display:none;grid-template-rows:auto 1fr auto;overflow:hidden}
+.chatbot-panel.open{display:grid}
+.chatbot-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 16px;border-bottom:1px solid var(--light-gray);background:linear-gradient(135deg,var(--blue-deep),#123f73)}
+.chatbot-brand{display:flex;align-items:center;gap:12px;min-width:0;color:var(--white)}
+.chatbot-brand img{width:46px;height:46px;object-fit:contain;border-radius:50%;background:var(--white);flex-shrink:0}
+.chatbot-title{font-weight:800;font-size:.96rem;line-height:1.2}
+.chatbot-subtitle{font-size:.75rem;color:rgba(255,255,255,.68);margin-top:2px}
+.chatbot-close{width:34px;height:34px;border:1px solid rgba(255,255,255,.22);border-radius:9px;background:rgba(255,255,255,.08);color:var(--white);font-size:1.2rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.chatbot-close:hover{background:rgba(255,255,255,.16)}
+.chatbot-messages{padding:18px 16px;background:var(--off-white);overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chatbot-msg{max-width:86%;padding:11px 13px;border-radius:14px;font-size:.9rem;line-height:1.45;box-shadow:var(--shadow-sm);white-space:pre-line}
+.chatbot-msg.bot{align-self:flex-start;background:var(--white);color:var(--dark-text);border:1px solid var(--light-gray);border-bottom-left-radius:5px}
+.chatbot-msg.user{align-self:flex-end;background:var(--blue-deep);color:var(--white);border-bottom-right-radius:5px}
+.chatbot-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;align-self:flex-start;max-width:100%}
+.chatbot-chip{border:1px solid #c7e5fb;background:var(--white);color:var(--blue-deep);border-radius:999px;padding:8px 11px;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.chatbot-chip:hover{background:var(--blue-pale);border-color:var(--blue-mid)}
+.chatbot-form{padding:12px;border-top:1px solid var(--light-gray);background:var(--white);display:grid;grid-template-columns:1fr auto;gap:9px}
+.chatbot-input{width:100%;border:1.5px solid var(--light-gray);background:var(--off-white);border-radius:12px;padding:12px 13px;font-family:var(--font-body);font-size:16px;color:var(--dark-text);outline:none}
+.chatbot-input:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(230,111,31,.1)}
+.chatbot-send{width:46px;height:46px;border:0;border-radius:12px;background:var(--green-mid);color:var(--white);font-weight:900;font-size:1.15rem;cursor:pointer;transition:background .2s}
+.chatbot-send:hover{background:var(--blue-deep)}
+
+@media(max-width:560px){
+  .chatbot-launch{right:14px;bottom:14px;min-width:196px;height:62px;padding-right:14px}
+  .chatbot-launch img{width:46px;height:46px}
+  .chatbot-launch-title{font-size:.8rem}
+  .chatbot-launch-sub{font-size:.68rem}
+  .chatbot-panel{right:10px;bottom:10px;width:calc(100vw - 20px);max-width:calc(100vw - 20px);height:min(640px,calc(100dvh - 20px));max-height:calc(100dvh - 20px);border-radius:16px}
+  .chatbot-msg{max-width:92%;font-size:.88rem}
+  .chatbot-head{padding:14px}
+}
+
 /* ═══ BEFORE/AFTER SLIDER ═══ */
 .ba-slider-wrap{max-width:900px;width:100%;position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);aspect-ratio:16/9}
 .ba-slider-wrap .ba-before-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none}
@@ -233,22 +343,48 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 .ba-divider::after{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--green-deep);box-shadow:var(--shadow-md);font-weight:700}
 .ba-label-before,.ba-label-after{position:absolute;top:16px;padding:6px 16px;border-radius:6px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;z-index:6;pointer-events:none}
 .ba-label-before{right:16px;background:rgba(220,38,38,.9);color:var(--white)}
-.ba-label-after{left:16px;background:rgba(34,160,107,.9);color:var(--white)}
+.ba-label-after{left:16px;background:rgba(230,111,31,.92);color:var(--white)}
+.guarantee-badge{display:flex;align-items:center;justify-content:center;margin-top:22px}
+.guarantee-badge img{width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 12px 22px rgba(8,34,74,.18))}
+.booking-guarantee{display:flex;align-items:center;justify-content:center;gap:16px;margin:22px 0 10px;padding:16px 18px;background:var(--blue-pale);border:1px solid var(--light-gray);border-radius:14px}
+.booking-guarantee img{width:86px;height:86px;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(8,34,74,.16));flex-shrink:0}
+.booking-guarantee strong{display:block;color:var(--blue-deep);font-family:var(--font-display);font-size:1.05rem;margin-bottom:3px}
+.booking-guarantee span{display:block;color:var(--mid-gray);font-size:.82rem;line-height:1.45}
+.safety-pdf-link{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 18px;padding:13px 16px;border:2px solid var(--blue-mid);border-radius:12px;background:var(--white);color:var(--blue-deep);text-decoration:none;font-weight:800;font-size:.9rem;transition:all .25s}
+.safety-pdf-link:hover{background:var(--blue-pale);transform:translateY(-1px);box-shadow:0 10px 22px rgba(8,34,74,.12)}
+.safety-pdf-link span{color:var(--mid-gray);font-weight:600;font-size:.78rem}
 
 /* ═══ ANIMATIONS ═══ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
 /* ═══ MOBILE ═══ */
 @media(max-width:900px){
-  nav{padding:14px 20px}
-  .nav-links{display:none}
+  nav{min-height:92px;padding:10px 16px;grid-template-columns:48px 1fr 48px;gap:8px;position:fixed}
+  .nav-toggle{grid-column:1;display:flex;justify-self:start}
+  .nav-brand{grid-column:2;justify-content:center}
+  .brand-logo-frame{width:128px;height:128px;margin-block:-18px -44px;transform:translateY(14px)}
+  .nav-phone{grid-column:3;justify-self:end;width:44px;height:44px;padding:0;justify-content:center;font-size:0}
+  .nav-links{position:absolute;top:100%;left:14px;right:14px;z-index:1002;display:none;grid-column:auto;flex-direction:column;align-items:stretch;gap:0;background:var(--white);border:1px solid var(--light-gray);border-radius:12px;box-shadow:var(--shadow-lg);padding:8px;justify-self:stretch}
+  nav.menu-open .nav-links{display:flex}
+  .nav-links a{padding:14px 16px;border-radius:8px;font-size:.86rem}
+  .nav-links a:hover{background:var(--blue-pale)}
   .section{padding-left:20px!important;padding-right:20px!important}
+  .hero-ctas{flex-wrap:wrap}
   .hero h1{font-size:2.2rem}
   .hero-stats{gap:28px}
   .odour-grid{grid-template-columns:1fr 1fr}
+  .pet-urine-section{padding:76px 20px}
+  .pet-urine-card{grid-template-columns:1fr;padding:32px 24px;gap:24px}
+  .free-inspection-card{grid-template-columns:1fr;padding:28px 24px}
+  .free-inspection-card .btn-primary{text-align:center;width:100%}
   .steps-wrap{grid-template-columns:1fr 1fr}
   .step-arrow{display:none}
   .services-grid{grid-template-columns:1fr 1fr}
+  .reviews-carousel{padding:0 48px}
+  .review-card{flex-basis:calc((100% - 16px)/2)}
+  .reset-grid{grid-template-columns:1fr}
+  .safety-list{grid-template-columns:1fr}
+  .safety-notice{padding:28px 24px}
   .form-row{grid-template-columns:1fr}
   .service-options{grid-template-columns:1fr 1fr}
   .ba-grid{grid-template-columns:1fr}
@@ -256,11 +392,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   .page-dots{right:8px}
 }
 @media(max-width:600px){
+  nav{min-height:84px;padding:8px 12px}
+  .brand-logo-frame{width:118px;height:118px;margin-block:-14px -42px;transform:translateY(14px)}
   .odour-grid{grid-template-columns:1fr}
   .steps-wrap{grid-template-columns:1fr}
   .services-grid{grid-template-columns:1fr}
+  .reviews-carousel{padding:0 42px}
+  .review-card{flex-basis:100%;min-height:220px}
+  .review-nav{width:34px;height:34px;font-size:1.1rem}
+  .review-form-grid{grid-template-columns:1fr}
+  .review-form-panel{padding:18px}
   .hero-stats{flex-direction:column;gap:20px}
+  .pet-urine-card{padding:28px 20px}
+  .pet-urine-point{padding:16px 16px 16px 42px}
+  .pet-urine-point::before{left:16px;top:17px}
   .service-options{grid-template-columns:1fr}
+  .booking-guarantee{flex-direction:column;text-align:center;gap:8px}
+  .guarantee-badge img{width:112px;height:112px}
+  .safety-pdf-link{flex-direction:column;gap:4px;text-align:center}
+}
+@media(max-width:420px){
+  .brand-logo-frame{width:106px;height:106px;margin-block:-12px -38px;transform:translateY(12px)}
+  .nav-phone{width:40px;height:40px}
+  .nav-toggle{width:40px;height:40px}
 }
 </style>
 <!-- Google tag (gtag.js) -->
@@ -275,15 +429,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">Ventra<span>cleaning</span></div>
-  <div class="nav-links">
+<nav id="siteNav">
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+    <span></span>
+  </button>
+  <a href="#hero" class="nav-brand" aria-label="Ventra Cleaning home" onclick="closeMobileMenu()">
+    <span class="brand-logo-frame">
+      <img src="ventra-logo.png" alt="Ventra Cleaning logo" onerror="this.parentElement.classList.add('logo-missing')">
+    </span>
+  </a>
+  <div class="nav-links" id="navLinks">
     <a href="#ba1">Results</a>
     <a href="#odours">Odours</a>
     <a href="#how">How It Works</a>
     <a href="#services">Pricing</a>
     <a href="#faq">FAQ</a>
-    <a href="#booking" style="color:var(--green-mid)">Book Now</a>
+    <a href="#booking" style="color:var(--green-mid)">Get Quote</a>
   </div>
   <a href="tel:0432066372" class="nav-phone">
     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.81.36 1.6.68 2.34a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0122 16.92z"/></svg>
@@ -296,12 +457,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
 <!-- ══════ 1. HERO ══════ -->
 <section class="section hero" id="hero">
-  <div class="hero-badge"><span class="dot"></span> Now booking — same-day appointments</div>
+  <div class="hero-badge"><span class="dot"></span> Melbourne Ozone Odour Removal</div>
   <h1>No more bad smells.<br>Just <em>fresh.</em></h1>
-  <p class="hero-sub">Professional ozone treatment that destroys odours at the molecular level. Cigarette smoke, pet accidents, mould — gone. Guaranteed.</p>
+  <p class="hero-sub">Professional ozone odour treatment for homes, cars, carpets, sofas and upholstery across Melbourne. We treat smoke odours, pet accidents, urine, damp, milk, fish and other stubborn smells.</p>
   <div class="hero-ctas">
-    <a href="#booking" class="btn-primary">Book a Treatment</a>
-    <a href="#how" class="btn-outline-w">See How It Works</a>
+    <a href="#booking" class="btn-primary">Request a Quote</a>
+    <a href="#booking" class="btn-outline-w" onclick="startFreeInspection(event)">Book a Free Inspection</a>
+    <a href="tel:0432066372" class="btn-outline-w">Call Now</a>
   </div>
   <div class="hero-stats">
     <div class="hero-stat"><div class="num">100%</div><div class="label">Satisfaction</div></div>
@@ -311,10 +473,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
   <div class="scroll-ind"><div class="scroll-bar"></div>Scroll</div>
 </section>
 
+<!-- ══════ FREE INSPECTION CTA ══════ -->
+<section class="section free-inspection-section" id="free-inspection">
+  <div class="free-inspection-card">
+    <div class="free-inspection-icon">🔍</div>
+    <div class="free-inspection-copy">
+      <h2>Not sure what treatment you need?</h2>
+      <p>Book a free inspection before choosing a service. Pet urine, smoke, milk spills and musty odours may need the right treatment before standard cleaning. Ventra Cleaning can assess the issue and recommend the right next step.</p>
+    </div>
+    <a href="#booking" class="btn-primary" onclick="startFreeInspection(event)">Book a Free Inspection</a>
+  </div>
+</section>
+
+<!-- ══════ 2. PET URINE NOTICE ══════ -->
+<section class="section pet-urine-section" id="pet-urine">
+  <div class="pet-urine-card">
+    <div class="pet-urine-copy">
+      <div class="section-label">Pet Urine Notice</div>
+      <h2>Pet Urine on Carpet? Please Contact Us Before Washing</h2>
+      <p>Standard carpet washing can sometimes spread urine contamination deeper into the carpet, underlay, and even the base timber. If you are dealing with pet urine, contact Ventra Cleaning before booking a regular carpet clean so we can assess the issue and recommend the right treatment.</p>
+      <a href="#booking" class="btn-primary">Get Pet Urine Advice</a>
+    </div>
+    <div class="pet-urine-points" aria-label="Important pet urine carpet cleaning notes">
+      <div class="pet-urine-point">Regular carpet cleaning or floor carpet washing may not solve pet urine odour at the source.</div>
+      <div class="pet-urine-point">Urine can move into carpet backing, underlay and base timber where standard washing cannot reach.</div>
+      <div class="pet-urine-point">The wrong process can spread contamination and make the smell harder to treat.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ══════ 2. BEFORE/AFTER — SEAT ══════ -->
 <section class="section ba-section" id="ba1">
   <div class="section-label">Real Results</div>
-  <h2 class="section-title">Seat cleaning — <em>before & after.</em></h2>
+  <h2 class="section-title">Seat cleaning <em>before and after.</em></h2>
   <div class="ba-slider-wrap" id="slider1">
     <img src="seat-before.avif" alt="Dirty seat before" class="ba-before-img">
     <img src="seat-after.avif" alt="Clean seat after" class="ba-after-img">
@@ -322,13 +513,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
-  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">↕ Scroll to see the transformation ↕</p>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">Scroll to see the transformation</p>
+  <div class="guarantee-badge">
+    <img src="guarantee-logo.png" alt="100% satisfaction guarantee">
+  </div>
 </section>
 
 <!-- ══════ 3. BEFORE/AFTER — SMOKE ══════ -->
 <section class="section ba-section alt" id="ba2">
   <div class="section-label">Odour Elimination</div>
-  <h2 class="section-title">Smoke treatment — <em>breathe easy.</em></h2>
+  <h2 class="section-title">Smoke treatment. <em>Breathe easy.</em></h2>
   <div class="ba-slider-wrap" id="slider2">
     <img src="smoke-before.png" alt="Smoky hazy car" class="ba-before-img">
     <img src="smoke-after.png" alt="Fresh clean interior" class="ba-after-img">
@@ -336,55 +530,94 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
     <div class="ba-label-after">After</div>
     <div class="ba-label-before">Before</div>
   </div>
-  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">↕ Scroll to see the transformation ↕</p>
+  <p style="color:var(--mid-gray);font-size:.85rem;margin-top:20px;text-align:center">Scroll to see the transformation</p>
+  <div class="guarantee-badge">
+    <img src="guarantee-logo.png" alt="100% satisfaction guarantee">
+  </div>
 </section>
 
-<!-- ══════ 4. ODOURS ══════ -->
+<!-- ══════ 4. RESET SECTION ══════ -->
+<section class="section reset-section" id="reset">
+  <div class="section-label">New home or used car?</div>
+  <h2 class="section-title">Bought a place or vehicle with a bad smell?</h2>
+  <p class="reset-copy">Previous owners, pets, spills, damp areas and smoke odours can leave stubborn smells behind. Ventra Cleaning helps reset homes and vehicles with ozone odour treatment and spot cleaning across Melbourne.</p>
+  <div class="reset-grid">
+    <div class="reset-card">
+      <h3>Home Odour Reset</h3>
+      <p>For smoke odours, pet smells, damp rooms, old carpets, musty areas and stubborn indoor smells.</p>
+    </div>
+    <div class="reset-card">
+      <h3>Used Car Odour Reset</h3>
+      <p>For smoke odours, pet smells, food spills, milk, vomit and interior odours trapped in seats, carpet and vents.</p>
+    </div>
+  </div>
+  <a href="#booking" class="btn-primary">Request a Quote</a>
+</section>
+
+<!-- ══════ 5. ODOURS ══════ -->
 <section class="section odours" id="odours">
   <div class="section-label">What We Eliminate</div>
   <h2 class="section-title">No smell is <em>unbeatable.</em></h2>
   <div class="odour-grid">
-    <div class="odour-card"><span class="odour-icon">🚬</span><h3>Cigarette Smoke</h3><p>Deeply embedded tobacco smell in fabric, carpet, and air vents. Gone in one treatment.</p></div>
-    <div class="odour-card"><span class="odour-icon">🐱</span><h3>Cat Urine</h3><p>The most stubborn odour there is. We destroy the uric acid crystals at the source.</p></div>
-    <div class="odour-card"><span class="odour-icon">🐶</span><h3>Dog & Pet Smell</h3><p>Wet dog, dander, accidents — all neutralised completely, even deep in upholstery.</p></div>
-    <div class="odour-card"><span class="odour-icon">💧</span><h3>Mould & Damp</h3><p>Kills mould spores and eliminates the musty smell in basements, cars, and wet rooms.</p></div>
-    <div class="odour-card"><span class="odour-icon">🐟</span><h3>Fish & Cooking</h3><p>Strong food odours trapped in kitchens, restaurants, and vehicles. Eliminated permanently.</p></div>
-    <div class="odour-card"><span class="odour-icon">🤢</span><h3>Vomit</h3><p>Perfect for Uber drivers. Fast turnaround, complete elimination, same-day service.</p></div>
+    <div class="odour-card"><span class="odour-icon">🚬</span><h3>Smoke Odours</h3><p>Tobacco and smoke smells trapped in fabric, carpet and vents. Treated deep, not masked.</p></div>
+    <div class="odour-card"><span class="odour-icon">🐱</span><h3>Pet & Urine Odours</h3><p>Stubborn pet accidents and urine smells targeted at the source for a fresher space.</p></div>
+    <div class="odour-card"><span class="odour-icon">🐶</span><h3>Dog & Pet Smells</h3><p>Wet dog, dander and everyday pet odours removed from rooms, cars and soft surfaces.</p></div>
+    <div class="odour-card"><span class="odour-icon">💧</span><h3>Damp & Musty Smells</h3><p>Musty rooms, damp areas and stale air reset with professional ozone treatment.</p></div>
+    <div class="odour-card"><span class="odour-icon">🐟</span><h3>Fish & Cooking Odours</h3><p>Strong food smells from kitchens, rentals and vehicles treated properly and confidently.</p></div>
+    <div class="odour-card"><span class="odour-icon">🤢</span><h3>Vomit & Spill Odours</h3><p>Milk, vomit, food spills and sour smells handled fast for cars, carpets and upholstery.</p></div>
+    <div class="odour-card"><span class="odour-icon">🚗</span><h3>Car Interior Odours</h3><p>Odours trapped in seats, carpet, headliners and air vents. Ideal for used cars and rideshare vehicles.</p></div>
+    <div class="odour-card"><span class="odour-icon">🛋️</span><h3>Upholstery & Carpet Odours</h3><p>Sofas, rugs, carpets and fabric surfaces refreshed when smells keep coming back.</p></div>
   </div>
 </section>
 
-<!-- ══════ 5. HOW IT WORKS ══════ -->
+<!-- ══════ 6. HOW IT WORKS ══════ -->
 <section class="section how-section" id="how">
   <div class="section-label">The Science</div>
   <h2 class="section-title">How we <em>destroy</em> odours.</h2>
   <div class="steps-wrap">
     <div class="step-item">
       <div class="step-num">01</div>
-      <h3>Place the Generator</h3>
-      <p>Industrial ozone generator fills every cubic metre with O₃ molecules.</p>
+      <h3>Inspect & Prepare</h3>
+      <p>We assess the odour source, room or vehicle size, and prepare the area for treatment.</p>
       <span class="step-arrow">→</span>
     </div>
     <div class="step-item">
       <div class="step-num">02</div>
-      <h3>Oxidise the Odour</h3>
-      <p>O₃ bonds with bacteria, tar, urine proteins — breaks them apart molecularly.</p>
+      <h3>Ozone Treatment</h3>
+      <p>An ozone generator circulates O₃ through the treated space to attack odour-causing compounds.</p>
       <span class="step-arrow">→</span>
     </div>
     <div class="step-item">
       <div class="step-num">03</div>
       <h3>Ventilate</h3>
-      <p>Ozone converts back to O₂ within minutes. No residue, no chemicals.</p>
+      <p>After treatment, we ventilate the space and allow the area to become safe for re-entry.</p>
       <span class="step-arrow">→</span>
     </div>
     <div class="step-item">
       <div class="step-num">04</div>
-      <h3>Enjoy Results</h3>
-      <p>Step into a genuinely fresh space. If anything lingers — we come back free.</p>
+      <h3>Check The Result</h3>
+      <p>We check the treated area and provide practical advice if further spot cleaning or ventilation is needed.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════ 6. SERVICES ══════ -->
+<!-- ══════ 7. SAFETY NOTICE ══════ -->
+<section class="section safety-section" id="safety">
+  <div class="safety-notice">
+    <div class="section-label">Safety First</div>
+    <h2>Ozone treatment must be done in an empty space.</h2>
+    <p>During ozone treatment, no people, pets or plants should remain inside the treated room, home or vehicle. After treatment, we ventilate the area before re-entry.</p>
+    <ul class="safety-list">
+      <li>Space must be unoccupied during treatment</li>
+      <li>Pets and plants must be removed</li>
+      <li>Ventilation is completed before re-entry</li>
+      <li>Safety instructions are provided before each job</li>
+    </ul>
+    <a href="/safety-introduction.pdf" class="btn-primary" target="_blank" rel="noopener">Read Safety Introduction</a>
+  </div>
+</section>
+
+<!-- ══════ 8. SERVICES ══════ -->
 <section class="section services-section" id="services">
   <div class="section-label">Our Packages</div>
   <h2 class="section-title">Transparent <em>pricing.</em></h2>
@@ -393,91 +626,213 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       <div class="svc-icon green">🌿</div>
       <h3>Ozone Elimination</h3>
       <p class="desc">Complete odour elimination for any vehicle or room. Guaranteed.</p>
-      <div class="service-price"><sup>$</sup>100</div>
-      <div class="service-meta">1 hour · guaranteed</div>
+      <div class="service-price" data-price-display="Ozone Treatment"><sup>$</sup>100</div>
+      <div class="service-meta">2 hours, guaranteed</div>
     </div>
     <div class="service-card">
       <div class="svc-icon blue">🪑</div>
       <h3>Seat Cleaning</h3>
       <p class="desc">Deep clean of all car seats. Perfect for Uber drivers.</p>
-      <div class="service-price"><sup>$</sup>100</div>
-      <div class="service-meta">1 hour · seats only</div>
+      <div class="service-price" data-price-display="Seat Cleaning"><sup>$</sup>100</div>
+      <div class="service-meta">2 hours minimum, seats only</div>
     </div>
     <div class="service-card popular">
       <div class="svc-icon green">🚗</div>
       <h3>Seat + Floor</h3>
       <p class="desc">Complete interior refresh. Seats and floor carpets combined.</p>
-      <div class="service-price"><sup>$</sup>180</div>
-      <div class="service-meta">2 hours · full interior</div>
+      <div class="service-price" data-price-display="Seat + Floor"><sup>$</sup>180</div>
+      <div class="service-meta">2 hours, full interior</div>
     </div>
     <div class="service-card">
       <div class="svc-icon blue">🎯</div>
       <h3>Spot Cleaning</h3>
       <p class="desc">Targeted stain removal. One area, done properly.</p>
-      <div class="service-price"><sup>$</sup>70</div>
-      <div class="service-meta">1 hour · single area</div>
+      <div class="service-price" data-price-display="Spot Cleaning"><sup>$</sup>70</div>
+      <div class="service-meta">2 hours minimum, single area</div>
     </div>
   </div>
 </section>
 
-<!-- ══════ 7. TESTIMONIAL ══════ -->
+<!-- ══════ 9. TESTIMONIAL ══════ -->
 <section class="section testimonial-section" id="testimonial">
   <div class="section-label">Customer Stories</div>
-  <p class="testimonial-quote">"Ozone treatment completely removed 10 years of cigarette smell from our rental car. I honestly thought it was impossible. Worth every dollar."</p>
-  <p class="testimonial-author"><strong>Marcus T.</strong> · Uber driver · Melbourne CBD</p>
+  <h2 class="section-title" style="color:var(--white);margin-bottom:34px">Recent <em style="color:var(--green-light)">customer notes.</em></h2>
+  <div class="review-add-wrap">
+    <button class="review-add-btn" type="button" onclick="toggleReviewForm(true)">Add a review</button>
+  </div>
+  <div class="review-form-panel" id="reviewFormPanel">
+    <div class="review-form-grid">
+      <div class="review-form-field">
+        <label>Name</label>
+        <input id="reviewName" type="text" placeholder="Your name">
+      </div>
+      <div class="review-form-field">
+        <label>Suburb</label>
+        <input id="reviewSuburb" type="text" placeholder="e.g. Prahran">
+      </div>
+      <div class="review-form-field full">
+        <label>Rating</label>
+        <div class="review-rating-picker" id="reviewRatingPicker">
+          <button class="review-star-btn active" type="button" onclick="setReviewRating(1)">★</button>
+          <button class="review-star-btn active" type="button" onclick="setReviewRating(2)">★</button>
+          <button class="review-star-btn active" type="button" onclick="setReviewRating(3)">★</button>
+          <button class="review-star-btn active" type="button" onclick="setReviewRating(4)">★</button>
+          <button class="review-star-btn active" type="button" onclick="setReviewRating(5)">★</button>
+        </div>
+      </div>
+      <div class="review-form-field full">
+        <label>Review</label>
+        <textarea id="reviewText" placeholder="Write a short note about your experience"></textarea>
+      </div>
+    </div>
+    <div class="review-form-actions">
+      <button class="review-submit-btn" type="button" onclick="submitCustomerReview()">Submit review</button>
+      <button class="review-cancel-btn" type="button" onclick="toggleReviewForm(false)">Cancel</button>
+    </div>
+    <p class="review-form-note">Reviews appear on the website after admin approval.</p>
+  </div>
+  <div class="reviews-carousel">
+  <button class="review-nav prev" type="button" aria-label="Previous reviews" onclick="scrollReviews(-1)">‹</button>
+  <div class="reviews-grid" id="reviewsGrid">
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Had a smoke smell in a second-hand car. It was much better after the treatment and the car felt a lot fresher to drive.</p>
+      <p class="review-author"><strong>Marcus T.</strong>, Melbourne CBD</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Our dog had an accident on the carpet and the room kept smelling. Osman explained what was going on and treated it carefully. Good communication too.</p>
+      <p class="review-author"><strong>Sarah K.</strong>, Richmond</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Milk spilled in the back seat and started smelling after a couple of days. Ventra came out, checked the seats and handled it without making a mess.</p>
+      <p class="review-author"><strong>Daniel P.</strong>, St Kilda</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">I dropped coffee in the passenger footwell. The car interior smells a lot cleaner now and the carpet dried properly.</p>
+      <p class="review-author"><strong>Emily R.</strong>, Prahran</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">We had a stale smell in a spare room that had been closed up for months. Simple booking and the room felt much nicer afterwards.</p>
+      <p class="review-author"><strong>Helen M.</strong>, South Yarra</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Booked for a rug that had a musty smell from storage. Friendly service and no pushy sales talk.</p>
+      <p class="review-author"><strong>Priya S.</strong>, Brunswick</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Used them for a storage unit clean after some boxes got damp. They were upfront about what they could do and the space smelt better after airing out.</p>
+      <p class="review-author"><strong>James L.</strong>, Port Melbourne</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">Good result on our hallway carpet after a pet smell issue. Appreciated the honest advice before they started.</p>
+      <p class="review-author"><strong>Natalie W.</strong>, Hawthorn</p>
+    </div>
+    <div class="review-card">
+      <div class="review-rating"><span class="review-stars">★★★★★</span></div>
+      <p class="review-text">My car had a mix of food and old smoke smell. The interior is noticeably fresher now. Easy to deal with.</p>
+      <p class="review-author"><strong>Ali Y.</strong>, Footscray</p>
+    </div>
+  </div>
+  <button class="review-nav next" type="button" aria-label="Next reviews" onclick="scrollReviews(1)">›</button>
+  </div>
 </section>
 
-<!-- ══════ 8. BOOKING ══════ -->
+<!-- ══════ 10. BOOKING ══════ -->
 <section class="section booking-section" id="booking">
   <div class="booking-container">
-    <div class="section-label" style="justify-content:center;display:flex">Book Now</div>
+    <div class="section-label" style="justify-content:center;display:flex">Request Booking</div>
     <h2 class="section-title" style="text-align:center">Let's get you <em>sorted.</em></h2>
 
     <div id="bookingForm">
-      <div style="display:flex;gap:10px;margin-bottom:20px">
+      <button type="button" id="freeInspectionOption" class="free-inspection-choice" onclick="setFreeInspectionMode(true)">
+        <span class="free-inspection-choice-icon">🔍</span>
+        <span>
+          <strong>Free Inspection Appointment</strong>
+          <span>No upfront cost. We assess the issue before recommending the right treatment.</span>
+        </span>
+      </button>
+      <div id="freeInspectionNote" class="free-inspection-note">
+        <strong>Free Inspection</strong><br>
+        No upfront cost. Your request will be reviewed and confirmed by Ventra Cleaning before the appointment is locked in.
+      </div>
+
+      <div id="paidCategoryWrap" style="display:flex;gap:10px;margin-bottom:20px">
         <button type="button" id="vehicleCategory" onclick="selectCategory('vehicle')" style="flex:1;padding:16px;background:var(--green-pale);border:2px solid var(--green-mid);color:var(--green-deep);border-radius:12px;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;transition:all .3s">🚗 Vehicle Cleaning</button>
         <button type="button" id="homeCategory" onclick="selectCategory('home')" style="flex:1;padding:16px;background:var(--off-white);border:2px solid var(--light-gray);color:var(--dark-text);border-radius:12px;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;transition:all .3s">🏠 Home Cleaning</button>
       </div>
 
+      <div id="freeInspectionFields" style="display:none">
+        <div class="form-group">
+          <label>Inspection Type</label>
+          <select id="inspectionType">
+            <option value="Home">Home</option>
+            <option value="Car">Car</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Main Issue</label>
+          <select id="inspectionIssue">
+            <option value="Pet urine">Pet urine</option>
+            <option value="Smoke smell">Smoke smell</option>
+            <option value="Milk or coffee spill">Milk or coffee spill</option>
+            <option value="Damp or musty smell">Damp or musty smell</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="paidServicesWrap">
       <label class="form-group label" style="font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:10px;display:block;font-weight:600">Select Services (you can choose more than one)</label>
       <div style="width:100%;margin-bottom:20px">
         <div id="vehicleServices" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
           <div class="service-opt" data-service="Ozone Treatment" data-price="100" onclick="toggleService(this)">
-            <div class="svc-name">🌿 Ozone</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+            <div class="svc-name">🌿 Ozone</div><div class="svc-price" data-option-price="Ozone Treatment">$100</div><div class="svc-time">2 hours</div>
           </div>
           <div class="service-opt" data-service="Seat Cleaning" data-price="100" onclick="toggleService(this)">
-            <div class="svc-name">🪑 Seat</div><div class="svc-price">$100</div><div class="svc-time">1 hour</div>
+            <div class="svc-name">🪑 Seat</div><div class="svc-price" data-option-price="Seat Cleaning">$100</div><div class="svc-time">2 hours</div>
           </div>
           <div class="service-opt" data-service="Seat + Floor" data-price="180" onclick="toggleService(this)">
-            <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price">$180</div><div class="svc-time">2 hours</div>
+            <div class="svc-name">🚗 Seat+Floor</div><div class="svc-price" data-option-price="Seat + Floor">$180</div><div class="svc-time">2 hours</div>
           </div>
           <div class="service-opt" data-service="Spot Cleaning" data-price="70" onclick="toggleService(this)">
-            <div class="svc-name">🎯 Spot</div><div class="svc-price">$70</div><div class="svc-time">1 hour</div>
+            <div class="svc-name">🎯 Spot</div><div class="svc-price" data-option-price="Spot Cleaning">$70</div><div class="svc-time">2 hours</div>
           </div>
+        </div>
+        <div id="vehicleComboNote" style="font-size:.78rem;color:var(--mid-gray);line-height:1.45;margin-top:8px">
+          Vehicle bookings can combine Ozone with one cleaning service.
         </div>
         <div id="homeServices" style="display:none;grid-template-columns:1fr 1fr;gap:10px;width:100%">
           <div class="service-opt" data-service="Ozone 1 Room" data-price="80" onclick="toggleService(this)">
-            <div class="svc-name">🏠 Ozone – 1 Room</div><div class="svc-price">$80</div><div class="svc-time">1 room</div>
+            <div class="svc-name">🏠 Ozone 1 Room</div><div class="svc-price" data-option-price="Ozone 1 Room">$80</div><div class="svc-time">2 hours</div>
           </div>
           <div class="service-opt" data-service="Ozone Whole House" data-price="0" onclick="toggleService(this)">
-            <div class="svc-name">🏡 Ozone – Whole House</div><div class="svc-price">From $60/room</div><div class="svc-time">per room</div>
+            <div class="svc-name">🏡 Ozone Whole House</div><div class="svc-price" data-option-price="Ozone Whole House Per Room">From $60/room</div><div class="svc-time">2 hours minimum</div>
           </div>
           <div class="service-opt" data-service="Spot Cleaning Home" data-price="80" onclick="toggleService(this)">
-            <div class="svc-name">🧹 Spot Cleaning</div><div class="svc-price">$80</div><div class="svc-time">1 area</div>
+            <div class="svc-name">🧹 Spot Cleaning</div><div class="svc-price" data-option-price="Spot Cleaning Home">$80</div><div class="svc-time">2 hours</div>
           </div>
           <div class="service-opt" data-service="Area Rug" data-price="0" onclick="toggleService(this)">
             <div class="svc-name">🪄 Area Rug</div><div class="svc-price">Contact for price</div><div class="svc-time"></div>
           </div>
         </div>
         <div id="roomCounterWrap" style="display:none;background:var(--green-pale);border:2px solid var(--green-mid);border-radius:12px;padding:16px;margin-top:10px;text-align:center">
-          <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of Rooms</label>
+          <label style="font-size:.8rem;color:var(--green-deep);font-weight:600;margin-bottom:8px;display:block">Number of 36 Cubic Metre Rooms</label>
           <div style="display:flex;align-items:center;justify-content:center;gap:12px">
             <button type="button" onclick="decreaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
             <span id="roomCount" style="font-size:1.4rem;font-weight:700;color:var(--green-deep);min-width:30px">1</span>
             <button type="button" onclick="increaseRooms()" style="width:32px;height:32px;border-radius:50%;background:var(--green-mid);color:white;border:none;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
           </div>
-          <div style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per room</div>
+          <div id="roomRateNote" style="font-size:.75rem;color:var(--green-deep);margin-top:6px">$60 per 36 cubic metre room</div>
         </div>
+      </div>
       </div>
 
       <div id="rugNote" style="display:none;background:#fef3cd;border:2px solid #856404;border-radius:12px;padding:12px;margin-bottom:20px;text-align:center;font-size:.85rem;color:#856404">
@@ -493,7 +848,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       </div>
 
       <div class="form-group" id="addressGroup" style="display:none">
-        <label>Your Address</label>
+        <label id="addressLabel">Your Address</label>
         <div class="address-autocomplete">
           <input type="text" id="bkAddress" placeholder="Enter your Melbourne address" oninput="searchAddress(this.value)" onblur="setTimeout(hideSuggestions,200)">
           <div id="addressSuggestions" class="address-suggestions"></div>
@@ -525,7 +880,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
       <!-- TIME SLOTS -->
       <div class="form-group" id="timeSlotsGroup" style="display:none">
-        <label>Select Time — <span id="selectedDateLabel" style="color:var(--green-mid);font-weight:700"></span></label>
+        <label>Select Time <span id="selectedDateLabel" style="color:var(--green-mid);font-weight:700"></span></label>
         <div id="timeSlots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
       </div>
 
@@ -538,9 +893,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
       <div class="form-group"><label>Email</label><input type="email" id="bkEmail" placeholder="your@email.com"></div>
 
       <div class="booking-total">
-        <div><div class="total-label">Total</div><div style="font-size:.78rem;color:rgba(255,255,255,.5)" id="totalService">Ozone Treatment · 1 hour</div></div>
+        <div><div class="total-label">Total</div><div style="font-size:.78rem;color:rgba(255,255,255,.5)" id="totalService">Ozone Treatment, 2 hours</div></div>
         <div class="total-price" id="totalPrice">$100</div>
       </div>
+
+      <div class="booking-guarantee">
+        <img src="guarantee-logo.png" alt="100% satisfaction guarantee">
+        <div>
+          <strong>100% Satisfaction Guarantee</strong>
+          <span>If the odour lingers, we come back and make it right.</span>
+        </div>
+      </div>
+
+      <a class="safety-pdf-link" href="/safety-introduction.pdf" target="_blank" rel="noopener">
+        📄 Safety Introduction PDF <span>Opens in a new tab</span>
+      </a>
 
       <button class="btn-book" onclick="submitBooking()">Request Booking →</button>
       <p class="booking-note">We'll confirm via phone or email within 1 hour.</p>
@@ -548,54 +915,104 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 48px;display:f
 
     <div class="booking-success" id="bookingSuccess">
       <div style="font-size:2.5rem">✅</div>
-      <h3>Request Received!</h3>
-      <p>We'll call you within the hour to confirm.<br>Questions? Call us on <strong>0432 066 372</strong></p>
+      <h3 id="bookingSuccessTitle">Request Received!</h3>
+      <p id="bookingSuccessText">We'll call you within the hour to confirm.<br>Questions? Call us on <strong>0432 066 372</strong></p>
     </div>
   </div>
 </section>
 
-<!-- ══════ 9. FAQ ══════ -->
+<!-- ══════ 11. FAQ ══════ -->
 <section class="section faq-section" id="faq">
   <div class="section-label" style="display:flex;justify-content:center">FAQ</div>
   <h2 class="section-title" style="text-align:center">Common <em>questions.</em></h2>
   <div class="faq-container">
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does ozone actually eliminate odours?<span class="arrow">▼</span></div><div class="faq-a">Ozone (O₃) reacts with odour-causing compounds, oxidising and breaking down their chemical bonds permanently. Unlike sprays that mask, ozone destroys at the molecular level. It then converts back to oxygen — leaving no residue.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is ozone treatment safe?<span class="arrow">▼</span></div><div class="faq-a">Yes — when handled by professionals. The space is unoccupied during treatment. Once complete, we ventilate thoroughly. Re-entry within 30–60 minutes. Strict safety protocols every job.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does it take?<span class="arrow">▼</span></div><div class="faq-a">Ozone treatment and spot cleaning: ~1 hour. Seat + floor: 2 hours. Severe odours may need extended treatment — we'll advise beforehand.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you guarantee the odour is gone?<span class="arrow">▼</span></div><div class="faq-a">100%. If any odour persists, we return at no extra cost. If you're not satisfied, we haven't finished the job.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can you eliminate cigarette smoke in a car?<span class="arrow">▼</span></div><div class="faq-a">One of our most common treatments. Ozone penetrates upholstery, headliner, carpet, and AC system. Most heavy smoke cases — fully resolved in a single 1-hour session.</div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">I'm an Uber driver. Same-day possible?<span class="arrow">▼</span></div><div class="faq-a">Absolutely. Drop off at our Melbourne facility — turnaround in 1–2 hours. Call 0432 066 372 for urgent jobs.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does ozone treatment actually work?<span class="arrow">▼</span></div><div class="faq-a">Ozone (O₃) circulates through the treated space and reacts with odour-causing compounds in air, fabric, carpet and vents. It attacks the source instead of covering it with fragrance, then converts back to oxygen after treatment.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is ozone treatment safe?<span class="arrow">▼</span></div><div class="faq-a">Yes, when it is handled professionally and the space is empty during treatment. No people, pets or plants remain inside while ozone is running. We ventilate the area before re-entry and provide safety instructions before each job.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does treatment take?<span class="arrow">▼</span></div><div class="faq-a">Vehicle ozone is booked for about 2 hours. Seat cleaning and spot cleaning take about 1 hour. Seat and floor cleaning takes about 2 hours. Whole house ozone is booked at 1 hour per 36 cubic metre room.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can you treat cars and used vehicles?<span class="arrow">▼</span></div><div class="faq-a">Yes. We treat smoke, pet, food, milk, vomit and stale interior odours trapped in seats, carpet, headliners and air vents. It is ideal for used cars, rideshare vehicles and cars bought with a smell already inside.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can you treat homes, rooms and rentals?<span class="arrow">▼</span></div><div class="faq-a">Yes. We treat rooms, homes, rentals, carpets, sofas, rugs and upholstery across Melbourne. Ozone is especially useful for stale indoor smells, damp areas, pet odours and smoke left behind by previous occupants.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What odours can you treat?<span class="arrow">▼</span></div><div class="faq-a">We treat smoke odours, pet and urine odours, dog smells, damp and musty smells, fish and cooking odours, milk, vomit, food spills, car interior odours, upholstery odours and carpet odours. Stubborn smells are exactly what we are built for.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What do I need to do before treatment?<span class="arrow">▼</span></div><div class="faq-a">Remove people, pets, plants and any sensitive items from the treatment area. For best results, clear loose rubbish, wet items and personal belongings so ozone and spot cleaning can reach the affected surfaces properly.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">When can I re-enter the space?<span class="arrow">▼</span></div><div class="faq-a">After ozone treatment, we ventilate the room, home or vehicle before re-entry. Re-entry is usually within 30 to 60 minutes after ventilation, depending on the space and job size. We will confirm when it is ready.</div></div>
   </div>
 </section>
 
-<!-- ══════ 10. FOOTER ══════ -->
+<!-- ══════ 12. FOOTER ══════ -->
 <section class="footer-section" id="footer">
   <h2 class="footer-cta">Ready to <em>breathe</em> fresh again?</h2>
   <a href="tel:0432066372" class="footer-phone">📞 0432 066 372</a>
-  <p class="footer-hours">Monday – Saturday · 8am – 6pm · Sunday by appointment</p>
+  <p class="footer-hours">Monday to Saturday, 8am to 6pm. Sunday by appointment.</p>
   <div class="footer-bottom">
-    © 2026 Ventra Cleaning · Melbourne, VIC · ventracleaning.com.au
-    <a href="#admin" style="color:inherit;text-decoration:none;opacity:0.3;font-size:0.7rem;margin-left:20px" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.3'">admin</a>
+    © 2026 Ventra Cleaning, Melbourne VIC, ventracleaning.com.au
   </div>
 </section>
 
-<!-- ADMIN -->
-<div class="admin-overlay" id="adminOverlay">
-  <div class="admin-panel">
-    <button class="admin-close" onclick="closeAdmin()">×</button>
-    <h2>📋 Randevu Yönetim Paneli</h2>
-    <p style="color:var(--mid-gray);margin-bottom:20px">Gelen randevu taleplerini yönetin</p>
-    <div style="font-size:.85rem;color:var(--mid-gray);margin-bottom:16px">Toplam: <strong id="adminCount" style="color:var(--green-mid)">0</strong></div>
-    <table class="admin-table">
-      <thead><tr><th>İsim</th><th>Hizmet</th><th>Tarih</th><th>Telefon</th><th>Durum</th><th>İşlem</th></tr></thead>
-      <tbody id="adminBody"><tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">No bookings yet</td></tr></tbody>
-    </table>
+<button class="chatbot-launch" id="chatbotLaunch" type="button" aria-label="Open Ventra Cleaning chat">
+  <img src="/ventra-logo.png" alt="">
+  <span class="chatbot-launch-copy">
+    <span class="chatbot-launch-title">Booking request</span>
+    <span class="chatbot-launch-sub">Chat with us</span>
+  </span>
+</button>
+
+<div class="chatbot-panel" id="chatbotPanel" aria-live="polite">
+  <div class="chatbot-head">
+    <div class="chatbot-brand">
+      <img src="/ventra-logo.png" alt="Ventra Cleaning">
+      <div>
+        <div class="chatbot-title">Ventra Cleaning</div>
+        <div class="chatbot-subtitle">Booking request assistant</div>
+      </div>
+    </div>
+    <button class="chatbot-close" id="chatbotClose" type="button" aria-label="Minimise chat">×</button>
   </div>
+  <div class="chatbot-messages" id="chatbotMessages"></div>
+  <form class="chatbot-form" id="chatbotForm">
+    <input class="chatbot-input" id="chatbotInput" type="text" autocomplete="off" placeholder="Type your message...">
+    <button class="chatbot-send" type="submit" aria-label="Send message">›</button>
+  </form>
 </div>
 
 <script>
+let mobileMenuOpen=false;
+function setMobileMenu(open){
+  const nav=document.getElementById('siteNav');
+  if(!nav) return;
+  const btn=nav.querySelector('.nav-toggle');
+  mobileMenuOpen=open;
+  nav.classList.toggle('menu-open',open);
+  if(btn) btn.setAttribute('aria-expanded',open?'true':'false');
+}
+function toggleMobileMenu(){
+  setMobileMenu(!mobileMenuOpen);
+}
+function closeMobileMenu(){
+  setMobileMenu(false);
+}
+document.addEventListener('pointerdown',e=>{
+  const nav=document.getElementById('siteNav');
+  if(nav&&nav.classList.contains('menu-open')&&!nav.contains(e.target)) closeMobileMenu();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeMobileMenu();
+});
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  const target=document.querySelector(a.getAttribute('href'));
+  closeMobileMenu();
+  if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+}));
+const navToggle=document.querySelector('.nav-toggle');
+if(navToggle){
+  navToggle.addEventListener('pointerdown',e=>{
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    toggleMobileMenu();
+  });
+}
+
 /* ── PAGE DOTS ── */
-const sectionIds=['hero','ba1','ba2','odours','how','services','testimonial','booking','faq'];
+const sectionIds=['hero','free-inspection','pet-urine','ba1','ba2','reset','odours','how','safety','services','testimonial','booking','faq'];
 const dotsC=document.getElementById('pageDots');
 sectionIds.forEach((id,i)=>{
   const d=document.createElement('button');
@@ -608,7 +1025,7 @@ sectionIds.forEach((id,i)=>{
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      const items=e.target.querySelectorAll('.odour-card,.step-item,.service-card,.faq-item,.testimonial-quote,.ba-slider-wrap');
+      const items=e.target.querySelectorAll('.pet-urine-card,.pet-urine-point,.reset-card,.odour-card,.step-item,.safety-notice,.service-card,.faq-item,.testimonial-quote,.review-card,.ba-slider-wrap');
       items.forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),i*120));
       // dots
       const idx=sectionIds.indexOf(e.target.id);
@@ -617,6 +1034,112 @@ const obs=new IntersectionObserver(entries=>{
   });
 },{threshold:.15});
 document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+
+function scrollReviews(direction){
+  const grid=document.getElementById('reviewsGrid');
+  if(!grid) return;
+  const card=grid.querySelector('.review-card');
+  if(!card) return;
+  const styles=getComputedStyle(grid);
+  const gap=parseFloat(styles.columnGap||styles.gap||0)||0;
+  const visibleCount=window.matchMedia('(max-width: 600px)').matches ? 1 : (window.matchMedia('(max-width: 900px)').matches ? 2 : 3);
+  const step=(card.getBoundingClientRect().width+gap)*visibleCount;
+  grid.scrollBy({left:direction*step,behavior:'smooth'});
+}
+
+let selectedReviewRating=5;
+
+function toggleReviewForm(open){
+  const panel=document.getElementById('reviewFormPanel');
+  if(!panel) return;
+  panel.classList.toggle('open',open);
+  if(open){
+    setReviewRating(selectedReviewRating);
+    setTimeout(()=>document.getElementById('reviewName')?.focus(),50);
+  }
+}
+
+function setReviewRating(rating){
+  selectedReviewRating=Math.max(1,Math.min(5,Number(rating)||5));
+  document.querySelectorAll('.review-star-btn').forEach((btn,index)=>{
+    btn.classList.toggle('active',index<selectedReviewRating);
+  });
+}
+
+function createReviewCard(review){
+  const card=document.createElement('div');
+  card.className='review-card visible';
+  const stars='★'.repeat(Math.max(1,Math.min(5,Number(review.rating)||5)));
+  const suburb=review.suburb?`, ${review.suburb}`:'';
+  card.innerHTML=`
+    <div class="review-rating"><span class="review-stars">${stars}</span></div>
+    <p class="review-text">${escapeText(review.text)}</p>
+    <p class="review-author"><strong>${escapeText(review.name)}</strong>${escapeText(suburb)}</p>
+  `;
+  return card;
+}
+
+function escapeText(value){
+  return String(value??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+async function loadApprovedReviews(){
+  try{
+    const response=await fetch('/api/reviews?status=approved',{cache:'no-store'});
+    if(!response.ok) throw new Error('Reviews API unavailable');
+    const data=await response.json();
+    const grid=document.getElementById('reviewsGrid');
+    if(!grid || !Array.isArray(data.reviews)) return;
+    data.reviews.slice().reverse().forEach(review=>{
+      grid.prepend(createReviewCard(review));
+    });
+  }catch(error){
+    console.warn('Could not load approved reviews:',error);
+  }
+}
+
+async function submitCustomerReview(){
+  const name=document.getElementById('reviewName').value.trim();
+  const suburb=document.getElementById('reviewSuburb').value.trim();
+  const text=document.getElementById('reviewText').value.trim();
+
+  if(!name||!suburb||!text){
+    alert('Please enter your name, suburb and review.');
+    return;
+  }
+
+  try{
+    const response=await fetch('/api/reviews',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,suburb,text,rating:selectedReviewRating})
+    });
+
+    if(!response.ok){
+      let errorMessage='Could not submit review.';
+      try{
+        const data=await response.json();
+        errorMessage=data.error||errorMessage;
+      }catch(parseError){}
+      throw new Error(errorMessage);
+    }
+
+    document.getElementById('reviewName').value='';
+    document.getElementById('reviewSuburb').value='';
+    document.getElementById('reviewText').value='';
+    setReviewRating(5);
+    toggleReviewForm(false);
+    alert('Thanks. Your review has been sent and will appear after admin approval.');
+  }catch(error){
+    console.error('Review submission failed:',error);
+    alert('Sorry, we could not submit your review right now. Please try again later.');
+  }
+}
 
 /* ── BEFORE/AFTER SLIDERS ── */
 function initScrollSlider(wrapperId, dividerId){
@@ -725,6 +1248,14 @@ function clearAddressInfo() {
 
 function calculateDistanceAndSurcharge() {
   if (!selectedLocation) return;
+  if (isFreeInspectionMode) {
+    distanceSurcharge = 0;
+    const addressInfo = document.getElementById('addressInfo');
+    addressInfo.className = 'address-info success';
+    addressInfo.textContent = 'Free Inspection - No upfront cost. Travel and service fees are not calculated for this request.';
+    updateTotal();
+    return;
+  }
 
   const distance = calculateDistance(
     SOUTHERN_CROSS.lat, SOUTHERN_CROSS.lng,
@@ -733,22 +1264,26 @@ function calculateDistanceAndSurcharge() {
 
   const addressInfo = document.getElementById('addressInfo');
 
-  if (distance <= 3) {
-    distanceSurcharge = 0;
-    addressInfo.className = 'address-info success';
-    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD · No surcharge`;
-  } else if (distance <= 10) {
-    distanceSurcharge = 25;
+  if (distance <= 5) {
+    distanceSurcharge = 30;
     addressInfo.className = 'address-info warning';
-    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD · $25 surcharge`;
-  } else if (distance <= 40) {
+    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD. $30 surcharge`;
+  } else if (distance <= 10) {
+    distanceSurcharge = 40;
+    addressInfo.className = 'address-info warning';
+    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD. $40 surcharge`;
+  } else if (distance <= 20) {
     distanceSurcharge = 50;
     addressInfo.className = 'address-info warning';
-    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD · $50 surcharge`;
+    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD. $50 surcharge`;
+  } else if (distance < 40) {
+    distanceSurcharge = 70;
+    addressInfo.className = 'address-info warning';
+    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD. $70 surcharge`;
   } else {
     distanceSurcharge = 0;
     addressInfo.className = 'address-info error';
-    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD · Please call us on 0432 066 372`;
+    addressInfo.textContent = `📍 ${distance.toFixed(1)}km from CBD. Please call us on 0432066372`;
   }
 
   updateTotal();
@@ -767,20 +1302,185 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
 }
 
 /* ── BOOKING ── */
-let selectedServices=[],selectedLoc='dropoff';
+let selectedServices=[],selectedLoc='dropoff',currentCategory='vehicle';
 let roomCount=1;
-const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
+let isFreeInspectionMode=false;
+let bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
 
 const serviceData={
-  'Ozone Treatment':{price:100,time:1,emoji:'🌿'},
-  'Seat Cleaning':{price:100,time:1,emoji:'🪑'},
+  'Ozone Treatment':{price:100,time:2,emoji:'🌿'},
+  'Seat Cleaning':{price:100,time:2,emoji:'🪑'},
   'Seat + Floor':{price:180,time:2,emoji:'🚗'},
-  'Spot Cleaning':{price:70,time:1,emoji:'🎯'},
-  'Ozone 1 Room':{price:80,time:1,emoji:'🏠'},
-  'Ozone Whole House':{price:0,time:2,emoji:'🏡'},
-  'Spot Cleaning Home':{price:80,time:1,emoji:'🧹'},
-  'Area Rug':{price:0,time:1,emoji:'🪄'}
+  'Spot Cleaning':{price:70,time:2,emoji:'🎯'},
+  'Ozone 1 Room':{price:80,time:2,emoji:'🏠'},
+  'Ozone Whole House':{price:0,time:2,emoji:'🏡',roomRate:60},
+  'Spot Cleaning Home':{price:80,time:2,emoji:'🧹'},
+  'Area Rug':{price:0,time:0,emoji:'🪄'}
 };
+const defaultServicePrices={
+  'Ozone Treatment':100,
+  'Seat Cleaning':100,
+  'Seat + Floor':180,
+  'Spot Cleaning':70,
+  'Ozone 1 Room':80,
+  'Ozone Whole House Per Room':60,
+  'Spot Cleaning Home':80
+};
+const vehicleOzoneService='Ozone Treatment';
+const vehicleCleaningServices=['Seat Cleaning','Seat + Floor','Spot Cleaning'];
+const homeOzoneServices=['Ozone 1 Room','Ozone Whole House'];
+
+function formatPrice(value){
+  return '$'+Number(value||0);
+}
+
+function applyServicePrices(prices){
+  const next={...defaultServicePrices,...prices};
+
+  serviceData['Ozone Treatment'].price=Number(next['Ozone Treatment']);
+  serviceData['Seat Cleaning'].price=Number(next['Seat Cleaning']);
+  serviceData['Seat + Floor'].price=Number(next['Seat + Floor']);
+  serviceData['Spot Cleaning'].price=Number(next['Spot Cleaning']);
+  serviceData['Ozone 1 Room'].price=Number(next['Ozone 1 Room']);
+  serviceData['Spot Cleaning Home'].price=Number(next['Spot Cleaning Home']);
+  serviceData['Ozone Whole House'].roomRate=Number(next['Ozone Whole House Per Room']);
+  serviceData['Ozone Whole House'].price=roomCount*serviceData['Ozone Whole House'].roomRate;
+
+  document.querySelectorAll('[data-price-display]').forEach(el=>{
+    const service=el.dataset.priceDisplay;
+    if(next[service]!==undefined) el.innerHTML='<sup>$</sup>'+Number(next[service]);
+  });
+
+  document.querySelectorAll('[data-option-price]').forEach(el=>{
+    const service=el.dataset.optionPrice;
+    if(service==='Ozone Whole House Per Room'){
+      el.textContent='From '+formatPrice(next[service])+'/room';
+    }else if(next[service]!==undefined){
+      el.textContent=formatPrice(next[service]);
+    }
+  });
+
+  const roomRateNote=document.getElementById('roomRateNote');
+  if(roomRateNote) roomRateNote.textContent=formatPrice(next['Ozone Whole House Per Room'])+' per 36 cubic metre room';
+
+  updateTotal();
+  if(selectedDate) renderTimeSlots(selectedDate);
+}
+
+async function loadServicePrices(){
+  try{
+    const response=await fetch('/api/prices',{cache:'no-store'});
+    if(!response.ok) throw new Error('Price API unavailable');
+    const data=await response.json();
+    const localPrices=JSON.parse(localStorage.getItem('service_prices')||'{}');
+    applyServicePrices({...defaultServicePrices,...(data.prices||{}),...localPrices});
+  }catch(error){
+    console.warn('Using default service prices:',error);
+    const localPrices=JSON.parse(localStorage.getItem('service_prices')||'{}');
+    applyServicePrices({...defaultServicePrices,...localPrices});
+  }
+}
+
+function setServiceActive(serviceName,active){
+  const el=document.querySelector(`.service-opt[data-service="${serviceName}"]`);
+  if(el) el.classList.toggle('active',active);
+}
+
+function setFreeInspectionMode(active, options={}){
+  isFreeInspectionMode=active;
+  const freeButton=document.getElementById('freeInspectionOption');
+  const freeFields=document.getElementById('freeInspectionFields');
+  const freeNote=document.getElementById('freeInspectionNote');
+  const paidCategory=document.getElementById('paidCategoryWrap');
+  const paidServices=document.getElementById('paidServicesWrap');
+  const addressGroup=document.getElementById('addressGroup');
+  const addressLabel=document.getElementById('addressLabel');
+
+  freeButton.classList.toggle('active',active);
+  freeFields.style.display=active?'block':'none';
+  freeNote.style.display='none';
+  paidCategory.style.display='flex';
+  paidServices.style.display=active?'none':'block';
+
+  document.querySelectorAll('.service-opt').forEach(el=>el.classList.remove('active'));
+  selectedServices=active?['Free Inspection']:[];
+  document.getElementById('roomCounterWrap').style.display='none';
+  document.getElementById('rugNote').style.display='none';
+
+  if(active){
+    selectedLoc='mobile';
+    distanceSurcharge=0;
+    document.querySelectorAll('.loc-opt').forEach(el=>el.classList.remove('active'));
+    const mobileLoc=document.querySelector('[data-loc="mobile"]');
+    if(mobileLoc) mobileLoc.classList.add('active');
+    const dropoffLoc=document.querySelector('[data-loc="dropoff"]');
+    if(dropoffLoc) dropoffLoc.style.display='none';
+    document.getElementById('vehicleCategory').style.background='var(--off-white)';
+    document.getElementById('vehicleCategory').style.borderColor='var(--light-gray)';
+    document.getElementById('vehicleCategory').style.color='var(--dark-text)';
+    document.getElementById('homeCategory').style.background='var(--off-white)';
+    document.getElementById('homeCategory').style.borderColor='var(--light-gray)';
+    document.getElementById('homeCategory').style.color='var(--dark-text)';
+    addressGroup.style.display='block';
+    addressLabel.textContent='Address / Suburb';
+    document.getElementById('bkAddress').placeholder='Enter your address or suburb';
+    document.getElementById('bkIssue').placeholder='Tell us what you noticed, where the smell is, and whether anything has already been cleaned.';
+    const addressInfo=document.getElementById('addressInfo');
+    addressInfo.className='address-info success';
+    addressInfo.textContent='Free Inspection - No upfront cost. Travel and service fees are not calculated for this request.';
+  }else{
+    addressLabel.textContent='Your Address';
+    document.getElementById('bkAddress').placeholder='Enter your Melbourne address';
+    clearAddressInfo();
+    const dropoffLoc=document.querySelector('[data-loc="dropoff"]');
+    if(dropoffLoc) dropoffLoc.style.display='block';
+    if(!options.skipCategoryReset) selectCategory(currentCategory);
+    return;
+  }
+
+  updateTotal();
+  if(selectedDate) renderTimeSlots(selectedDate);
+}
+
+function startFreeInspection(event){
+  if(event) event.preventDefault();
+  const bookingSection=document.getElementById('booking');
+  setFreeInspectionMode(true);
+  bookingSection.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function enforceVehicleServiceRules(changedService){
+  if(currentCategory!=='vehicle') return;
+  const hasOzone=selectedServices.includes(vehicleOzoneService);
+  const selectedCleaners=selectedServices.filter(s=>vehicleCleaningServices.includes(s));
+
+  if(selectedCleaners.length>1){
+    const keep=vehicleCleaningServices.includes(changedService)?changedService:selectedCleaners[0];
+    selectedCleaners.forEach(service=>{
+      if(service!==keep){
+        selectedServices=selectedServices.filter(s=>s!==service);
+        setServiceActive(service,false);
+      }
+    });
+  }
+}
+
+function syncConditionalBookingNotes(){
+  document.getElementById('roomCounterWrap').style.display=selectedServices.includes('Ozone Whole House')?'block':'none';
+  document.getElementById('rugNote').style.display=selectedServices.includes('Area Rug')?'block':'none';
+}
+
+function enforceHomeServiceRules(changedService){
+  if(currentCategory!=='home') return;
+  if(!homeOzoneServices.includes(changedService)) return;
+
+  homeOzoneServices.forEach(service=>{
+    if(service!==changedService&&selectedServices.includes(service)){
+      selectedServices=selectedServices.filter(s=>s!==service);
+      setServiceActive(service,false);
+    }
+  });
+}
 
 function toggleService(el){
   const serviceName=el.dataset.service;
@@ -789,34 +1489,27 @@ function toggleService(el){
   if(isSelected){
     selectedServices=selectedServices.filter(s=>s!==serviceName);
     el.classList.remove('active');
-    // Hide room counter if Ozone Whole House is deselected
-    if(serviceName==='Ozone Whole House'){
-      document.getElementById('roomCounterWrap').style.display='none';
-    }
-    // Hide rug note if Area Rug is deselected
-    if(serviceName==='Area Rug'){
-      document.getElementById('rugNote').style.display='none';
-    }
   }else{
     selectedServices.push(serviceName);
     el.classList.add('active');
-    // Show room counter if Ozone Whole House is selected
     if(serviceName==='Ozone Whole House'){
-      document.getElementById('roomCounterWrap').style.display='block';
-      serviceData['Ozone Whole House'].price=roomCount*60;
-    }
-    // Show rug note if Area Rug is selected
-    if(serviceName==='Area Rug'){
-      document.getElementById('rugNote').style.display='block';
+      serviceData['Ozone Whole House'].price=roomCount*serviceData['Ozone Whole House'].roomRate;
     }
   }
 
+  enforceVehicleServiceRules(serviceName);
+  enforceHomeServiceRules(serviceName);
+  syncConditionalBookingNotes();
   updateTotal();
   // Re-render time slots if date selected (duration may have changed)
   if(selectedDate) renderTimeSlots(selectedDate);
 }
 
 function selectCategory(type){
+  if(isFreeInspectionMode){
+    setFreeInspectionMode(false,{skipCategoryReset:true});
+  }
+  currentCategory=type;
   // Clear selected services and reset states
   selectedServices=[];
   document.querySelectorAll('.service-opt').forEach(el=>el.classList.remove('active'));
@@ -826,6 +1519,7 @@ function selectCategory(type){
   if(type==='vehicle'){
     // Show vehicle services, hide home services
     document.getElementById('vehicleServices').style.display='grid';
+    document.getElementById('vehicleComboNote').style.display='block';
     document.getElementById('homeServices').style.display='none';
     // Update category button styles
     document.getElementById('vehicleCategory').style.background='var(--green-pale)';
@@ -845,6 +1539,7 @@ function selectCategory(type){
   }else{
     // Show home services, hide vehicle services
     document.getElementById('vehicleServices').style.display='none';
+    document.getElementById('vehicleComboNote').style.display='none';
     document.getElementById('homeServices').style.display='grid';
     // Update category button styles
     document.getElementById('homeCategory').style.background='var(--green-pale)';
@@ -869,7 +1564,7 @@ function selectCategory(type){
 function increaseRooms(){
   roomCount++;
   document.getElementById('roomCount').textContent=roomCount;
-  serviceData['Ozone Whole House'].price=roomCount*60;
+  serviceData['Ozone Whole House'].price=roomCount*serviceData['Ozone Whole House'].roomRate;
   updateTotal();
 }
 
@@ -877,48 +1572,46 @@ function decreaseRooms(){
   if(roomCount>1){
     roomCount--;
     document.getElementById('roomCount').textContent=roomCount;
-    serviceData['Ozone Whole House'].price=roomCount*60;
+    serviceData['Ozone Whole House'].price=roomCount*serviceData['Ozone Whole House'].roomRate;
     updateTotal();
   }
 }
 
 function updateTotal(){
+  const totalBox=document.querySelector('.booking-total');
+  if(isFreeInspectionMode){
+    totalBox.classList.add('free-mode');
+    document.getElementById('totalPrice').textContent='$0';
+    document.getElementById('totalService').textContent='Free Inspection - No upfront cost. Your request will be reviewed and confirmed by Ventra Cleaning.';
+    return;
+  }
+
+  totalBox.classList.remove('free-mode');
   if(selectedServices.length===0){
     document.getElementById('totalPrice').textContent='$0';
-    document.getElementById('totalService').textContent='Hizmet seçiniz';
+    document.getElementById('totalService').textContent='Select a service';
     return;
   }
 
   let totalPrice=0;
-  let totalTime=0;
   let serviceList=[];
 
   selectedServices.forEach(service=>{
     const data=serviceData[service];
     totalPrice+=data.price;
-    totalTime+=data.time;
     serviceList.push(data.emoji+' '+service.replace(' Cleaning','').replace(' Treatment',''));
   });
 
-  // Apply combination discounts
-  let discount=0;
-  if(selectedServices.length===2){
-    discount=20; // $20 discount for any 2 services
-  }else if(selectedServices.length===3){
-    discount=40; // $40 discount for any 3 services
-  }else if(selectedServices.length>=4){
-    discount=60; // $60 discount for all 4 services
-  }
-
-  const servicePrice=Math.max(totalPrice-discount,totalPrice*0.7); // Min 30% of original price
+  const discount=0;
+  const servicePrice=totalPrice;
   const finalPrice=servicePrice + distanceSurcharge;
 
   document.getElementById('totalPrice').textContent='$'+finalPrice;
+  const totalTime=getSelectedDuration();
   const timeText=totalTime===1?'1 hour':totalTime+' hours';
-  const discountText=discount>0?' · $'+discount+' tasarruf':'';
-  const surchargeText=distanceSurcharge>0?' · +$'+distanceSurcharge+' travel':'';
-  const rugNote=selectedServices.includes('Area Rug')?' · Contact us for rug price':'';
-  document.getElementById('totalService').textContent=serviceList.join(' + ')+' · '+timeText+discountText+surchargeText+rugNote;
+  const surchargeText=distanceSurcharge>0?', +$'+distanceSurcharge+' travel':'';
+  const rugNote=selectedServices.includes('Area Rug')?', contact us for rug price':'';
+  document.getElementById('totalService').textContent=serviceList.join(' + ')+', '+timeText+surchargeText+rugNote;
 }
 function selectLocation(el){
   document.querySelectorAll('.loc-opt').forEach(l=>l.classList.remove('active'));
@@ -932,27 +1625,47 @@ function selectLocation(el){
     document.getElementById('bkAddress').value='';
   }
 }
-function submitBooking(){
+async function loadBookings(){
+  try{
+    const response=await fetch('/api/bookings',{cache:'no-store'});
+    if(!response.ok) throw new Error('Booking API unavailable');
+    const data=await response.json();
+    bookings=Array.isArray(data)?data:(data.bookings||[]);
+    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+    renderCalendar();
+    if(selectedDate) renderTimeSlots(selectedDate);
+  }catch(error){
+    console.warn('Using local bookings only:',error);
+  }
+}
+
+async function submitBooking(){
   const name=document.getElementById('bkName').value.trim();
   const phone=document.getElementById('bkPhone').value.trim();
   const date=document.getElementById('bkDate').value;
+  const time=document.getElementById('bkTime').value;
 
-  if(!name||!phone||!date){alert('Lütfen isim, telefon ve tarih bilgilerini doldurun.');return}
-  if(selectedServices.length===0){alert('Lütfen en az bir hizmet seçin.');return}
+  if(!name||!phone||!date||!time){alert('Please enter your name, phone number, date and time.');return}
+  if(!isFreeInspectionMode&&selectedServices.length===0){alert('Please select at least one service.');return}
 
-  // Calculate final price with discounts
+  // Calculate final price
   let totalPrice=0;
-  selectedServices.forEach(service=>{
-    totalPrice+=serviceData[service].price;
-  });
+  if(!isFreeInspectionMode){
+    selectedServices.forEach(service=>{
+      totalPrice+=serviceData[service].price;
+    });
+  }
 
-  let discount=0;
-  if(selectedServices.length===2) discount=20;
-  else if(selectedServices.length===3) discount=40;
-  else if(selectedServices.length>=4) discount=60;
-
-  const servicePrice=Math.max(totalPrice-discount,totalPrice*0.7);
-  const finalPrice=servicePrice + distanceSurcharge;
+  const discount=0;
+  const servicePrice=isFreeInspectionMode?0:totalPrice;
+  const finalPrice=isFreeInspectionMode?0:servicePrice + distanceSurcharge;
+  const durationHours=getSelectedDuration();
+  const inspectionType=document.getElementById('inspectionType').value;
+  const inspectionIssue=document.getElementById('inspectionIssue').value;
+  const typedIssue=document.getElementById('bkIssue').value.trim();
+  const issueText=isFreeInspectionMode
+    ? `Inspection type: ${inspectionType}. Main issue: ${inspectionIssue}.${typedIssue ? ' Notes: '+typedIssue : ''}`
+    : typedIssue;
 
   const b={
     id:Date.now(),
@@ -960,110 +1673,76 @@ function submitBooking(){
     phone,
     email:document.getElementById('bkEmail').value.trim(),
     date,
-    time:document.getElementById('bkTime').value,
-    issue:document.getElementById('bkIssue').value.trim(),
+    time,
+    issue:issueText,
     address:document.getElementById('bkAddress').value.trim(),
-    service:selectedServices.join(' + '),
-    services:selectedServices, // Keep array for admin panel
+    bookingType:isFreeInspectionMode?'free_inspection':'paid_service',
+    serviceName:isFreeInspectionMode?'Free Inspection':selectedServices.join(' + '),
+    inspectionType:isFreeInspectionMode?inspectionType:null,
+    mainIssue:isFreeInspectionMode?inspectionIssue:null,
+    service:isFreeInspectionMode?'Free Inspection':selectedServices.join(' + '),
+    services:isFreeInspectionMode?['Free Inspection']:selectedServices,
+    durationHours,
+    totalTime:durationHours,
+    roomCount:!isFreeInspectionMode&&selectedServices.includes('Ozone Whole House')?roomCount:null,
     price:finalPrice,
+    total:finalPrice,
+    totalPrice:finalPrice,
     originalPrice:totalPrice,
     servicePrice:servicePrice,
     discount:discount,
-    distanceSurcharge:distanceSurcharge,
+    distanceSurcharge:isFreeInspectionMode?0:distanceSurcharge,
+    travelSurcharge:isFreeInspectionMode?0:distanceSurcharge,
     selectedLocation:selectedLocation,
     location:selectedLoc,
     status:'pending',
     createdAt:new Date().toISOString()
   };
 
-  bookings.push(b);
-  localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
-  document.getElementById('bookingForm').style.display='none';
-  document.getElementById('bookingSuccess').style.display='block';
+  try{
+    const response=await fetch('/api/bookings',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(b)
+    });
+
+    if(response.status===409){
+      alert('Sorry, that time has just been booked. Please choose another time.');
+      await loadBookings();
+      return;
+    }
+
+    if(!response.ok){
+      let errorMessage='Booking API failed';
+      try{
+        const errorData=await response.json();
+        errorMessage=errorData.error||errorMessage;
+      }catch(parseError){}
+      throw new Error(errorMessage);
+    }
+
+    const data=await response.json();
+    const savedBooking=data.booking||b;
+    bookings.push(savedBooking);
+    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+    if(isFreeInspectionMode){
+      document.getElementById('bookingSuccessTitle').textContent='Free Inspection Request Submitted';
+      document.getElementById('bookingSuccessText').innerHTML='Your free inspection request has been submitted. Ventra Cleaning will review your request and contact you to confirm availability.';
+    }else{
+      document.getElementById('bookingSuccessTitle').textContent='Request Received!';
+      document.getElementById('bookingSuccessText').innerHTML="We'll call you within the hour to confirm.<br>Questions? Call us on <strong>0432 066 372</strong>";
+    }
+    document.getElementById('bookingForm').style.display='none';
+    document.getElementById('bookingSuccess').style.display='block';
+  }catch(error){
+    console.error('Booking submission failed:',error);
+    const storageMessage=error.message==='Booking storage is not configured'
+      ? 'Online booking storage is not configured. Please call 0432 066 372 to book.'
+      : 'Sorry, we could not save your booking. Please try again or call 0432 066 372.';
+    alert(storageMessage);
+  }
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
-
-/* ── ADMIN ── */
-function openAdmin(){renderAdmin();document.getElementById('adminOverlay').classList.add('open')}
-function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open')}
-function renderAdmin(){
-  const data=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-  document.getElementById('adminCount').textContent=data.length;
-  const tb=document.getElementById('adminBody');
-  if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mid-gray);padding:36px">Henüz randevu yok</td></tr>';return}
-  tb.innerHTML=data.map((b,i)=>{
-    const serviceText=b.service;
-    let priceText=`$${b.price}`;
-
-    if(b.originalPrice && b.originalPrice !== b.servicePrice){
-      priceText=`$${b.price} <span style="text-decoration:line-through;color:var(--mid-gray)">$${b.originalPrice}</span>`;
-    }
-
-    const discountText=b.discount&&b.discount>0?` <span style="color:var(--green-mid)">(-$${b.discount})</span>`:'';
-    const surchargeText=b.distanceSurcharge&&b.distanceSurcharge>0?` <span style="color:#856404">(+$${b.distanceSurcharge} travel)</span>`:'';
-
-    return `<tr><td><strong>${b.name}</strong><br><span style="font-size:.72rem;color:var(--mid-gray)">${b.email||'—'}</span></td><td>${serviceText}<br><span style="font-size:.72rem;">${priceText}${discountText}${surchargeText}</span></td><td>${b.date}<br><span style="font-size:.72rem;color:var(--mid-gray)">${b.time}</span></td><td>${b.phone}</td><td><span class="status-badge status-${b.status}">${getStatusText(b.status)}</span></td><td><button class="admin-btn delete" onclick="deleteBooking(${i})">🗑️ Delete</button></td></tr>`;
-  }).join('');
-}
-function deleteBooking(i){
-  if(confirm('Bu randevuyu kalıcı olarak silmek istediğinizden emin misiniz?')){
-    const d=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
-    d.splice(i,1); // Remove booking from array
-    localStorage.setItem('ventra_bookings',JSON.stringify(d));
-    renderAdmin();
-  }
-}
-function getStatusText(status){
-  switch(status){
-    case 'pending': return 'Bekliyor';
-    case 'confirmed': return 'Kabul Edildi';
-    case 'rejected': return 'Reddedildi';
-    default: return status;
-  }
-}
-
-// URL routing for admin access
-function checkAdminRoute(){
-  const path = window.location.pathname;
-  const hash = window.location.hash;
-  const search = window.location.search;
-
-  if(path === '/admin' || path.endsWith('/admin') || hash === '#admin' || search.includes('admin=true')){
-    openAdmin();
-  }
-}
-// Check admin route on page load and when URL changes
-window.addEventListener('load', checkAdminRoute);
-window.addEventListener('popstate', checkAdminRoute);
-window.addEventListener('hashchange', checkAdminRoute);
-
-// Close admin panel when navigating away
-function checkAdminClose(){
-  const path = window.location.pathname;
-  const hash = window.location.hash;
-  const search = window.location.search;
-
-  if(!(path === '/admin' || path.endsWith('/admin') || hash === '#admin' || search.includes('admin=true'))){
-    closeAdmin();
-  }
-}
-window.addEventListener('popstate', checkAdminClose);
-window.addEventListener('hashchange', checkAdminClose);
-
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape' && document.getElementById('adminOverlay').classList.contains('open')){
-    closeAdmin();
-    // Remove admin from URL
-    if(window.location.hash === '#admin'){
-      window.location.hash = '';
-    } else if(window.location.search.includes('admin=true')){
-      const url = new URL(window.location);
-      url.searchParams.delete('admin');
-      window.history.replaceState({}, '', url);
-    }
-  }
-});
 
 /* ── CALENDAR SYSTEM ── */
 let calYear, calMonth, selectedDate='', selectedTime='';
@@ -1072,51 +1751,187 @@ calYear=today.getFullYear();
 calMonth=today.getMonth();
 
 const timeOptions=['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
+const morningSlotIndexes=[0,1,2,3];
+const afternoonSlotIndexes=[4,5,6,7,8,9,10];
+const availabilityHoldIntervalMs=3*60*60*1000;
+const syntheticAvailabilityScale=0.5;
 
 // Service durations in hours
 const serviceDurations={
-  'Ozone Treatment':1,
-  'Seat Cleaning':1,
-  'Spot Cleaning':1,
+  'Ozone Treatment':2,
+  'Seat Cleaning':2,
+  'Spot Cleaning':2,
   'Seat + Floor':2,
-  'Ozone 1 Room':1,
+  'Ozone 1 Room':2,
   'Ozone Whole House':2,
-  'Spot Cleaning Home':1,
-  'Area Rug':1
+  'Spot Cleaning Home':2,
+  'Area Rug':0
 };
 
 // Get total duration of currently selected services
 function getSelectedDuration(){
   let total=0;
-  selectedServices.forEach(s=>{total+=(serviceDurations[s]||1)});
-  return Math.max(total,1);
+  selectedServices.forEach(s=>{
+    if(s==='Ozone Whole House'){
+      total+=Math.max(roomCount,2);
+    }else{
+      total+=(serviceDurations[s]??2);
+    }
+  });
+  return Math.max(total,2);
+}
+
+function getSavedBookingDuration(booking){
+  if(Number.isFinite(Number(booking.durationHours))&&Number(booking.durationHours)>0){
+    return Number(booking.durationHours);
+  }
+
+  const bookingRoomCount=Number(booking.roomCount)||1;
+
+  if(booking.services&&Array.isArray(booking.services)){
+    const total=booking.services.reduce((sum,s)=>{
+      const key=typeof s==='string'?s:(s.name||'');
+      return sum+(key==='Ozone Whole House'?Math.max(bookingRoomCount,2):(serviceDurations[key]??2));
+    },0);
+    return Math.max(total,2);
+  }
+
+  if(booking.service){
+    const parts=booking.service.split(' + ');
+    const total=parts.reduce((sum,s)=>{
+      const key=s.trim();
+      return sum+(key==='Ozone Whole House'?Math.max(bookingRoomCount,2):(serviceDurations[key]??2));
+    },0);
+    return Math.max(total,2);
+  }
+
+  return 2;
+}
+
+function seededRandom(seed){
+  let hash=2166136261;
+  for(let i=0;i<seed.length;i++){
+    hash^=seed.charCodeAt(i);
+    hash=Math.imul(hash,16777619);
+  }
+  return function(){
+    hash+=0x6D2B79F5;
+    let t=hash;
+    t=Math.imul(t^(t>>>15),t|1);
+    t^=t+Math.imul(t^(t>>>7),t|61);
+    return ((t^(t>>>14))>>>0)/4294967296;
+  };
+}
+
+function getSyntheticHoldTarget(dateStr){
+  const date=new Date(dateStr+'T12:00:00');
+  const day=date.getDate();
+  const daysInMonth=new Date(date.getFullYear(),date.getMonth()+1,0).getDate();
+  const monthProgress=day/daysInMonth;
+  const rand=seededRandom(`${dateStr}-monthly-density`);
+
+  if(monthProgress<=0.35) return 4;
+  if(monthProgress<=0.7) return 2;
+  return rand()<0.35?2:0;
+}
+
+function getSyntheticHoldHorizonDate(){
+  const horizon=new Date(today);
+  horizon.setHours(0,0,0,0);
+
+  if(today.getDate()<=3){
+    horizon.setDate(10);
+  }else{
+    horizon.setDate(horizon.getDate()+6);
+  }
+
+  return horizon;
+}
+
+function toISODate(date){
+  return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+}
+
+function getSyntheticHoldCandidates(){
+  const todayStart=new Date(today);
+  todayStart.setHours(0,0,0,0);
+  const horizon=getSyntheticHoldHorizonDate();
+  const candidates=[];
+
+  for(let date=new Date(todayStart),dayOffset=0;date<=horizon;date.setDate(date.getDate()+1),dayOffset++){
+    if(dayOffset===0) continue;
+    const dateStr=toISODate(date);
+    const targetSlots=getSyntheticHoldTarget(dateStr);
+    if(targetSlots===0) continue;
+
+    const rand=seededRandom(`${dateStr}-ventra-availability-sequence`);
+    const maxHolds=Math.max(1,Math.floor(targetSlots/2));
+    const occupied=new Set();
+    let holdsPlaced=0;
+    let attempts=0;
+
+    while(holdsPlaced<maxHolds&&attempts<18){
+      attempts++;
+      const pool=rand()<0.65?morningSlotIndexes:afternoonSlotIndexes;
+      const startIdx=pool[Math.floor(rand()*pool.length)];
+      if(startIdx>=timeOptions.length-1) continue;
+      if(occupied.has(startIdx)||occupied.has(startIdx+1)) continue;
+
+      occupied.add(startIdx);
+      occupied.add(startIdx+1);
+      candidates.push({
+        dateStr,
+        startIdx,
+        order: dayOffset*0.12+rand()
+      });
+      holdsPlaced++;
+    }
+  }
+
+  return candidates.sort((a,b)=>a.order-b.order);
+}
+
+function getActiveSyntheticHoldCount(totalCandidates){
+  const todayStart=new Date(today);
+  todayStart.setHours(0,0,0,0);
+  const elapsedToday=Math.max(0,Date.now()-todayStart.getTime());
+  const cyclesToday=Math.floor(elapsedToday/availabilityHoldIntervalMs);
+  return Math.min(totalCandidates,Math.ceil((5+cyclesToday)*syntheticAvailabilityScale));
+}
+
+function addSyntheticAvailabilityHolds(dateStr,blocked){
+  const date=new Date(dateStr+'T12:00:00');
+  const todayStart=new Date();
+  todayStart.setHours(0,0,0,0);
+  if(date<=todayStart) return;
+  if(date>getSyntheticHoldHorizonDate()) return;
+
+  const candidates=getSyntheticHoldCandidates();
+  const activeCount=getActiveSyntheticHoldCount(candidates.length);
+
+  for(const candidate of candidates.slice(0,activeCount)){
+    if(candidate.dateStr!==dateStr) continue;
+    const startIdx=candidate.startIdx;
+    if(blocked.has(timeOptions[startIdx])||blocked.has(timeOptions[startIdx+1])) continue;
+
+    blocked.add(timeOptions[startIdx]);
+    blocked.add(timeOptions[startIdx+1]);
+  }
 }
 
 // Get all blocked slots for a date from bookings (duration-aware)
 function getBlockedSlotsForDate(dateStr){
-  const bookings=JSON.parse(localStorage.getItem('ventra_bookings')||'[]');
   const blocked=new Set();
   bookings.forEach(b=>{
     if(b.date!==dateStr||b.status==='rejected') return;
     const startIdx=timeOptions.indexOf(b.time);
     if(startIdx===-1) return;
-    // Calculate duration from saved services
-    let dur=1;
-    if(b.services&&Array.isArray(b.services)){
-      dur=b.services.reduce((sum,s)=>{
-        const key=typeof s==='string'?s:(s.name||'');
-        return sum+(serviceDurations[key]||1);
-      },0);
-    } else if(b.service){
-      // fallback: parse from service string
-      const parts=b.service.split(' + ');
-      dur=parts.reduce((sum,s)=>sum+(serviceDurations[s.trim()]||1),0);
-    }
-    dur=Math.max(dur,1);
+    const dur=getSavedBookingDuration(b);
     for(let i=0;i<dur;i++){
       if(startIdx+i<timeOptions.length) blocked.add(timeOptions[startIdx+i]);
     }
   });
+  addSyntheticAvailabilityHolds(dateStr,blocked);
   return blocked;
 }
 
@@ -1146,13 +1961,13 @@ function renderCalendar(){
     const totalSlots=timeOptions.length;
     const blockedCount=blocked.size;
     
-    let bg='#e6f5ee';let color='var(--dark-text)';let cursor='pointer';let onclick=`selectDay('${dateStr}')`;
+    let bg='#dcfce7';let color='#166534';let cursor='pointer';let onclick=`selectDay('${dateStr}')`;
     let border='1.5px solid transparent';
     
     if(isPast){bg='#f1f5f9';color='#94a3b8';cursor='default';onclick=''}
-    else if(blockedCount>=totalSlots){bg='#fee2e2';color='#dc2626';cursor='default';onclick=''} // fully booked → red
-    else if(blockedCount>0){bg='#fef9c3';color='#92400e'} // partially booked → yellow
-    // else: no bookings → green (default)
+    else if(blockedCount>=totalSlots){bg='#fee2e2';color='#dc2626';cursor='default';onclick=''} // fully booked
+    else if(blockedCount>0){bg='#fef9c3';color='#92400e'} // at least one appointment
+    // else: no appointments
     
     if(dateStr===selectedDate) border='2px solid var(--green-mid)';
     
@@ -1183,25 +1998,25 @@ function renderTimeSlots(dateStr){
   let html='';
   
   timeOptions.forEach((t,idx)=>{
-    // A slot is unavailable if it's blocked, OR if booking from here wouldn't fit (consecutive slots not all free)
+    // A slot is unavailable only when it conflicts with an existing booking.
     const isBlocked=blocked.has(t);
-    // Check if starting here would overlap any blocked slot within duration
+    // Check if starting here would overlap any blocked slot within duration.
     let wouldOverlap=false;
     for(let i=0;i<dur;i++){
-      if(idx+i>=timeOptions.length||blocked.has(timeOptions[idx+i])){wouldOverlap=true;break}
+      if(idx+i<timeOptions.length&&blocked.has(timeOptions[idx+i])){wouldOverlap=true;break}
     }
     
     if(isBlocked){
       // This slot is taken by an existing booking
       html+=`<div style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;text-decoration:line-through">${t}</div>`;
     } else if(wouldOverlap){
-      // Free but can't start here because duration would overlap a booked slot
-      html+=`<div style="background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;" title="Not enough consecutive time available">${t}</div>`;
+      // Free but can't start here because duration would overlap a booked slot.
+      html+=`<div style="background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:500;cursor:not-allowed;text-decoration:line-through" title="This time is unavailable for a 2-hour booking">${t}</div>`;
     } else {
       const isSelected=t===selectedTime;
-      const bg=isSelected?'var(--green-mid)':'#e6f5ee';
+      const bg=isSelected?'var(--green-mid)':'var(--blue-pale)';
       const clr=isSelected?'#fff':'var(--dark-text)';
-      const bdr=isSelected?'1.5px solid var(--green-mid)':'1.5px solid #c6f0d5';
+      const bdr=isSelected?'1.5px solid var(--green-mid)':'1.5px solid #c7e5fb';
       html+=`<div onclick="selectTime('${t}')" style="background:${bg};color:${clr};border:${bdr};border-radius:10px;padding:12px 8px;text-align:center;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s">${t}</div>`;
     }
   });
@@ -1214,10 +2029,250 @@ function selectTime(t){
   renderTimeSlots(selectedDate);
 }
 
+/* ── CHATBOT ── */
+const chatbotLaunch=document.getElementById('chatbotLaunch');
+const chatbotPanel=document.getElementById('chatbotPanel');
+const chatbotClose=document.getElementById('chatbotClose');
+const chatbotMessages=document.getElementById('chatbotMessages');
+const chatbotForm=document.getElementById('chatbotForm');
+const chatbotInput=document.getElementById('chatbotInput');
+const chatbotSteps=[
+  {key:'name',label:'Full name',prompt:'Sure. What is your full name?'},
+  {key:'phone',label:'Phone',prompt:'Thanks. What phone number should we use?'},
+  {key:'email',label:'Email',prompt:'What is your email address?'},
+  {key:'service',label:'Service',prompt:'What service type should we note? For example: ozone treatment, car odour removal, pet urine, carpet cleaning, or general odour treatment.'},
+  {key:'address',label:'Suburb/address',prompt:'What suburb or address is the job for?'},
+  {key:'date',label:'Preferred date',prompt:'What preferred date would you like us to note?'},
+  {key:'time',label:'Preferred time',prompt:'What preferred time works best for you?'},
+  {key:'issue',label:'Problem',prompt:'Please briefly describe the odour or spill problem.'},
+  {key:'alreadyCleaned',label:'Already cleaned',prompt:'Has the area already been cleaned? Please answer yes or no.'}
+];
+const chatbotState={mode:'chat',stepIndex:0,offeredBooking:false,booking:{}};
+
+function openChatbot(){
+  chatbotPanel.classList.add('open');
+  chatbotLaunch.classList.add('hidden');
+  if(window.matchMedia('(min-width: 701px)').matches){
+    setTimeout(()=>chatbotInput.focus(),50);
+  }
+  if(!chatbotMessages.dataset.started){
+    chatbotMessages.dataset.started='true';
+    addChatMessage('bot','Hi, welcome to Ventra Cleaning. How can we help you today?');
+    addChatChips(['Car smoke smell','Milk or coffee spill','Pet urine odour','Create booking request']);
+  }
+}
+
+function closeChatbot(){
+  chatbotPanel.classList.remove('open');
+  chatbotLaunch.classList.remove('hidden');
+}
+
+function addChatMessage(role,text){
+  const msg=document.createElement('div');
+  msg.className='chatbot-msg '+role;
+  msg.textContent=text;
+  chatbotMessages.appendChild(msg);
+  chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+}
+
+function addChatChips(labels){
+  const wrap=document.createElement('div');
+  wrap.className='chatbot-quick';
+  labels.forEach(label=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='chatbot-chip';
+    btn.textContent=label;
+    btn.addEventListener('click',()=>handleChatInput(label));
+    wrap.appendChild(btn);
+  });
+  chatbotMessages.appendChild(wrap);
+  chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+}
+
+function isYes(text){
+  return /\b(yes|yeah|yep|sure|ok|okay|please|confirm|submit|book|booking|randevu|evet|tamam)\b/i.test(text);
+}
+
+function isNo(text){
+  return /\b(no|not now|hayir|hayır|later|cancel)\b/i.test(text);
+}
+
+function startChatbotBooking(){
+  chatbotState.mode='booking';
+  chatbotState.stepIndex=0;
+  chatbotState.offeredBooking=false;
+  chatbotState.booking={source:'chatbot'};
+  addChatMessage('bot',chatbotSteps[0].prompt);
+}
+
+function getChatbotResponse(text){
+  const lower=text.toLowerCase();
+  if(/coffee|milk|latte|spill/.test(lower)){
+    return "Don't worry, this is something we can help assess. Have you already had the car interior cleaned? If not, that is usually better. In cases involving milk, coffee, or organic spills, using the wrong cleaning method or chemicals can sometimes spread the odour into other areas of the upholstery and make treatment more difficult. Would you like me to help you create a booking request?";
+  }
+  if(/cigarette|smoke|smoky|tobacco/.test(lower)){
+    return "Thanks for letting us know. Smoke odour can settle into seats, carpets, headliner, vents, and other interior surfaces. Ventra Cleaning can assess the issue and recommend the right odour treatment. Have you tried any cleaning or deodorising products already?";
+  }
+  if(/pet|urine|dog|cat|wee/.test(lower)){
+    return "I understand. Pet urine can sometimes reach deeper than the surface, including carpet backing, underlay, or even base timber. If the area has not been washed yet, it is best to contact us first. Standard carpet washing can sometimes spread urine contamination and make odour treatment more difficult. Would you like me to create a booking request?";
+  }
+  if(/carpet|rug|upholstery|sofa|couch/.test(lower)){
+    return "We can help assess carpet and upholstery odour issues. If the smell involves urine, milk, dampness, or organic contamination, the method matters because over-wetting or the wrong chemicals can spread the source. Would you like to create a booking request for the team to review?";
+  }
+  if(/ozone|odour|odor|smell|stink|musty/.test(lower)){
+    return "Ozone treatment can be useful for many odour issues, but the right approach depends on the source and surface. We avoid promising a result before assessing the situation. Would you like me to help create a booking request?";
+  }
+  if(/price|cost|quote|how much/.test(lower)){
+    return "The team can confirm pricing after checking the service type, location, and severity. I can collect the details as a booking request if you would like.";
+  }
+  return "Thanks for explaining. Ventra Cleaning can assess odour issues in cars, homes, carpets, upholstery, smoke-affected areas, and organic spills. If the area has not been cleaned yet, it is usually best to get advice first so the odour source is not spread further. Would you like me to help create a booking request?";
+}
+
+function handleBookingStep(text){
+  const step=chatbotSteps[chatbotState.stepIndex];
+  chatbotState.booking[step.key]=text.trim();
+  chatbotState.stepIndex++;
+
+  if(chatbotState.stepIndex<chatbotSteps.length){
+    addChatMessage('bot',chatbotSteps[chatbotState.stepIndex].prompt);
+    return;
+  }
+
+  chatbotState.mode='confirm';
+  const b=chatbotState.booking;
+  addChatMessage('bot',`Please check this booking request summary:
+Name: ${b.name}
+Phone: ${b.phone}
+Email: ${b.email}
+Service: ${b.service}
+Suburb/address: ${b.address}
+Preferred date/time: ${b.date} ${b.time}
+Problem: ${b.issue}
+Already cleaned: ${b.alreadyCleaned}
+
+Would you like me to submit this booking request to Ventra Cleaning?`);
+  addChatChips(['Submit request','Edit details','Not now']);
+}
+
+async function submitChatbotBooking(){
+  const b=chatbotState.booking;
+  const serviceName=b.service||'General odour treatment';
+  const request={
+    name:b.name,
+    phone:b.phone,
+    email:b.email,
+    service:serviceName,
+    services:[serviceName],
+    address:b.address,
+    date:b.date,
+    time:b.time,
+    issue:b.issue,
+    alreadyCleaned:b.alreadyCleaned,
+    source:'chatbot',
+    location:'mobile',
+    status:'pending',
+    durationHours:2,
+    totalTime:2,
+    price:0,
+    servicePrice:0,
+    distanceSurcharge:0,
+    createdAt:new Date().toISOString()
+  };
+
+  try{
+    const response=await fetch('/api/bookings',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(request)
+    });
+
+    if(!response.ok){
+      let errorMessage='Booking request could not be saved.';
+      try{
+        const data=await response.json();
+        errorMessage=data.error||errorMessage;
+      }catch(parseError){}
+      throw new Error(errorMessage);
+    }
+
+    const data=await response.json();
+    bookings.push(data.booking||request);
+    localStorage.setItem('ventra_bookings',JSON.stringify(bookings));
+    chatbotState.mode='chat';
+    chatbotState.booking={};
+    addChatMessage('bot','Thanks. Your booking request has been sent to Ventra Cleaning as Pending. The team will review it and contact you to approve, reject, or discuss the request. This is not a confirmed appointment yet.');
+  }catch(error){
+    console.error('Chatbot booking failed:',error);
+    addChatMessage('bot','Sorry, I could not save the booking request right now. Please try again or call Ventra Cleaning on 0432 066 372.');
+  }
+}
+
+function handleChatInput(rawText){
+  const text=String(rawText||'').trim();
+  if(!text) return;
+
+  addChatMessage('user',text);
+  chatbotInput.value='';
+
+  if(chatbotState.mode==='booking'){
+    handleBookingStep(text);
+    return;
+  }
+
+  if(chatbotState.mode==='confirm'){
+    if(isYes(text)||/submit request/i.test(text)){
+      submitChatbotBooking();
+      return;
+    }
+    if(/edit/i.test(text)){
+      addChatMessage('bot','No problem. Let us start the request again so the details are clean.');
+      startChatbotBooking();
+      return;
+    }
+    if(isNo(text)){
+      chatbotState.mode='chat';
+      chatbotState.offeredBooking=false;
+      addChatMessage('bot','No problem. I will minimise this chat. You can open it again anytime.');
+      setTimeout(closeChatbot,900);
+      return;
+    }
+    addChatMessage('bot','Please type yes to submit this as a pending booking request, or tell me if you want to edit it.');
+    return;
+  }
+
+  if(/create booking request|booking|book|appointment|randevu/i.test(text)||(chatbotState.offeredBooking&&isYes(text))){
+    startChatbotBooking();
+    return;
+  }
+
+  if(chatbotState.offeredBooking&&isNo(text)){
+    chatbotState.offeredBooking=false;
+    addChatMessage('bot','No problem. I will minimise this chat. You can open it again anytime.');
+    setTimeout(closeChatbot,900);
+    return;
+  }
+
+  const response=getChatbotResponse(text);
+  chatbotState.offeredBooking=/booking request|create a booking/i.test(response);
+  addChatMessage('bot',response);
+  if(chatbotState.offeredBooking) addChatChips(['Create booking request','Not now']);
+}
+
+chatbotLaunch.addEventListener('click',openChatbot);
+chatbotClose.addEventListener('click',closeChatbot);
+chatbotForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  handleChatInput(chatbotInput.value);
+});
+
 renderCalendar();
 
 // Initialize booking form
 updateTotal();
+loadServicePrices();
+loadBookings();
+loadApprovedReviews();
 </script>
 
 </body>
